@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Photo Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+    --bg: #0a0a0a;
+    --card: #111;
+    --border: #222;
+    --text: #fff;
+    --text2: #888;
+    --pink: #ff3366;
+    --cyan: #00d4ff;
+    --green: #22c55e;
+    --yellow: #eab308;
+}
+body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; }
+
+/* Header */
+header {
+    text-align: center;
+    padding: 40px 20px;
+    border-bottom: 1px solid var(--border);
+}
+h1 {
+    font-size: clamp(2rem, 6vw, 3rem);
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--text), var(--pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+}
+.subtitle {
+    color: var(--text2);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Top Bar */
+.top-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 20px;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+}
+.btn {
+    padding: 10px 16px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    font-size: 12px;
+    font-family: inherit;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.btn:hover { border-color: var(--pink); }
+.btn-primary { background: var(--green); border-color: var(--green); color: #000; font-weight: 500; }
+.btn-primary:hover { filter: brightness(1.1); border-color: var(--green); }
+.btn-warning { background: var(--yellow); border-color: var(--yellow); color: #000; }
+.btn-edit { background: var(--pink); border-color: var(--pink); color: #fff; }
+.btn-edit.active { background: var(--cyan); border-color: var(--cyan); }
+
+.status-pill {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+}
+.status-pill.synced { background: var(--green); color: #000; }
+.status-pill.unsynced { background: var(--yellow); color: #000; }
+
+.version-info {
+    font-size: 11px;
+    color: var(--text2);
+}
+
+/* Dev mode indicator */
+.dev-mode-only { display: none; }
+body.dev-mode .dev-mode-only { display: flex; }
+body.static-mode .dev-mode-only { display: none !important; }
+
+/* Filters */
+.filters {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+}
+.filter-row {
+    display: flex;
+    justify-content: center;
+    padding: 15px 20px;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.filter-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text2);
+    padding: 6px 14px;
+    font-family: inherit;
+    font-size: 11px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+.filter-btn:hover { border-color: var(--pink); color: var(--pink); }
+.filter-btn.active { background: var(--pink); border-color: var(--pink); color: #000; }
+
+/* Gallery Grid */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 30px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+/* Photo Card */
+.photo-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.3s;
+}
+.photo-card.hidden { display: none; }
+.photo-card.editing { border-color: var(--cyan); }
+.photo-card.untagged { border-color: var(--yellow); }
+
+.photo-img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+.photo-img:hover { transform: scale(1.02); }
+
+.photo-info {
+    padding: 12px 15px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.photo-filename {
+    font-size: 11px;
+    color: var(--text2);
+    font-family: monospace;
+}
+.photo-status {
+    font-size: 9px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+.photo-status.tagged { background: var(--green); color: #000; }
+.photo-status.untagged { background: var(--yellow); color: #000; }
+
+.photo-tags {
+    padding: 12px 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    min-height: 44px;
+}
+.tag {
+    padding: 4px 10px;
+    font-size: 10px;
+    text-transform: uppercase;
+    border-radius: 4px;
+    background: rgba(255,51,102,0.15);
+    border: 1px solid var(--pink);
+    color: var(--pink);
+}
+.tag.acc {
+    background: rgba(0,212,255,0.15);
+    border-color: var(--cyan);
+    color: var(--cyan);
+}
+
+/* Edit Panel (inline) - dev mode only */
+.edit-panel {
+    display: none;
+    padding: 15px;
+    border-top: 1px solid var(--border);
+    background: var(--bg);
+}
+.photo-card.editing .edit-panel { display: block; }
+body.static-mode .edit-panel { display: none !important; }
+
+.edit-section { margin-bottom: 12px; }
+.edit-label {
+    font-size: 10px;
+    color: var(--pink);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+.edit-section:nth-child(2) .edit-label { color: var(--cyan); }
+
+.edit-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.edit-tag {
+    padding: 6px 12px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+}
+.edit-tag:hover { border-color: #444; }
+.edit-tag.selected {
+    background: var(--pink);
+    border-color: var(--pink);
+    color: #000;
+}
+.edit-tag.acc.selected {
+    background: var(--cyan);
+    border-color: var(--cyan);
+}
+
+.edit-input {
+    width: 100%;
+    padding: 10px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 12px;
+}
+.edit-input:focus { outline: none; border-color: var(--pink); }
+
+.edit-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+.edit-actions .btn { flex: 1; justify-content: center; }
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.95);
+    z-index: 200;
+    justify-content: center;
+    align-items: center;
+}
+.modal.open { display: flex; }
+.modal img { max-width: 90vw; max-height: 90vh; object-fit: contain; }
+.modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background: none;
+    border: 1px solid #444;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+/* Loading & Empty State */
+.loading, .empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text2);
+}
+.loading h2, .empty h2 { color: var(--text); margin-bottom: 8px; }
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 30px;
+    color: var(--text2);
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+}
+
+@media (max-width: 768px) {
+    .gallery { grid-template-columns: 1fr; padding: 15px; }
+    .top-bar { padding: 10px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Portfolio</h1>
+    <p class="subtitle">Fashion • Style • Expression</p>
+</header>
+
+<div class="top-bar">
+    <button class="btn btn-edit dev-mode-only" id="editModeBtn" onclick="toggleEditMode()">
+        ✏️ Edit Mode
+    </button>
+    <span class="status-pill synced dev-mode-only" id="statusPill">✓ Synced</span>
+    <span class="version-info" id="versionInfo">v1</span>
+    <button class="btn btn-warning dev-mode-only" id="downloadBtn" onclick="downloadPatch()" style="display:none">
+        ⬇️ Download Patch
+    </button>
+</div>
+
+<div class="filters">
+    <div class="filter-row" id="filterRow"></div>
+</div>
+
+<div class="gallery" id="gallery">
+    <div class="loading"><h2>Loading...</h2></div>
+</div>
+
+<div class="modal" id="modal" onclick="closeModal()">
+    <button class="modal-close">×</button>
+    <img id="modalImg" src="">
+</div>
+
+<footer id="footer">0 photos • Built with ❤️</footer>
+
+<script>
+const BAKED_DATA = {"categories": {"version": 3, "items": ["school-girl", "office-girl", "sports-girl", "casual", "japanese-girl", "feet", "legs", "full-body", "pose", "outdoor", "indoor"]}, "accessories": {"version": 3, "items": ["anklets", "steel-cuffs", "toe-rings", "ankle-chains", "bracelets", "choker", "heels", "stockings", "none"]}, "photos": {"version": 3, "items": [{"filename": "20260104_131057.jpg", "tags": ["sports-girl"], "accessories": [], "description": "", "added": "2026-01-26T00:54:53.913144", "updated": "2026-01-26T01:02:00.775970"}, {"filename": "20260103_200325.jpg", "tags": ["school-girl"], "accessories": [], "description": "", "added": "2026-01-26T00:54:53.912623", "updated": "2026-01-26T01:02:00.775976"}]}};
+</script>
+
+<script>
+// ============ CONFIG ============
+const STORAGE_KEY = 'portfolio_local';
+
+// Check if we're in static mode (data baked in) or dev mode (fetch JSON)
+const STATIC_MODE = typeof BAKED_DATA !== 'undefined';
+const PHOTOS_PATH = STATIC_MODE ? 'photos/' : '../photos/processed/';
+const DATA_PATH = '../data/';
+
+// ============ STATE ============
+let editMode = false;
+let currentFilter = 'all';
+
+// Published data (from JSON files or baked)
+let publishedCategories = null;
+let publishedAccessories = null;
+let publishedPhotos = null;
+
+// Working data (with local changes) - dev mode only
+let workingCategories = null;
+let workingAccessories = null;
+let workingPhotos = null;
+
+// ============ INIT ============
+async function init() {
+    if (STATIC_MODE) {
+        document.body.classList.add('static-mode');
+        publishedCategories = BAKED_DATA.categories;
+        publishedAccessories = BAKED_DATA.accessories;
+        publishedPhotos = BAKED_DATA.photos;
+        workingCategories = publishedCategories;
+        workingAccessories = publishedAccessories;
+        workingPhotos = publishedPhotos;
+    } else {
+        document.body.classList.add('dev-mode');
+        try {
+            const timestamp = Date.now();
+            const [catRes, accRes, photoRes] = await Promise.all([
+                fetch(`${DATA_PATH}categories.json?t=${timestamp}`),
+                fetch(`${DATA_PATH}accessories.json?t=${timestamp}`),
+                fetch(`${DATA_PATH}photos.json?t=${timestamp}`)
+            ]);
+            
+            if (!catRes.ok || !accRes.ok || !photoRes.ok) {
+                throw new Error('Failed to load data files');
+            }
+            
+            publishedCategories = await catRes.json();
+            publishedAccessories = await accRes.json();
+            publishedPhotos = await photoRes.json();
+            
+        } catch (err) {
+            document.getElementById('gallery').innerHTML = `
+                <div class="empty">
+                    <h2>Could not load data files</h2>
+                    <p>Run: python3 src/build.py init</p>
+                    <p style="margin-top:10px;font-size:11px;color:var(--text2)">${err.message}</p>
+                </div>`;
+            console.error(err);
+            return;
+        }
+        
+        // Check localStorage for unpublished changes (dev mode only)
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+            try {
+                const storedData = JSON.parse(stored);
+                const publishedVersion = getPublishedVersion();
+                
+                if (storedData.version >= publishedVersion) {
+                    workingCategories = storedData.categories || publishedCategories;
+                    workingAccessories = storedData.accessories || publishedAccessories;
+                    workingPhotos = storedData.photos || publishedPhotos;
+                } else {
+                    clearLocalAndUsePublished();
+                }
+            } catch {
+                clearLocalAndUsePublished();
+            }
+        } else {
+            clearLocalAndUsePublished();
+        }
+    }
+    
+    renderFilters();
+    render();
+    if (!STATIC_MODE) updateStatus();
+}
+
+function clearLocalAndUsePublished() {
+    localStorage.removeItem(STORAGE_KEY);
+    workingCategories = JSON.parse(JSON.stringify(publishedCategories));
+    workingAccessories = JSON.parse(JSON.stringify(publishedAccessories));
+    workingPhotos = JSON.parse(JSON.stringify(publishedPhotos));
+}
+
+function getPublishedVersion() {
+    return Math.max(
+        publishedCategories?.version || 0,
+        publishedAccessories?.version || 0,
+        publishedPhotos?.version || 0
+    );
+}
+
+// ============ RENDER ============
+function render() {
+    const gallery = document.getElementById('gallery');
+    const photos = workingPhotos.items;
+    
+    const filtered = currentFilter === 'all' 
+        ? photos 
+        : photos.filter(p => p.tags?.includes(currentFilter) || p.accessories?.includes(currentFilter));
+    
+    if (filtered.length === 0) {
+        gallery.innerHTML = `
+            <div class="empty">
+                <h2>${photos.length === 0 ? 'No Photos Yet' : 'No Matches'}</h2>
+                <p>${photos.length === 0 ? (STATIC_MODE ? '' : 'Run: python3 src/build.py scan') : 'Try a different filter'}</p>
+            </div>`;
+    } else {
+        gallery.innerHTML = filtered.map(p => renderCard(p)).join('');
+        attachCardListeners();
+    }
+    
+    document.getElementById('footer').textContent = `${photos.length} photos • Built with ❤️`;
+    document.getElementById('versionInfo').textContent = `v${getPublishedVersion()}`;
+}
+
+function renderCard(photo) {
+    const tags = photo.tags || [];
+    const accs = photo.accessories || [];
+    const isTagged = tags.length > 0;
+    
+    // In static mode, no edit panel needed
+    const editPanelHtml = STATIC_MODE ? '' : `
+        <div class="edit-panel">
+            <div class="edit-section">
+                <div class="edit-label">📁 Categories</div>
+                <div class="edit-tags cats">
+                    ${workingCategories.items.map(c => `
+                        <span class="edit-tag ${tags.includes(c) ? 'selected' : ''}" data-value="${c}">${c}</span>
+                    `).join('')}
+                </div>
+            </div>
+            <div class="edit-section">
+                <div class="edit-label">💎 Accessories</div>
+                <div class="edit-tags accs">
+                    ${workingAccessories.items.map(a => `
+                        <span class="edit-tag acc ${accs.includes(a) ? 'selected' : ''}" data-value="${a}">${a}</span>
+                    `).join('')}
+                </div>
+            </div>
+            <div class="edit-section">
+                <div class="edit-label">📝 Description</div>
+                <input type="text" class="edit-input desc-input" value="${photo.description || ''}" placeholder="Brief description...">
+            </div>
+            <div class="edit-actions">
+                <button class="btn btn-primary" onclick="saveCard('${photo.filename}')">✓ Save</button>
+                <button class="btn" onclick="toggleCard('${photo.filename}')" style="color:var(--text2)">Cancel</button>
+            </div>
+        </div>`;
+    
+    return `
+    <div class="photo-card ${isTagged ? '' : 'untagged'}" data-filename="${photo.filename}">
+        <img class="photo-img" src="${PHOTOS_PATH}${photo.filename}" 
+             onerror="this.style.background='#333';this.alt='Not found'"
+             onclick="openModal('${PHOTOS_PATH}${photo.filename}')">
+        <div class="photo-info">
+            <span class="photo-filename">${photo.filename}</span>
+            <span class="photo-status ${isTagged ? 'tagged' : 'untagged'}">${isTagged ? 'Tagged' : 'Untagged'}</span>
+        </div>
+        <div class="photo-tags">
+            ${tags.map(t => `<span class="tag">${t}</span>`).join('')}
+            ${accs.filter(a => a !== 'none').map(a => `<span class="tag acc">${a}</span>`).join('')}
+            ${tags.length === 0 && accs.length === 0 ? '<span style="color:var(--text2);font-size:11px">No tags</span>' : ''}
+        </div>
+        ${editPanelHtml}
+    </div>`;
+}
+
+function renderFilters() {
+    document.getElementById('filterRow').innerHTML = `
+        <button class="filter-btn ${currentFilter === 'all' ? 'active' : ''}" onclick="setFilter('all')">All</button>
+        ${workingCategories.items.map(c => `
+            <button class="filter-btn ${currentFilter === c ? 'active' : ''}" onclick="setFilter('${c}')">${c}</button>
+        `).join('')}
+    `;
+}
+
+function attachCardListeners() {
+    if (STATIC_MODE) return;
+    
+    document.querySelectorAll('.edit-tag').forEach(tag => {
+        tag.onclick = (e) => {
+            e.stopPropagation();
+            tag.classList.toggle('selected');
+        };
+    });
+    
+    document.querySelectorAll('.photo-card').forEach(card => {
+        card.onclick = (e) => {
+            if (!editMode) return;
+            if (e.target.closest('.edit-panel') || e.target.closest('.photo-img')) return;
+            toggleCard(card.dataset.filename);
+        };
+    });
+}
+
+// ============ EDIT MODE (dev only) ============
+function toggleEditMode() {
+    if (STATIC_MODE) return;
+    editMode = !editMode;
+    const btn = document.getElementById('editModeBtn');
+    btn.classList.toggle('active', editMode);
+    btn.innerHTML = editMode ? '👁️ View Mode' : '✏️ Edit Mode';
+    
+    if (!editMode) {
+        document.querySelectorAll('.photo-card.editing').forEach(c => c.classList.remove('editing'));
+    }
+}
+
+function toggleCard(filename) {
+    if (!editMode || STATIC_MODE) return;
+    const card = document.querySelector(`.photo-card[data-filename="${filename}"]`);
+    if (card) {
+        const wasEditing = card.classList.contains('editing');
+        document.querySelectorAll('.photo-card.editing').forEach(c => c.classList.remove('editing'));
+        if (!wasEditing) card.classList.add('editing');
+    }
+}
+
+function saveCard(filename) {
+    if (STATIC_MODE) return;
+    const card = document.querySelector(`.photo-card[data-filename="${filename}"]`);
+    if (!card) return;
+    
+    const tags = Array.from(card.querySelectorAll('.cats .edit-tag.selected')).map(t => t.dataset.value);
+    const accs = Array.from(card.querySelectorAll('.accs .edit-tag.selected')).map(t => t.dataset.value);
+    const desc = card.querySelector('.desc-input').value;
+    
+    const photo = workingPhotos.items.find(p => p.filename === filename);
+    if (photo) {
+        photo.tags = tags;
+        photo.accessories = accs;
+        photo.description = desc;
+        photo.updated = new Date().toISOString();
+    }
+    
+    saveToStorage();
+    render();
+}
+
+// ============ FILTER ============
+function setFilter(filter) {
+    currentFilter = filter;
+    renderFilters();
+    render();
+}
+
+// ============ STORAGE (dev only) ============
+function saveToStorage() {
+    if (STATIC_MODE) return;
+    const data = {
+        version: getPublishedVersion(),
+        categories: workingCategories,
+        accessories: workingAccessories,
+        photos: workingPhotos
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    updateStatus();
+}
+
+function updateStatus() {
+    if (STATIC_MODE) return;
+    const hasChanges = 
+        JSON.stringify(workingPhotos.items) !== JSON.stringify(publishedPhotos.items) ||
+        JSON.stringify(workingCategories.items) !== JSON.stringify(publishedCategories.items) ||
+        JSON.stringify(workingAccessories.items) !== JSON.stringify(publishedAccessories.items);
+    
+    const pill = document.getElementById('statusPill');
+    const downloadBtn = document.getElementById('downloadBtn');
+    
+    if (hasChanges) {
+        pill.className = 'status-pill unsynced dev-mode-only';
+        pill.textContent = '● Unpublished Changes';
+        downloadBtn.style.display = 'flex';
+    } else {
+        pill.className = 'status-pill synced dev-mode-only';
+        pill.textContent = '✓ Synced';
+        downloadBtn.style.display = 'none';
+    }
+    
+    document.getElementById('versionInfo').textContent = `v${getPublishedVersion()}${hasChanges ? '*' : ''}`;
+}
+
+// ============ PATCH EXPORT (dev only) ============
+function downloadPatch() {
+    if (STATIC_MODE) return;
+    const newVersion = getPublishedVersion() + 1;
+    
+    const patch = {
+        baseVersion: getPublishedVersion(),
+        newVersion: newVersion,
+        timestamp: new Date().toISOString(),
+        categories: workingCategories.items,
+        accessories: workingAccessories.items,
+        photos: workingPhotos.items
+    };
+    
+    const blob = new Blob([JSON.stringify(patch, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `patch-v${newVersion}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+// ============ MODAL ============
+function openModal(src) {
+    document.getElementById('modalImg').src = src;
+    document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+}
+
+// ============ KEYBOARD ============
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeModal();
+        document.querySelectorAll('.photo-card.editing').forEach(c => c.classList.remove('editing'));
+    }
+});
+
+// ============ START ============
+init();
+</script>
+</body>
+</html>
