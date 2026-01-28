@@ -379,6 +379,7 @@ body {
 /* Dev mode */
 .dev-mode-only { display: none; }
 body.dev-mode .dev-mode-only { display: flex; }
+body.dev-mode .sidebar-section.dev-mode-only { display: block; }
 body.static-mode .dev-mode-only { display: none !important; }
 
 /* ============ VIEWS ============ */
@@ -863,7 +864,7 @@ footer {
             <div class="filter-list" id="accessoryFilters"></div>
         </div>
 
-        <div class="sidebar-section dev-mode-only" style="display:block;">
+        <div class="sidebar-section dev-mode-only">
             <div class="sidebar-section-title">⚙️ Dev Tools</div>
             <button class="btn btn-edit" id="editModeBtn" onclick="toggleEditMode()" style="width:100%;justify-content:center;">
                 ✏️ Edit Mode
@@ -962,8 +963,10 @@ const BAKED_DATA = {"categories": {"version": 3, "items": ["school-girl", "offic
 const STORAGE_KEY = 'portfolio_local';
 const STORIES_KEY = 'portfolio_stories';
 
-// Check mode
+// Check mode - DEV_MODE only on localhost
+const IS_LOCALHOST = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 const STATIC_MODE = typeof BAKED_DATA !== 'undefined';
+const DEV_MODE = IS_LOCALHOST && !STATIC_MODE;
 const PHOTOS_PATH = STATIC_MODE ? 'photos/' : '../photos/processed/';
 const DATA_PATH = '../data/';
 
@@ -1028,7 +1031,10 @@ async function init() {
         workingPhotos = publishedPhotos;
         workingStories = BAKED_DATA.stories || DEFAULT_STORIES;
     } else {
-        document.body.classList.add('dev-mode');
+        // Only show dev tools on localhost
+        if (DEV_MODE) {
+            document.body.classList.add('dev-mode');
+        }
         try {
             const timestamp = Date.now();
             const [catRes, accRes, photoRes] = await Promise.all([
@@ -1085,7 +1091,7 @@ async function init() {
     
     renderSidebarFilters();
     renderAll();
-    if (!STATIC_MODE) updateStatus();
+    if (DEV_MODE) updateStatus();
 }
 
 function clearLocalAndUsePublished() {
@@ -1360,7 +1366,7 @@ function renderPhotoCard(photo) {
     const accs = photo.accessories || [];
     const isTagged = tags.length > 0;
     
-    const editPanelHtml = STATIC_MODE ? '' : `
+    const editPanelHtml = !DEV_MODE ? '' : `
         <div class="edit-panel">
             <div class="edit-section">
                 <div class="edit-label">📁 Categories</div>
@@ -1407,7 +1413,7 @@ function renderPhotoCard(photo) {
 }
 
 function attachCardListeners() {
-    if (STATIC_MODE) return;
+    if (!DEV_MODE) return;
     
     document.querySelectorAll('.edit-tag').forEach(tag => {
         tag.onclick = (e) => {
@@ -1544,7 +1550,7 @@ function saveStory() {
 
 // ============ EDIT MODE ============
 function toggleEditMode() {
-    if (STATIC_MODE) return;
+    if (!DEV_MODE) return;
     editMode = !editMode;
     const btn = document.getElementById('editModeBtn');
     btn.classList.toggle('active', editMode);
@@ -1556,7 +1562,7 @@ function toggleEditMode() {
 }
 
 function toggleCard(filename) {
-    if (!editMode || STATIC_MODE) return;
+    if (!editMode || !DEV_MODE) return;
     const card = document.querySelector(`.photo-card[data-filename="${filename}"]`);
     if (card) {
         const wasEditing = card.classList.contains('editing');
@@ -1566,7 +1572,7 @@ function toggleCard(filename) {
 }
 
 function saveCard(filename) {
-    if (STATIC_MODE) return;
+    if (!DEV_MODE) return;
     const card = document.querySelector(`.photo-card[data-filename="${filename}"]`);
     if (!card) return;
     
@@ -1588,7 +1594,7 @@ function saveCard(filename) {
 
 // ============ STORAGE ============
 function saveToStorage() {
-    if (STATIC_MODE) return;
+    if (!DEV_MODE) return;
     const data = {
         version: getPublishedVersion(),
         categories: workingCategories,
@@ -1600,7 +1606,7 @@ function saveToStorage() {
 }
 
 function updateStatus() {
-    if (STATIC_MODE) return;
+    if (!DEV_MODE) return;
     const hasChanges = 
         JSON.stringify(workingPhotos.items) !== JSON.stringify(publishedPhotos.items) ||
         JSON.stringify(workingCategories.items) !== JSON.stringify(publishedCategories.items) ||
@@ -1624,7 +1630,7 @@ function updateStatus() {
 
 // ============ PATCH EXPORT ============
 function downloadPatch() {
-    if (STATIC_MODE) return;
+    if (!DEV_MODE) return;
     const newVersion = getPublishedVersion() + 1;
     
     const patch = {
