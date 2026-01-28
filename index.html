@@ -1,57 +1,345 @@
+<!-- src/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Photo Portfolio</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<title>Nethuli Sewwandi</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
     --bg: #0a0a0a;
     --card: #111;
+    --card2: #161616;
     --border: #222;
+    --border2: #333;
     --text: #fff;
     --text2: #888;
+    --text3: #555;
     --pink: #ff3366;
     --cyan: #00d4ff;
     --green: #22c55e;
     --yellow: #eab308;
+    --purple: #a855f7;
+    --sidebar-width: 280px;
 }
-body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; }
+body { 
+    background: var(--bg); 
+    color: var(--text); 
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+}
 
-/* Header */
-header {
-    text-align: center;
-    padding: 40px 20px;
-    border-bottom: 1px solid var(--border);
+/* ============ LAYOUT ============ */
+.app-container {
+    display: flex;
+    min-height: 100vh;
 }
-h1 {
-    font-size: clamp(2rem, 6vw, 3rem);
+
+/* ============ SIDEBAR ============ */
+.sidebar {
+    width: var(--sidebar-width);
+    background: var(--card);
+    border-right: 1px solid var(--border);
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 100;
+    transition: transform 0.3s ease;
+}
+.sidebar.collapsed {
+    transform: translateX(-100%);
+}
+
+.sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+}
+.sidebar-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
     font-weight: 600;
     background: linear-gradient(135deg, var(--text), var(--pink));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin-bottom: 8px;
 }
-.subtitle {
+.sidebar-subtitle {
+    font-size: 10px;
     color: var(--text2);
-    font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 2px;
+    margin-top: 4px;
+}
+
+.sidebar-nav {
+    padding: 15px;
+    border-bottom: 1px solid var(--border);
+}
+.nav-btn {
+    width: 100%;
+    padding: 12px 15px;
+    background: none;
+    border: 1px solid transparent;
+    color: var(--text2);
+    font-family: inherit;
+    font-size: 13px;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+.nav-btn:hover { background: var(--card2); color: var(--text); }
+.nav-btn.active { 
+    background: rgba(255,51,102,0.1); 
+    border-color: var(--pink); 
+    color: var(--pink);
+}
+.nav-btn .icon { font-size: 16px; }
+.nav-btn .count {
+    margin-left: auto;
+    background: var(--border);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+}
+
+.sidebar-section {
+    padding: 15px;
+    border-bottom: 1px solid var(--border);
+}
+.sidebar-section-title {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text3);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.sidebar-section-title .clear-btn {
+    font-size: 10px;
+    color: var(--pink);
+    background: none;
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+.sidebar-section.has-selection .clear-btn { opacity: 1; }
+
+.filter-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.filter-item {
+    padding: 8px 12px;
+    background: none;
+    border: 1px solid transparent;
+    color: var(--text2);
+    font-family: inherit;
+    font-size: 12px;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.filter-item:hover { background: var(--card2); }
+.filter-item.selected {
+    background: rgba(255,51,102,0.15);
+    border-color: var(--pink);
+    color: var(--pink);
+}
+.filter-item.acc.selected {
+    background: rgba(0,212,255,0.15);
+    border-color: var(--cyan);
+    color: var(--cyan);
+}
+.filter-item .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--border2);
+}
+.filter-item.selected .dot { background: currentColor; }
+
+/* Mobile toggle */
+.sidebar-toggle {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    background: var(--pink);
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 150;
+    box-shadow: 0 4px 20px rgba(255,51,102,0.4);
+}
+
+/* ============ MAIN CONTENT ============ */
+.main-content {
+    flex: 1;
+    margin-left: var(--sidebar-width);
+    min-height: 100vh;
 }
 
 /* Top Bar */
 .top-bar {
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 15px 25px;
+    z-index: 50;
     display: flex;
-    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Search */
+.search-container {
+    flex: 1;
+    max-width: 500px;
+    position: relative;
+}
+.search-input {
+    width: 100%;
+    padding: 12px 15px 12px 45px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14px;
+    border-radius: 10px;
+    transition: all 0.2s;
+}
+.search-input:focus {
+    outline: none;
+    border-color: var(--pink);
+    background: var(--card2);
+}
+.search-input::placeholder { color: var(--text3); }
+.search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text3);
+    font-size: 16px;
+}
+.search-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-top: 5px;
+    max-height: 300px;
+    overflow-y: auto;
+    display: none;
+    z-index: 60;
+}
+.search-dropdown.open { display: block; }
+.search-group-title {
+    padding: 10px 15px 5px;
+    font-size: 10px;
+    text-transform: uppercase;
+    color: var(--text3);
+    letter-spacing: 1px;
+}
+.search-item {
+    padding: 10px 15px;
+    cursor: pointer;
+    display: flex;
     align-items: center;
     gap: 10px;
-    padding: 15px 20px;
-    background: var(--card);
-    border-bottom: 1px solid var(--border);
-    flex-wrap: wrap;
+    font-size: 13px;
+    color: var(--text2);
+    transition: background 0.2s;
 }
+.search-item:hover { background: var(--card2); color: var(--text); }
+.search-item .type-badge {
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+.search-item .type-badge.cat { background: rgba(255,51,102,0.2); color: var(--pink); }
+.search-item .type-badge.acc { background: rgba(0,212,255,0.2); color: var(--cyan); }
+
+/* Selected Filters */
+.selected-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+.selected-filter {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    background: rgba(255,51,102,0.15);
+    border: 1px solid var(--pink);
+    color: var(--pink);
+    font-size: 11px;
+    border-radius: 20px;
+    text-transform: uppercase;
+}
+.selected-filter.acc {
+    background: rgba(0,212,255,0.15);
+    border-color: var(--cyan);
+    color: var(--cyan);
+}
+.selected-filter .remove {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+.selected-filter .remove:hover { opacity: 1; }
+.clear-all-btn {
+    background: none;
+    border: none;
+    color: var(--text3);
+    font-size: 11px;
+    cursor: pointer;
+    padding: 6px 10px;
+    transition: color 0.2s;
+}
+.clear-all-btn:hover { color: var(--pink); }
+
+/* Top bar actions */
+.top-bar-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+}
+
 .btn {
     padding: 10px 16px;
     border: 1px solid var(--border);
@@ -60,11 +348,12 @@ h1 {
     font-size: 12px;
     font-family: inherit;
     cursor: pointer;
-    border-radius: 6px;
+    border-radius: 8px;
     transition: all 0.2s;
     display: flex;
     align-items: center;
     gap: 6px;
+    white-space: nowrap;
 }
 .btn:hover { border-color: var(--pink); }
 .btn-primary { background: var(--green); border-color: var(--green); color: #000; font-weight: 500; }
@@ -87,53 +376,29 @@ h1 {
     color: var(--text2);
 }
 
-/* Dev mode indicator */
+/* Dev mode */
 .dev-mode-only { display: none; }
 body.dev-mode .dev-mode-only { display: flex; }
 body.static-mode .dev-mode-only { display: none !important; }
 
-/* Filters */
-.filters {
-    background: var(--card);
-    border-bottom: 1px solid var(--border);
+/* ============ VIEWS ============ */
+.view-container {
+    display: none;
+    padding: 25px;
 }
-.filter-row {
-    display: flex;
-    justify-content: center;
-    padding: 15px 20px;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-.filter-btn {
-    background: none;
-    border: 1px solid var(--border);
-    color: var(--text2);
-    padding: 6px 14px;
-    font-family: inherit;
-    font-size: 11px;
-    text-transform: uppercase;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: all 0.2s;
-}
-.filter-btn:hover { border-color: var(--pink); color: var(--pink); }
-.filter-btn.active { background: var(--pink); border-color: var(--pink); color: #000; }
+.view-container.active { display: block; }
 
-/* Gallery Grid */
+/* ============ PHOTOS VIEW ============ */
 .gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 20px;
-    padding: 30px;
-    max-width: 1600px;
-    margin: 0 auto;
 }
 
-/* Photo Card */
 .photo-card {
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: 12px;
     overflow: hidden;
     transition: all 0.3s;
 }
@@ -195,7 +460,7 @@ body.static-mode .dev-mode-only { display: none !important; }
     color: var(--cyan);
 }
 
-/* Edit Panel (inline) - dev mode only */
+/* Edit Panel */
 .edit-panel {
     display: none;
     padding: 15px;
@@ -248,7 +513,7 @@ body.static-mode .edit-panel { display: none !important; }
     background: var(--card);
     border: 1px solid var(--border);
     color: var(--text);
-    border-radius: 4px;
+    border-radius: 6px;
     font-family: inherit;
     font-size: 12px;
 }
@@ -261,7 +526,172 @@ body.static-mode .edit-panel { display: none !important; }
 }
 .edit-actions .btn { flex: 1; justify-content: center; }
 
-/* Modal */
+/* ============ ACCESSORIES VIEW ============ */
+.accessories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+}
+.accessory-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+.accessory-card:hover {
+    border-color: var(--cyan);
+    transform: translateY(-2px);
+}
+.accessory-card.selected {
+    border-color: var(--cyan);
+    background: rgba(0,212,255,0.1);
+}
+.accessory-icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+.accessory-name {
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: capitalize;
+    margin-bottom: 5px;
+}
+.accessory-count {
+    font-size: 11px;
+    color: var(--text2);
+}
+
+/* ============ STORIES VIEW ============ */
+.stories-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+.stories-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.stories-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+}
+
+.story-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 25px;
+    transition: all 0.3s;
+}
+.story-card:hover {
+    border-color: var(--purple);
+}
+.story-card.featured {
+    border-color: var(--purple);
+}
+
+.story-image {
+    width: 100%;
+    aspect-ratio: 21/9;
+    object-fit: cover;
+}
+.story-content {
+    padding: 25px;
+}
+.story-meta {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    font-size: 11px;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.story-category {
+    color: var(--purple);
+}
+.story-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+.story-excerpt {
+    color: var(--text2);
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+.story-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.story-tag {
+    padding: 4px 10px;
+    background: rgba(168,85,247,0.15);
+    border: 1px solid var(--purple);
+    color: var(--purple);
+    font-size: 10px;
+    text-transform: uppercase;
+    border-radius: 4px;
+}
+
+/* Story Editor (dev mode) */
+.story-editor {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 25px;
+    display: none;
+}
+body.dev-mode .story-editor { display: block; }
+
+.story-editor-title {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    color: var(--purple);
+}
+.form-row {
+    margin-bottom: 15px;
+}
+.form-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--text2);
+    margin-bottom: 6px;
+    display: block;
+}
+.form-input {
+    width: 100%;
+    padding: 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14px;
+    border-radius: 8px;
+}
+.form-input:focus { outline: none; border-color: var(--purple); }
+.form-textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* ============ MODAL ============ */
 .modal {
     display: none;
     position: fixed;
@@ -284,19 +714,59 @@ body.static-mode .edit-panel { display: none !important; }
     color: #fff;
     font-size: 24px;
     cursor: pointer;
-    border-radius: 6px;
+    border-radius: 8px;
 }
 
-/* Loading & Empty State */
+/* ============ EMPTY / LOADING ============ */
 .loading, .empty {
-    grid-column: 1 / -1;
     text-align: center;
     padding: 60px 20px;
     color: var(--text2);
 }
 .loading h2, .empty h2 { color: var(--text); margin-bottom: 8px; }
 
-/* Footer */
+/* ============ COMMAND DISPLAY ============ */
+.cmd {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin: 8px 0;
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+    font-size: 12px;
+    color: var(--cyan);
+}
+.cmd code {
+    user-select: all;
+}
+.cmd-copy {
+    background: none;
+    border: none;
+    color: var(--text2);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+.cmd-copy:hover {
+    background: var(--border);
+    color: var(--text);
+}
+.cmd-copy.copied {
+    color: var(--green);
+}
+.cmd-copy svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* ============ FOOTER ============ */
 footer {
     text-align: center;
     padding: 30px;
@@ -305,71 +775,246 @@ footer {
     border-top: 1px solid var(--border);
 }
 
+/* ============ RESPONSIVE ============ */
+@media (max-width: 1024px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+    .sidebar.open {
+        transform: translateX(0);
+    }
+    .sidebar-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .main-content {
+        margin-left: 0;
+    }
+}
+
 @media (max-width: 768px) {
-    .gallery { grid-template-columns: 1fr; padding: 15px; }
-    .top-bar { padding: 10px; }
+    .top-bar {
+        flex-wrap: wrap;
+        padding: 15px;
+    }
+    .search-container {
+        order: -1;
+        flex: 1 1 100%;
+        max-width: none;
+        margin-bottom: 10px;
+    }
+    .gallery {
+        grid-template-columns: 1fr;
+    }
+    .view-container {
+        padding: 15px;
+    }
+    .top-bar-actions {
+        flex-wrap: wrap;
+    }
 }
 </style>
 </head>
 <body>
 
-<header>
-    <h1>Portfolio</h1>
-    <p class="subtitle">Fashion • Style • Expression</p>
-</header>
+<!-- Sidebar Toggle (Mobile) -->
+<button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
 
-<div class="top-bar">
-    <button class="btn btn-edit dev-mode-only" id="editModeBtn" onclick="toggleEditMode()">
-        ✏️ Edit Mode
-    </button>
-    <span class="status-pill synced dev-mode-only" id="statusPill">✓ Synced</span>
-    <span class="version-info" id="versionInfo">v1</span>
-    <button class="btn btn-warning dev-mode-only" id="downloadBtn" onclick="downloadPatch()" style="display:none">
-        ⬇️ Download Patch
-    </button>
+<div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">Nethuli Sewwandi</div>
+            <div class="sidebar-subtitle">Fashion • Style • Expression</div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <button class="nav-btn active" data-view="photos" onclick="switchView('photos')">
+                <span class="icon">📷</span>
+                Photos
+                <span class="count" id="photosCount">0</span>
+            </button>
+            <button class="nav-btn" data-view="accessories" onclick="switchView('accessories')">
+                <span class="icon">💎</span>
+                Accessories
+                <span class="count" id="accessoriesCount">0</span>
+            </button>
+            <button class="nav-btn" data-view="stories" onclick="switchView('stories')">
+                <span class="icon">📝</span>
+                Stories
+                <span class="count" id="storiesCount">0</span>
+            </button>
+        </nav>
+
+        <div class="sidebar-section" id="categoriesSection">
+            <div class="sidebar-section-title">
+                <span>📁 Categories</span>
+                <button class="clear-btn" onclick="clearCategories()">Clear</button>
+            </div>
+            <div class="filter-list" id="categoryFilters"></div>
+        </div>
+
+        <div class="sidebar-section" id="accessoriesSection">
+            <div class="sidebar-section-title">
+                <span>💎 Accessories</span>
+                <button class="clear-btn" onclick="clearAccessories()">Clear</button>
+            </div>
+            <div class="filter-list" id="accessoryFilters"></div>
+        </div>
+
+        <div class="sidebar-section dev-mode-only" style="display:block;">
+            <div class="sidebar-section-title">⚙️ Dev Tools</div>
+            <button class="btn btn-edit" id="editModeBtn" onclick="toggleEditMode()" style="width:100%;justify-content:center;">
+                ✏️ Edit Mode
+            </button>
+            <button class="btn btn-warning" id="downloadBtn" onclick="downloadPatch()" style="width:100%;margin-top:8px;justify-content:center;display:none;">
+                ⬇️ Download Patch
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="top-bar">
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" id="searchInput" 
+                       placeholder="Search categories, accessories..." 
+                       oninput="handleSearch(this.value)"
+                       onfocus="showSearchDropdown()"
+                       onblur="hideSearchDropdown()">
+                <div class="search-dropdown" id="searchDropdown"></div>
+            </div>
+
+            <div class="selected-filters" id="selectedFilters"></div>
+
+            <div class="top-bar-actions">
+                <span class="status-pill synced dev-mode-only" id="statusPill">✓ Synced</span>
+                <span class="version-info" id="versionInfo">v1</span>
+            </div>
+        </div>
+
+        <!-- Photos View -->
+        <div class="view-container active" id="photosView">
+            <div class="gallery" id="gallery">
+                <div class="loading"><h2>Loading...</h2></div>
+            </div>
+        </div>
+
+        <!-- Accessories View -->
+        <div class="view-container" id="accessoriesView">
+            <div class="accessories-grid" id="accessoriesGrid"></div>
+        </div>
+
+        <!-- Stories View -->
+        <div class="view-container" id="storiesView">
+            <div class="stories-container">
+                <div class="stories-header">
+                    <h2 class="stories-title">Stories</h2>
+                    <button class="btn dev-mode-only" onclick="showStoryEditor()">+ New Story</button>
+                </div>
+
+                <div class="story-editor" id="storyEditor">
+                    <div class="story-editor-title">✏️ Create New Story</div>
+                    <div class="form-row">
+                        <label class="form-label">Title</label>
+                        <input type="text" class="form-input" id="storyTitleInput" placeholder="Enter story title...">
+                    </div>
+                    <div class="form-row">
+                        <label class="form-label">Category</label>
+                        <input type="text" class="form-input" id="storyCategoryInput" placeholder="e.g., Fashion, Lifestyle, Behind the Scenes">
+                    </div>
+                    <div class="form-row">
+                        <label class="form-label">Featured Photo</label>
+                        <select class="form-input" id="storyPhotoSelect"></select>
+                    </div>
+                    <div class="form-row">
+                        <label class="form-label">Content</label>
+                        <textarea class="form-input form-textarea" id="storyContentInput" placeholder="Write your story..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary" onclick="saveStory()">Save Story</button>
+                        <button class="btn" onclick="hideStoryEditor()">Cancel</button>
+                    </div>
+                </div>
+
+                <div id="storiesList"></div>
+            </div>
+        </div>
+
+        <footer id="footer">0 photos • Built with ❤️</footer>
+    </main>
 </div>
 
-<div class="filters">
-    <div class="filter-row" id="filterRow"></div>
-</div>
-
-<div class="gallery" id="gallery">
-    <div class="loading"><h2>Loading...</h2></div>
-</div>
-
+<!-- Modal -->
 <div class="modal" id="modal" onclick="closeModal()">
     <button class="modal-close">×</button>
     <img id="modalImg" src="">
 </div>
 
-<footer id="footer">0 photos • Built with ❤️</footer>
-
 <script>
-const BAKED_DATA = {"categories": {"version": 3, "items": ["school-girl", "office-girl", "sports-girl", "casual", "japanese-girl", "feet", "legs", "full-body", "pose", "outdoor", "indoor"]}, "accessories": {"version": 3, "items": ["anklets", "steel-cuffs", "toe-rings", "ankle-chains", "bracelets", "choker", "heels", "stockings", "none"]}, "photos": {"version": 3, "items": [{"filename": "20260104_131057.jpg", "tags": ["sports-girl"], "accessories": [], "description": "", "added": "2026-01-26T00:54:53.913144", "updated": "2026-01-26T01:02:00.775970"}, {"filename": "20260103_200325.jpg", "tags": ["school-girl"], "accessories": [], "description": "", "added": "2026-01-26T00:54:53.912623", "updated": "2026-01-26T01:02:00.775976"}]}};
+const BAKED_DATA = {"categories": {"version": 3, "items": ["school-girl", "office-girl", "sports-girl", "casual", "japanese-girl", "feet", "legs", "full-body", "pose", "outdoor", "indoor"]}, "accessories": {"version": 3, "items": ["anklets", "steel-cuffs", "toe-rings", "ankle-chains", "bracelets", "choker", "heels", "stockings", "none"]}, "photos": {"version": 3, "items": [{"filename": "20260104_131057.jpg", "tags": ["sports-girl"], "accessories": [], "description": "", "added": "2026-01-26T00:54:53.913144", "updated": "2026-01-26T01:02:00.775970"}, {"filename": "20260103_200325.jpg", "tags": ["school-girl"], "accessories": [], "description": "", "added": "2026-01-26T00:54:53.912623", "updated": "2026-01-26T01:02:00.775976"}]}, "stories": {"version": 1, "items": [{"id": "story-1", "title": "The Art of Foot Modeling: A Journey into Elegance", "category": "Behind the Scenes", "featuredPhoto": "", "excerpt": "Discover the artistry and dedication that goes into professional foot modeling. From selecting the perfect accessories to capturing the ideal angle, every detail matters in creating stunning visuals.", "content": "Full article content goes here...", "tags": ["modeling", "tips", "accessories"], "published": "2026-01-15T10:00:00Z", "featured": true}, {"id": "story-2", "title": "Accessory Trends: What's Hot This Season", "category": "Fashion", "featuredPhoto": "", "excerpt": "Anklets, toe rings, and chain accessories are making a bold comeback. Learn how to style these pieces for maximum impact in your next photoshoot.", "content": "Full article content goes here...", "tags": ["fashion", "trends", "accessories"], "published": "2026-01-10T10:00:00Z", "featured": false}]}};
 </script>
 
 <script>
 // ============ CONFIG ============
 const STORAGE_KEY = 'portfolio_local';
+const STORIES_KEY = 'portfolio_stories';
 
-// Check if we're in static mode (data baked in) or dev mode (fetch JSON)
+// Check mode
 const STATIC_MODE = typeof BAKED_DATA !== 'undefined';
 const PHOTOS_PATH = STATIC_MODE ? 'photos/' : '../photos/processed/';
 const DATA_PATH = '../data/';
 
 // ============ STATE ============
+let currentView = 'photos';
 let editMode = false;
-let currentFilter = 'all';
+let sidebarOpen = false;
 
-// Published data (from JSON files or baked)
+// Filters - support multiple selections (union)
+let selectedCategories = new Set();
+let selectedAccessories = new Set();
+
+// Published data
 let publishedCategories = null;
 let publishedAccessories = null;
 let publishedPhotos = null;
 
-// Working data (with local changes) - dev mode only
+// Working data
 let workingCategories = null;
 let workingAccessories = null;
 let workingPhotos = null;
+let workingStories = null;
+
+// Default stories (dummy data)
+const DEFAULT_STORIES = {
+    version: 1,
+    items: [
+        {
+            id: 'story-1',
+            title: 'The Art of Foot Modeling: A Journey into Elegance',
+            category: 'Behind the Scenes',
+            featuredPhoto: '',
+            excerpt: 'Discover the artistry and dedication that goes into professional foot modeling. From selecting the perfect accessories to capturing the ideal angle, every detail matters in creating stunning visuals.',
+            content: 'Full article content goes here...',
+            tags: ['modeling', 'tips', 'accessories'],
+            published: '2026-01-15T10:00:00Z',
+            featured: true
+        },
+        {
+            id: 'story-2',
+            title: 'Accessory Trends: What\'s Hot This Season',
+            category: 'Fashion',
+            featuredPhoto: '',
+            excerpt: 'Anklets, toe rings, and chain accessories are making a bold comeback. Learn how to style these pieces for maximum impact in your next photoshoot.',
+            content: 'Full article content goes here...',
+            tags: ['fashion', 'trends', 'accessories'],
+            published: '2026-01-10T10:00:00Z',
+            featured: false
+        }
+    ]
+};
 
 // ============ INIT ============
 async function init() {
@@ -381,6 +1026,7 @@ async function init() {
         workingCategories = publishedCategories;
         workingAccessories = publishedAccessories;
         workingPhotos = publishedPhotos;
+        workingStories = BAKED_DATA.stories || DEFAULT_STORIES;
     } else {
         document.body.classList.add('dev-mode');
         try {
@@ -403,14 +1049,15 @@ async function init() {
             document.getElementById('gallery').innerHTML = `
                 <div class="empty">
                     <h2>Could not load data files</h2>
-                    <p>Run: python3 src/build.py init</p>
+                    <p>Run:</p>
+                    ${cmdHtml('python3 src/build.py init')}
                     <p style="margin-top:10px;font-size:11px;color:var(--text2)">${err.message}</p>
                 </div>`;
             console.error(err);
             return;
         }
         
-        // Check localStorage for unpublished changes (dev mode only)
+        // Check localStorage
         const stored = localStorage.getItem(STORAGE_KEY);
         if (stored) {
             try {
@@ -430,10 +1077,14 @@ async function init() {
         } else {
             clearLocalAndUsePublished();
         }
+        
+        // Load stories
+        const storedStories = localStorage.getItem(STORIES_KEY);
+        workingStories = storedStories ? JSON.parse(storedStories) : DEFAULT_STORIES;
     }
     
-    renderFilters();
-    render();
+    renderSidebarFilters();
+    renderAll();
     if (!STATIC_MODE) updateStatus();
 }
 
@@ -452,36 +1103,263 @@ function getPublishedVersion() {
     );
 }
 
-// ============ RENDER ============
-function render() {
-    const gallery = document.getElementById('gallery');
-    const photos = workingPhotos.items;
+// ============ VIEW SWITCHING ============
+function switchView(view) {
+    currentView = view;
     
-    const filtered = currentFilter === 'all' 
-        ? photos 
-        : photos.filter(p => p.tags?.includes(currentFilter) || p.accessories?.includes(currentFilter));
+    // Update nav buttons
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.view === view);
+    });
     
-    if (filtered.length === 0) {
-        gallery.innerHTML = `
-            <div class="empty">
-                <h2>${photos.length === 0 ? 'No Photos Yet' : 'No Matches'}</h2>
-                <p>${photos.length === 0 ? (STATIC_MODE ? '' : 'Run: python3 src/build.py scan') : 'Try a different filter'}</p>
-            </div>`;
-    } else {
-        gallery.innerHTML = filtered.map(p => renderCard(p)).join('');
-        attachCardListeners();
+    // Update view containers
+    document.querySelectorAll('.view-container').forEach(container => {
+        container.classList.remove('active');
+    });
+    document.getElementById(`${view}View`).classList.add('active');
+    
+    // Close sidebar on mobile
+    if (window.innerWidth <= 1024) {
+        closeSidebar();
     }
     
-    document.getElementById('footer').textContent = `${photos.length} photos • Built with ❤️`;
+    renderAll();
+}
+
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    sidebarOpen = !sidebarOpen;
+    sidebar.classList.toggle('open', sidebarOpen);
+}
+
+function closeSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    sidebarOpen = false;
+    sidebar.classList.remove('open');
+}
+
+// ============ SIDEBAR FILTERS ============
+function renderSidebarFilters() {
+    // Categories
+    const catFilters = document.getElementById('categoryFilters');
+    catFilters.innerHTML = workingCategories.items.map(cat => `
+        <button class="filter-item ${selectedCategories.has(cat) ? 'selected' : ''}" 
+                data-value="${cat}" onclick="toggleCategoryFilter('${cat}')">
+            <span class="dot"></span>
+            ${cat}
+        </button>
+    `).join('');
+    
+    // Accessories
+    const accFilters = document.getElementById('accessoryFilters');
+    accFilters.innerHTML = workingAccessories.items.map(acc => `
+        <button class="filter-item acc ${selectedAccessories.has(acc) ? 'selected' : ''}" 
+                data-value="${acc}" onclick="toggleAccessoryFilter('${acc}')">
+            <span class="dot"></span>
+            ${acc}
+        </button>
+    `).join('');
+    
+    // Update section states
+    document.getElementById('categoriesSection').classList.toggle('has-selection', selectedCategories.size > 0);
+    document.getElementById('accessoriesSection').classList.toggle('has-selection', selectedAccessories.size > 0);
+    
+    // Render selected filters bar
+    renderSelectedFilters();
+}
+
+function toggleCategoryFilter(cat) {
+    if (selectedCategories.has(cat)) {
+        selectedCategories.delete(cat);
+    } else {
+        selectedCategories.add(cat);
+    }
+    renderSidebarFilters();
+    renderAll();
+}
+
+function toggleAccessoryFilter(acc) {
+    if (selectedAccessories.has(acc)) {
+        selectedAccessories.delete(acc);
+    } else {
+        selectedAccessories.add(acc);
+    }
+    renderSidebarFilters();
+    renderAll();
+}
+
+function clearCategories() {
+    selectedCategories.clear();
+    renderSidebarFilters();
+    renderAll();
+}
+
+function clearAccessories() {
+    selectedAccessories.clear();
+    renderSidebarFilters();
+    renderAll();
+}
+
+function clearAllFilters() {
+    selectedCategories.clear();
+    selectedAccessories.clear();
+    renderSidebarFilters();
+    renderAll();
+}
+
+function renderSelectedFilters() {
+    const container = document.getElementById('selectedFilters');
+    const filters = [];
+    
+    selectedCategories.forEach(cat => {
+        filters.push(`<span class="selected-filter" data-type="cat" data-value="${cat}">
+            ${cat}
+            <button class="remove" onclick="toggleCategoryFilter('${cat}')">&times;</button>
+        </span>`);
+    });
+    
+    selectedAccessories.forEach(acc => {
+        filters.push(`<span class="selected-filter acc" data-type="acc" data-value="${acc}">
+            ${acc}
+            <button class="remove" onclick="toggleAccessoryFilter('${acc}')">&times;</button>
+        </span>`);
+    });
+    
+    if (filters.length > 0) {
+        filters.push(`<button class="clear-all-btn" onclick="clearAllFilters()">Clear all</button>`);
+    }
+    
+    container.innerHTML = filters.join('');
+}
+
+// ============ SEARCH ============
+function handleSearch(query) {
+    const dropdown = document.getElementById('searchDropdown');
+    
+    if (!query.trim()) {
+        dropdown.classList.remove('open');
+        return;
+    }
+    
+    const q = query.toLowerCase();
+    const matchingCats = workingCategories.items.filter(c => c.toLowerCase().includes(q));
+    const matchingAccs = workingAccessories.items.filter(a => a.toLowerCase().includes(q));
+    
+    let html = '';
+    
+    if (matchingCats.length > 0) {
+        html += `<div class="search-group-title">Categories</div>`;
+        html += matchingCats.map(cat => `
+            <div class="search-item" onmousedown="addFilterFromSearch('cat', '${cat}')">
+                <span class="type-badge cat">Cat</span>
+                ${cat}
+            </div>
+        `).join('');
+    }
+    
+    if (matchingAccs.length > 0) {
+        html += `<div class="search-group-title">Accessories</div>`;
+        html += matchingAccs.map(acc => `
+            <div class="search-item" onmousedown="addFilterFromSearch('acc', '${acc}')">
+                <span class="type-badge acc">Acc</span>
+                ${acc}
+            </div>
+        `).join('');
+    }
+    
+    if (!html) {
+        html = `<div class="search-item" style="color:var(--text3)">No results found</div>`;
+    }
+    
+    dropdown.innerHTML = html;
+    dropdown.classList.add('open');
+}
+
+function showSearchDropdown() {
+    const query = document.getElementById('searchInput').value;
+    if (query.trim()) {
+        document.getElementById('searchDropdown').classList.add('open');
+    }
+}
+
+function hideSearchDropdown() {
+    setTimeout(() => {
+        document.getElementById('searchDropdown').classList.remove('open');
+    }, 200);
+}
+
+function addFilterFromSearch(type, value) {
+    if (type === 'cat') {
+        selectedCategories.add(value);
+    } else {
+        selectedAccessories.add(value);
+    }
+    document.getElementById('searchInput').value = '';
+    document.getElementById('searchDropdown').classList.remove('open');
+    renderSidebarFilters();
+    renderAll();
+}
+
+// ============ RENDER ALL ============
+function renderAll() {
+    renderPhotos();
+    renderAccessoriesView();
+    renderStories();
+    updateCounts();
+}
+
+function updateCounts() {
+    document.getElementById('photosCount').textContent = workingPhotos.items.length;
+    document.getElementById('accessoriesCount').textContent = workingAccessories.items.length;
+    document.getElementById('storiesCount').textContent = workingStories.items.length;
+    document.getElementById('footer').textContent = `${workingPhotos.items.length} photos • Built with ❤️`;
     document.getElementById('versionInfo').textContent = `v${getPublishedVersion()}`;
 }
 
-function renderCard(photo) {
+// ============ PHOTOS ============
+function renderPhotos() {
+    const gallery = document.getElementById('gallery');
+    const photos = workingPhotos.items;
+    
+    // Filter photos based on selected categories and accessories (union)
+    let filtered = photos;
+    
+    if (selectedCategories.size > 0 || selectedAccessories.size > 0) {
+        filtered = photos.filter(p => {
+            const hasCategory = selectedCategories.size === 0 || 
+                p.tags?.some(t => selectedCategories.has(t));
+            const hasAccessory = selectedAccessories.size === 0 || 
+                p.accessories?.some(a => selectedAccessories.has(a));
+            
+            // Union: match if ANY selected filter matches
+            if (selectedCategories.size > 0 && selectedAccessories.size > 0) {
+                return hasCategory || hasAccessory;
+            }
+            return hasCategory && hasAccessory;
+        });
+    }
+    
+    if (filtered.length === 0) {
+        const emptyMsg = photos.length === 0 
+            ? (STATIC_MODE ? '' : cmdHtml('python3 src/build.py scan'))
+            : '<p>Try different filters</p>';
+        gallery.innerHTML = `
+            <div class="empty">
+                <h2>${photos.length === 0 ? 'No Photos Yet' : 'No Matches'}</h2>
+                ${photos.length === 0 && !STATIC_MODE ? '<p>Run:</p>' : ''}
+                ${emptyMsg}
+            </div>`;
+    } else {
+        gallery.innerHTML = filtered.map(p => renderPhotoCard(p)).join('');
+        attachCardListeners();
+    }
+}
+
+function renderPhotoCard(photo) {
     const tags = photo.tags || [];
     const accs = photo.accessories || [];
     const isTagged = tags.length > 0;
     
-    // In static mode, no edit panel needed
     const editPanelHtml = STATIC_MODE ? '' : `
         <div class="edit-panel">
             <div class="edit-section">
@@ -528,15 +1406,6 @@ function renderCard(photo) {
     </div>`;
 }
 
-function renderFilters() {
-    document.getElementById('filterRow').innerHTML = `
-        <button class="filter-btn ${currentFilter === 'all' ? 'active' : ''}" onclick="setFilter('all')">All</button>
-        ${workingCategories.items.map(c => `
-            <button class="filter-btn ${currentFilter === c ? 'active' : ''}" onclick="setFilter('${c}')">${c}</button>
-        `).join('')}
-    `;
-}
-
 function attachCardListeners() {
     if (STATIC_MODE) return;
     
@@ -556,7 +1425,124 @@ function attachCardListeners() {
     });
 }
 
-// ============ EDIT MODE (dev only) ============
+// ============ ACCESSORIES VIEW ============
+function renderAccessoriesView() {
+    const grid = document.getElementById('accessoriesGrid');
+    
+    const accessoryIcons = {
+        'anklets': '⚪',
+        'steel-cuffs': '🔗',
+        'toe-rings': '💍',
+        'ankle-chains': '⛓️',
+        'bracelets': '📿',
+        'choker': '🎀',
+        'heels': '👠',
+        'stockings': '🧦',
+        'none': '❌'
+    };
+    
+    grid.innerHTML = workingAccessories.items.map(acc => {
+        const count = workingPhotos.items.filter(p => p.accessories?.includes(acc)).length;
+        const isSelected = selectedAccessories.has(acc);
+        
+        return `
+        <div class="accessory-card ${isSelected ? 'selected' : ''}" onclick="toggleAccessoryFilter('${acc}')">
+            <div class="accessory-icon">${accessoryIcons[acc] || '💎'}</div>
+            <div class="accessory-name">${acc.replace('-', ' ')}</div>
+            <div class="accessory-count">${count} photos</div>
+        </div>`;
+    }).join('');
+}
+
+// ============ STORIES ============
+function renderStories() {
+    const list = document.getElementById('storiesList');
+    
+    // Populate photo select
+    const photoSelect = document.getElementById('storyPhotoSelect');
+    if (photoSelect) {
+        photoSelect.innerHTML = `
+            <option value="">Select a photo...</option>
+            ${workingPhotos.items.map(p => `<option value="${p.filename}">${p.filename}</option>`).join('')}
+        `;
+    }
+    
+    if (workingStories.items.length === 0) {
+        list.innerHTML = `
+            <div class="empty">
+                <h2>No Stories Yet</h2>
+                <p>Create your first story to share your journey</p>
+            </div>`;
+        return;
+    }
+    
+    list.innerHTML = workingStories.items.map(story => {
+        const photoSrc = story.featuredPhoto ? `${PHOTOS_PATH}${story.featuredPhoto}` : '';
+        
+        return `
+        <article class="story-card ${story.featured ? 'featured' : ''}">
+            ${photoSrc ? `<img class="story-image" src="${photoSrc}" alt="${story.title}">` : ''}
+            <div class="story-content">
+                <div class="story-meta">
+                    <span class="story-category">${story.category}</span>
+                    <span>•</span>
+                    <span>${new Date(story.published).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                </div>
+                <h3 class="story-title">${story.title}</h3>
+                <p class="story-excerpt">${story.excerpt}</p>
+                <div class="story-tags">
+                    ${story.tags.map(t => `<span class="story-tag">${t}</span>`).join('')}
+                </div>
+            </div>
+        </article>`;
+    }).join('');
+}
+
+function showStoryEditor() {
+    document.getElementById('storyEditor').style.display = 'block';
+}
+
+function hideStoryEditor() {
+    document.getElementById('storyEditor').style.display = 'none';
+    // Clear inputs
+    document.getElementById('storyTitleInput').value = '';
+    document.getElementById('storyCategoryInput').value = '';
+    document.getElementById('storyPhotoSelect').value = '';
+    document.getElementById('storyContentInput').value = '';
+}
+
+function saveStory() {
+    const title = document.getElementById('storyTitleInput').value.trim();
+    const category = document.getElementById('storyCategoryInput').value.trim();
+    const featuredPhoto = document.getElementById('storyPhotoSelect').value;
+    const content = document.getElementById('storyContentInput').value.trim();
+    
+    if (!title) {
+        alert('Please enter a title');
+        return;
+    }
+    
+    const newStory = {
+        id: `story-${Date.now()}`,
+        title,
+        category: category || 'General',
+        featuredPhoto,
+        excerpt: content.slice(0, 200) + (content.length > 200 ? '...' : ''),
+        content,
+        tags: [],
+        published: new Date().toISOString(),
+        featured: false
+    };
+    
+    workingStories.items.unshift(newStory);
+    localStorage.setItem(STORIES_KEY, JSON.stringify(workingStories));
+    
+    hideStoryEditor();
+    renderStories();
+    updateCounts();
+}
+
+// ============ EDIT MODE ============
 function toggleEditMode() {
     if (STATIC_MODE) return;
     editMode = !editMode;
@@ -597,17 +1583,10 @@ function saveCard(filename) {
     }
     
     saveToStorage();
-    render();
+    renderAll();
 }
 
-// ============ FILTER ============
-function setFilter(filter) {
-    currentFilter = filter;
-    renderFilters();
-    render();
-}
-
-// ============ STORAGE (dev only) ============
+// ============ STORAGE ============
 function saveToStorage() {
     if (STATIC_MODE) return;
     const data = {
@@ -643,7 +1622,7 @@ function updateStatus() {
     document.getElementById('versionInfo').textContent = `v${getPublishedVersion()}${hasChanges ? '*' : ''}`;
 }
 
-// ============ PATCH EXPORT (dev only) ============
+// ============ PATCH EXPORT ============
 function downloadPatch() {
     if (STATIC_MODE) return;
     const newVersion = getPublishedVersion() + 1;
@@ -676,11 +1655,57 @@ function closeModal() {
     document.getElementById('modal').classList.remove('open');
 }
 
+// ============ COMMAND HELPER ============
+function cmdHtml(command) {
+    const id = 'cmd-' + Math.random().toString(36).substr(2, 9);
+    return `
+        <div class="cmd">
+            <code id="${id}">${command}</code>
+            <button class="cmd-copy" onclick="copyCmd('${id}', this)" title="Copy to clipboard">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+            </button>
+        </div>`;
+}
+
+function copyCmd(id, btn) {
+    const code = document.getElementById(id);
+    navigator.clipboard.writeText(code.textContent).then(() => {
+        btn.classList.add('copied');
+        btn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>`;
+        setTimeout(() => {
+            btn.classList.remove('copied');
+            btn.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>`;
+        }, 2000);
+    });
+}
+
 // ============ KEYBOARD ============
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         closeModal();
         document.querySelectorAll('.photo-card.editing').forEach(c => c.classList.remove('editing'));
+        closeSidebar();
+    }
+});
+
+// Click outside sidebar to close on mobile
+document.addEventListener('click', (e) => {
+    if (window.innerWidth <= 1024 && sidebarOpen) {
+        const sidebar = document.getElementById('sidebar');
+        const toggle = document.querySelector('.sidebar-toggle');
+        if (!sidebar.contains(e.target) && !toggle.contains(e.target)) {
+            closeSidebar();
+        }
     }
 });
 
