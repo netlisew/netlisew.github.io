@@ -119,6 +119,41 @@ body.dev-mode .dev-indicator{display:flex}
 
 .acc-empty{text-align:center;padding:40px;color:var(--text2)}
 
+/* Outfits Simulator */
+.outfits-layout{display:flex;gap:24px;min-height:calc(100vh - 160px)}
+.outfits-avatar{flex:0 0 320px;display:flex;flex-direction:column;align-items:center;gap:16px}
+.avatar-frame{position:relative;width:280px;height:520px;background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.avatar-silhouette{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.avatar-silhouette svg{width:180px;height:420px;opacity:0.15}
+.avatar-outfit-top{position:absolute;top:90px;left:50%;transform:translateX(-50%);width:220px;height:140px;background-size:cover;background-position:center;border-radius:6px;opacity:0;transition:opacity 0.3s}
+.avatar-outfit-bottom{position:absolute;top:230px;left:50%;transform:translateX(-50%);width:220px;height:140px;background-size:cover;background-position:center;border-radius:6px;opacity:0;transition:opacity 0.3s}
+.avatar-outfit-dress{position:absolute;top:60px;left:50%;transform:translateX(-50%);width:240px;height:400px;background-size:cover;background-position:center;border-radius:6px;opacity:0;transition:opacity 0.3s}
+.avatar-outfit-top.active,.avatar-outfit-bottom.active,.avatar-outfit-dress.active{opacity:1}
+.outfit-cat-buttons{display:flex;gap:6px}
+.outfit-cat-btn{width:42px;height:42px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all 0.2s}
+.outfit-cat-btn:hover{border-color:var(--pink);color:var(--pink)}
+.outfit-cat-btn.active{background:var(--pink);border-color:var(--pink);color:#000}
+.outfits-panel{flex:1;min-width:0}
+.outfits-panel-title{font-size:14px;font-weight:500;text-transform:capitalize;color:var(--text2);margin-bottom:12px}
+.outfits-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
+.outfit-thumb{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:all 0.2s}
+.outfit-thumb:hover{border-color:var(--pink);transform:translateY(-2px)}
+.outfit-thumb.selected{border-color:var(--pink);box-shadow:0 0 0 1px var(--pink)}
+.outfit-thumb img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:var(--card2)}
+.outfit-thumb.portrait img{aspect-ratio:3/4}
+.outfit-empty{text-align:center;padding:40px;color:var(--text2)}
+.outfit-reset{background:none;border:1px solid var(--border);color:var(--text3);font-size:10px;padding:5px 10px;border-radius:4px;cursor:pointer;font-family:inherit}
+.outfit-reset:hover{border-color:var(--pink);color:var(--pink)}
+@media(max-width:768px){
+.outfits-layout{flex-direction:column;align-items:center}
+.outfits-avatar{flex:none;width:100%}
+.avatar-frame{width:240px;height:440px}
+.avatar-outfit-top{width:180px;height:115px;top:75px}
+.avatar-outfit-bottom{width:180px;height:115px;top:190px}
+.avatar-outfit-dress{width:200px;height:340px;top:50px}
+.outfits-grid{grid-template-columns:repeat(auto-fill,minmax(90px,1fr))}
+}
+
 /* Stories */
 .stories-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
 .stories-title{font-family:'Playfair Display',serif;font-size:22px}
@@ -191,6 +226,7 @@ footer::before{content:'';position:absolute;top:-20px;left:0;right:0;height:20px
 <button class="nav-link active" data-view="home" onclick="switchView('home')">Home</button>
 <button class="nav-link" data-view="photos" onclick="switchView('photos')">Portraits</button>
 <button class="nav-link" data-view="accessories" onclick="switchView('accessories')">Accessories</button>
+<button class="nav-link" data-view="outfits" onclick="switchView('outfits')">Outfits</button>
 <button class="nav-link" data-view="stories" onclick="switchView('stories')">Stories</button>
 </nav>
 <div class="header-search" style="display:none"><span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span><input type="text" class="search-input" id="searchInput" placeholder="Search..." oninput="handleSearch(this.value)" onfocus="showSearchDropdown()" onblur="hideSearchDropdown()"><div class="search-dropdown" id="searchDropdown"></div></div>
@@ -205,6 +241,29 @@ footer::before{content:'';position:absolute;top:-20px;left:0;right:0;height:20px
 
 <div class="view-container" id="accessoriesView"><div id="accessoriesContent"></div></div>
 
+<div class="view-container" id="outfitsView">
+<div class="outfits-layout">
+<div class="outfits-avatar">
+<div class="avatar-frame">
+<div class="avatar-silhouette"><svg viewBox="0 0 200 480" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="100" cy="42" rx="28" ry="34" stroke="currentColor" stroke-width="1.5"/><path d="M72 76c-20 8-36 28-38 52v60c0 8 4 14 10 14h8v100c0 8 6 14 14 14h4v120c0 6 4 10 10 10s10-4 10-10V316h20v120c0 6 4 10 10 10s10-4 10-10V316h4c8 0 14-6 14-14V202h8c6 0 10-6 10-14v-60c-2-24-18-44-38-52" stroke="currentColor" stroke-width="1.5"/></svg></div>
+<div class="avatar-outfit-top" id="outfitTop"></div>
+<div class="avatar-outfit-bottom" id="outfitBottom"></div>
+<div class="avatar-outfit-dress" id="outfitDress"></div>
+</div>
+<div class="outfit-cat-buttons">
+<button class="outfit-cat-btn active" data-cat="tops" onclick="switchOutfitCat('tops')" title="Tops"><i class="fa-solid fa-shirt"></i></button>
+<button class="outfit-cat-btn" data-cat="bottoms" onclick="switchOutfitCat('bottoms')" title="Bottoms"><i class="fa-solid fa-socks"></i></button>
+<button class="outfit-cat-btn" data-cat="dresses" onclick="switchOutfitCat('dresses')" title="Dresses"><i class="fa-solid fa-person-dress"></i></button>
+<button class="outfit-reset" onclick="resetOutfit()">Reset</button>
+</div>
+</div>
+<div class="outfits-panel">
+<div class="outfits-panel-title" id="outfitPanelTitle">tops</div>
+<div class="outfits-grid" id="outfitsGrid"></div>
+</div>
+</div>
+</div>
+
 <div class="view-container" id="storiesView">
 <div class="story-editor" id="storyEditor"><div class="form-row"><label class="form-label">Title</label><input type="text" class="form-input" id="storyTitleInput"></div><div class="form-row"><label class="form-label">Category</label><input type="text" class="form-input" id="storyCategoryInput"></div><div class="form-row"><label class="form-label">Featured Photo</label><select class="form-input" id="storyPhotoSelect"></select></div><div class="form-row"><label class="form-label">Content</label><textarea class="form-input form-textarea" id="storyContentInput"></textarea></div><div class="form-actions"><button class="btn btn-primary" onclick="saveStory()">Save</button><button class="btn" onclick="hideStoryEditor()">Cancel</button></div></div>
 <div class="stories-header"><h2 class="stories-title">Stories</h2><button class="btn" onclick="showStoryEditor()" style="display:none" id="newStoryBtn">New Story</button></div>
@@ -215,7 +274,7 @@ footer::before{content:'';position:absolute;top:-20px;left:0;right:0;height:20px
 <p class="about-tagline">Fashion / Style / Expression</p>
 <p class="about-text">Welcome to my portfolio. I'm passionate about fashion photography and creative expression. This space showcases my journey through various styles, themes, and artistic explorations.</p>
 <p class="about-text">I love experimenting with different aesthetics - from casual everyday looks to elaborate themed photoshoots. Every photo tells a story.</p>
-<div class="about-stats"><div><div class="about-stat-number" id="statPhotos">0</div><div class="about-stat-label">Portraits</div></div><div><div class="about-stat-number" id="statThemes">0</div><div class="about-stat-label">Themes</div></div><div><div class="about-stat-number" id="statAccessories">0</div><div class="about-stat-label">Accessories</div></div><div><div class="about-stat-number" id="statStories">0</div><div class="about-stat-label">Stories</div></div></div>
+<div class="about-stats"><div><div class="about-stat-number" id="statPhotos">0</div><div class="about-stat-label">Portraits</div></div><div><div class="about-stat-number" id="statThemes">0</div><div class="about-stat-label">Themes</div></div><div><div class="about-stat-number" id="statAccessories">0</div><div class="about-stat-label">Accessories</div></div><div><div class="about-stat-number" id="statStories">0</div><div class="about-stat-label">Stories</div></div><div><div class="about-stat-number" id="statOutfits">0</div><div class="about-stat-label">Outfits</div></div></div>
 </div></div></div>
 <footer id="footer">&copy; 2026 Nethuli Sewwandi</footer>
 </main>
@@ -223,7 +282,7 @@ footer::before{content:'';position:absolute;top:-20px;left:0;right:0;height:20px
 <div class="modal" id="modal" onclick="closeModal()"><button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button><img id="modalImg" src=""></div>
 
 <script>
-const BAKED_DATA = {"categories": {"version": 1, "items": ["school-girl", "office-girl", "sports-girl", "casual", "japanese-girl", "feet", "legs", "full-body", "pose", "outdoor", "indoor"]}, "accessories": {"version": 3, "items": ["anklets", "shoes"]}, "photos": {"version": 3, "items": [{"filename": "20260325_165958.jpg", "tags": [], "accessories": [], "description": "", "added": "2026-03-28T19:35:02.177644"}, {"filename": "20260325_141444.jpg", "tags": [], "accessories": [], "description": "", "added": "2026-03-28T19:35:02.177630"}, {"filename": "20260104_131057.jpg", "tags": [], "accessories": [], "description": "", "added": "2026-03-28T17:07:14.155721"}, {"filename": "20260103_200325.jpg", "tags": [], "accessories": [], "description": "", "added": "2026-03-28T17:07:14.155508"}]}, "stories": {"version": 1, "items": [{"id": "story-1", "title": "The Art of Foot Modeling: A Journey into Elegance", "category": "Behind the Scenes", "featuredPhoto": "", "excerpt": "Discover the artistry and dedication that goes into professional foot modeling. From selecting the perfect accessories to capturing the ideal angle, every detail matters in creating stunning visuals.", "content": "Full article content goes here...", "tags": ["modeling", "tips", "accessories"], "published": "2026-01-15T10:00:00Z", "featured": true}, {"id": "story-2", "title": "Accessory Trends: What's Hot This Season", "category": "Fashion", "featuredPhoto": "", "excerpt": "Anklets, toe rings, and chain accessories are making a bold comeback. Learn how to style these pieces for maximum impact in your next photoshoot.", "content": "Full article content goes here...", "tags": ["fashion", "trends", "accessories"], "published": "2026-01-10T10:00:00Z", "featured": false}]}, "accessoryItems": {"version": 3, "items": [{"filename": "anklets/51+TOSbNI5L._AC_SY695_.jpg", "type": "anklets", "name": "51+TOSbNI5L._AC_SY695_", "added": "2026-03-28T17:07:14.157324"}, {"filename": "anklets/51M3Zk+m31L._AC_SY695_.jpg", "type": "anklets", "name": "51M3Zk+m31L._AC_SY695_", "added": "2026-03-28T17:07:14.157377"}, {"filename": "anklets/61wgl2kliWL._AC_SY695_.jpg", "type": "anklets", "name": "61wgl2kliWL._AC_SY695_", "added": "2026-03-28T17:07:14.157386"}, {"filename": "anklets/71V9Rt-nMyL._AC_SY695_.jpg", "type": "anklets", "name": "71V9Rt-nMyL._AC_SY695_", "added": "2026-03-28T17:07:14.157393"}, {"filename": "anklets/71bzzCGKriL._AC_SY695_.jpg", "type": "anklets", "name": "71bzzCGKriL._AC_SY695_", "added": "2026-03-28T17:07:14.157399"}, {"filename": "shoes/Haf4cef401bde4210aabef3caff15ef60i.jpg_960x960q75.jpg_.avif", "type": "shoes", "name": "Haf4cef401bde4210aabef3caff15ef60i.jpg_960x960q75.jpg_", "added": "2026-03-28T19:52:26.601630"}]}};
+const BAKED_DATA = {"categories": {"version": 1, "items": ["school-girl", "office-girl", "sports-girl", "casual", "japanese-girl", "feet", "legs", "full-body", "pose", "outdoor", "indoor"]}, "accessories": {"version": 3, "items": ["anklets", "shoes"]}, "photos": {"version": 3, "items": [{"filename": "20260325_165958.jpg", "tags": [], "accessories": [], "description": "", "added": "2026-03-28T19:35:02.177644"}, {"filename": "20260325_141444.jpg", "tags": [], "accessories": [], "description": "", "added": "2026-03-28T19:35:02.177630"}, {"filename": "20260104_131057.jpg", "tags": [], "accessories": [], "description": "", "added": "2026-03-28T17:07:14.155721"}, {"filename": "20260103_200325.jpg", "tags": [], "accessories": [], "description": "", "added": "2026-03-28T17:07:14.155508"}]}, "stories": {"version": 1, "items": [{"id": "story-1", "title": "The Art of Foot Modeling: A Journey into Elegance", "category": "Behind the Scenes", "featuredPhoto": "", "excerpt": "Discover the artistry and dedication that goes into professional foot modeling. From selecting the perfect accessories to capturing the ideal angle, every detail matters in creating stunning visuals.", "content": "Full article content goes here...", "tags": ["modeling", "tips", "accessories"], "published": "2026-01-15T10:00:00Z", "featured": true}, {"id": "story-2", "title": "Accessory Trends: What's Hot This Season", "category": "Fashion", "featuredPhoto": "", "excerpt": "Anklets, toe rings, and chain accessories are making a bold comeback. Learn how to style these pieces for maximum impact in your next photoshoot.", "content": "Full article content goes here...", "tags": ["fashion", "trends", "accessories"], "published": "2026-01-10T10:00:00Z", "featured": false}]}, "accessoryItems": {"version": 3, "items": [{"filename": "anklets/51+TOSbNI5L._AC_SY695_.jpg", "type": "anklets", "name": "51+TOSbNI5L._AC_SY695_", "added": "2026-03-28T17:07:14.157324"}, {"filename": "anklets/51M3Zk+m31L._AC_SY695_.jpg", "type": "anklets", "name": "51M3Zk+m31L._AC_SY695_", "added": "2026-03-28T17:07:14.157377"}, {"filename": "anklets/61wgl2kliWL._AC_SY695_.jpg", "type": "anklets", "name": "61wgl2kliWL._AC_SY695_", "added": "2026-03-28T17:07:14.157386"}, {"filename": "anklets/71V9Rt-nMyL._AC_SY695_.jpg", "type": "anklets", "name": "71V9Rt-nMyL._AC_SY695_", "added": "2026-03-28T17:07:14.157393"}, {"filename": "anklets/71bzzCGKriL._AC_SY695_.jpg", "type": "anklets", "name": "71bzzCGKriL._AC_SY695_", "added": "2026-03-28T17:07:14.157399"}, {"filename": "shoes/Haf4cef401bde4210aabef3caff15ef60i.jpg_960x960q75.jpg_.avif", "type": "shoes", "name": "Haf4cef401bde4210aabef3caff15ef60i.jpg_960x960q75.jpg_", "added": "2026-03-28T19:52:26.601630"}]}, "outfits": {"version": 2, "categories": ["bottoms", "dresses", "tops"], "items": [{"filename": "bottoms/goods_08_487837_3x4.png", "category": "bottoms", "name": "goods_08_487837_3x4", "added": "2026-03-28T22:11:07.916149"}, {"filename": "tops/goods_475651_sub14_3x4.png", "category": "tops", "name": "goods_475651_sub14_3x4", "added": "2026-03-28T22:11:07.916165"}, {"filename": "tops/goods_61_464944_3x4.png", "category": "tops", "name": "goods_61_464944_3x4", "added": "2026-03-28T22:11:07.916170"}]}};
 </script>
 
 <script>
@@ -233,11 +292,14 @@ const STATIC_MODE=typeof BAKED_DATA!=='undefined';
 const DEV_MODE=IS_LOCALHOST&&!STATIC_MODE;
 const PHOTOS_PATH=STATIC_MODE?'photos/':'input/photos/';
 const ACC_PATH=STATIC_MODE?'accessories/':'input/accessories/';
+const OUTFITS_PATH=STATIC_MODE?'outfits/':'input/outfits/';
 const DATA_PATH='data/';
 
 let currentView='home',mobileMenuOpen=false,selectedThemes=new Set(),selectedAccessoryItems=new Set();
 let publishedThemes,publishedAccessories,publishedPhotos,workingThemes,workingAccessories,workingPhotos,workingStories;
 let accessoryItems={version:1,items:[]};
+let outfitsData={version:1,categories:[],items:[]};
+let currentOutfitCat='tops',selectedOutfitTop=null,selectedOutfitBottom=null,selectedOutfitDress=null;
 
 const DEFAULT_STORIES={version:1,items:[]};
 
@@ -252,6 +314,7 @@ if(STATIC_MODE){
     workingPhotos=publishedPhotos;
     workingStories=BAKED_DATA.stories||DEFAULT_STORIES;
     accessoryItems=BAKED_DATA.accessoryItems||{version:1,items:[]};
+    outfitsData=BAKED_DATA.outfits||{version:1,categories:[],items:[]};
 }else{
     if(DEV_MODE){document.body.classList.add('dev-mode');document.getElementById('newStoryBtn').style.display='block';}
     try{
@@ -260,6 +323,7 @@ if(STATIC_MODE){
         if(!c.ok||!a.ok||!p.ok)throw 0;
         publishedThemes=await c.json();publishedAccessories=await a.json();publishedPhotos=await p.json();
         try{const ai=await fetch(DATA_PATH+'accessory-items.json?t='+t);if(ai.ok)accessoryItems=await ai.json();}catch{}
+        try{const of=await fetch(DATA_PATH+'outfits.json?t='+t);if(of.ok)outfitsData=await of.json();}catch{}
     }catch{document.getElementById('gallery').innerHTML='<div class="empty"><h2>Could not load data</h2>'+cmdHtml('python3 build.py init')+'</div>';return;}
     const stored=localStorage.getItem(STORAGE_KEY);
     if(stored){try{const d=JSON.parse(stored);if(d.version>=getVer()){workingThemes=d.categories||publishedThemes;workingAccessories=d.accessories||publishedAccessories;workingPhotos=d.photos||publishedPhotos;}else reset();}catch{reset();}}else reset();
@@ -295,8 +359,8 @@ function hideSearchDropdown(){setTimeout(()=>document.getElementById('searchDrop
 function addThemeFilter(t){selectedThemes.add(t);document.getElementById('searchInput').value='';document.getElementById('searchDropdown').classList.remove('open');renderPills();renderAll();}
 function addAccItemFilter(id){selectedAccessoryItems.add(id);document.getElementById('searchInput').value='';document.getElementById('searchDropdown').classList.remove('open');renderPills();renderAll();}
 
-function renderAll(){renderPhotos();renderAccessories();renderStories();renderStats();renderHome();}
-function renderStats(){document.getElementById('statPhotos').textContent=workingPhotos?.items?.length||0;document.getElementById('statThemes').textContent=workingThemes?.items?.length||0;document.getElementById('statAccessories').textContent=accessoryItems?.items?.length||0;document.getElementById('statStories').textContent=workingStories?.items?.length||0;document.getElementById('footer').textContent='&copy; 2026 Nethuli Sewwandi | '+(workingPhotos?.items?.length||0)+' portraits';document.getElementById('versionInfo').textContent='v'+getVer();}
+function renderAll(){renderPhotos();renderAccessories();renderOutfits();renderStories();renderStats();renderHome();}
+function renderStats(){document.getElementById('statPhotos').textContent=workingPhotos?.items?.length||0;document.getElementById('statThemes').textContent=workingThemes?.items?.length||0;document.getElementById('statAccessories').textContent=accessoryItems?.items?.length||0;document.getElementById('statStories').textContent=workingStories?.items?.length||0;document.getElementById('statOutfits').textContent=outfitsData?.items?.length||0;document.getElementById('footer').textContent='&copy; 2026 Nethuli Sewwandi | '+(workingPhotos?.items?.length||0)+' portraits';document.getElementById('versionInfo').textContent='v'+getVer();}
 function renderHome(){const photos=workingPhotos?.items||[];if(photos.length>0){document.getElementById('aboutBg').style.backgroundImage='url('+PHOTOS_PATH+photos[0].filename+')';}}
 function renderPhotos(){
 const g=document.getElementById('gallery');let photos=workingPhotos.items;
@@ -424,6 +488,73 @@ function saveStory(){const t=document.getElementById('storyTitleInput').value.tr
 function saveStorage(){if(!DEV_MODE)return;localStorage.setItem(STORAGE_KEY,JSON.stringify({version:getVer(),categories:workingThemes,accessories:workingAccessories,photos:workingPhotos}));updateStatus();}
 function updateStatus(){if(!DEV_MODE)return;const changed=JSON.stringify(workingPhotos.items)!==JSON.stringify(publishedPhotos.items)||JSON.stringify(workingThemes.items)!==JSON.stringify(publishedThemes.items)||JSON.stringify(workingAccessories.items)!==JSON.stringify(publishedAccessories.items);document.getElementById('statusDot').classList.toggle('changed',changed);document.getElementById('downloadBtn').style.display=changed?'flex':'none';document.getElementById('versionInfo').textContent='v'+getVer()+(changed?'*':'');}
 function downloadPatch(){if(!DEV_MODE)return;const v=getVer()+1;const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({baseVersion:getVer(),newVersion:v,timestamp:new Date().toISOString(),categories:workingThemes.items,accessories:workingAccessories.items,photos:workingPhotos.items},null,2)],{type:'application/json'}));a.download='patch-v'+v+'.json';a.click();}
+
+function renderOutfits(){
+const grid=document.getElementById('outfitsGrid');
+const items=outfitsData?.items||[];
+const catItems=items.filter(i=>i.category===currentOutfitCat);
+
+document.getElementById('outfitPanelTitle').textContent=currentOutfitCat;
+document.querySelectorAll('.outfit-cat-btn').forEach(b=>b.classList.toggle('active',b.dataset.cat===currentOutfitCat));
+
+if(!catItems.length){
+    grid.innerHTML='<div class="outfit-empty">No '+currentOutfitCat+' yet</div>';
+    return;
+}
+
+const isDress=currentOutfitCat==='dresses';
+const selectedFile=currentOutfitCat==='tops'?selectedOutfitTop:currentOutfitCat==='bottoms'?selectedOutfitBottom:selectedOutfitDress;
+
+grid.innerHTML=catItems.map(item=>{
+    const sel=item.filename===selectedFile?'selected':'';
+    const portrait=isDress?'portrait':'';
+    return '<div class="outfit-thumb '+sel+' '+portrait+'" onclick="selectOutfit(\''+item.filename+'\',\''+item.category+'\')"><img src="'+OUTFITS_PATH+item.filename+'" onerror="this.style.background=\'var(--card2)\'"></div>';
+}).join('');
+}
+
+function switchOutfitCat(cat){
+currentOutfitCat=cat;
+renderOutfits();
+}
+
+function selectOutfit(filename,category){
+const url='url('+OUTFITS_PATH+filename+')';
+if(category==='tops'){
+    selectedOutfitTop=selectedOutfitTop===filename?null:filename;
+    const el=document.getElementById('outfitTop');
+    if(selectedOutfitTop){el.style.backgroundImage=url;el.classList.add('active');}
+    else{el.classList.remove('active');}
+    // Clear dress if selecting top
+    if(selectedOutfitTop&&selectedOutfitDress){selectedOutfitDress=null;document.getElementById('outfitDress').classList.remove('active');}
+}else if(category==='bottoms'){
+    selectedOutfitBottom=selectedOutfitBottom===filename?null:filename;
+    const el=document.getElementById('outfitBottom');
+    if(selectedOutfitBottom){el.style.backgroundImage=url;el.classList.add('active');}
+    else{el.classList.remove('active');}
+    // Clear dress if selecting bottom
+    if(selectedOutfitBottom&&selectedOutfitDress){selectedOutfitDress=null;document.getElementById('outfitDress').classList.remove('active');}
+}else if(category==='dresses'){
+    selectedOutfitDress=selectedOutfitDress===filename?null:filename;
+    const el=document.getElementById('outfitDress');
+    if(selectedOutfitDress){el.style.backgroundImage=url;el.classList.add('active');}
+    else{el.classList.remove('active');}
+    // Clear top+bottom if selecting dress
+    if(selectedOutfitDress){
+        selectedOutfitTop=null;selectedOutfitBottom=null;
+        document.getElementById('outfitTop').classList.remove('active');
+        document.getElementById('outfitBottom').classList.remove('active');
+    }
+}
+renderOutfits();
+}
+
+function resetOutfit(){
+selectedOutfitTop=null;selectedOutfitBottom=null;selectedOutfitDress=null;
+document.getElementById('outfitTop').classList.remove('active');
+document.getElementById('outfitBottom').classList.remove('active');
+document.getElementById('outfitDress').classList.remove('active');
+renderOutfits();
+}
 
 function openModal(s){document.getElementById('modalImg').src=s;document.getElementById('modal').classList.add('open');}
 function closeModal(){document.getElementById('modal').classList.remove('open');}
