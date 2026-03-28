@@ -6,12 +6,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nethuli Sewwandi</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#0a0a0a;--card:#111;--card2:#161616;--border:#222;--border2:#333;--text:#fff;--text2:#888;--text3:#555;--pink:#ff3366;--cyan:#00d4ff;--green:#22c55e;--yellow:#eab308;--purple:#a855f7}
 body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
 
-.top-header{position:fixed;top:0;left:0;right:0;background:rgba(10,10,10,0.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);z-index:100}
+.top-header{position:fixed;top:0;left:0;right:0;background:rgba(10,10,10,0.85);backdrop-filter:blur(10px);z-index:100}
+.top-header::after{content:'';position:absolute;bottom:-20px;left:0;right:0;height:20px;background:linear-gradient(to bottom,rgba(10,10,10,0.85),transparent);pointer-events:none}
 .header-content{max-width:1600px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:20px;height:60px}
 .logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;background:linear-gradient(135deg,var(--text),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;white-space:nowrap}
 
@@ -46,7 +48,7 @@ body.dev-mode .dev-indicator{display:flex}
 
 .menu-toggle{display:none;padding:7px;background:none;border:1px solid var(--border);color:var(--text);font-size:16px;cursor:pointer;border-radius:5px;margin-left:auto}
 
-.main-content{padding-top:60px;min-height:100vh}
+.main-content{padding-top:60px;padding-bottom:60px;min-height:100vh}
 
 .filter-bar{background:var(--card);border-bottom:1px solid var(--border);padding:10px 20px}
 .filter-bar-content{max-width:1600px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
@@ -66,6 +68,7 @@ body.dev-mode .dev-indicator{display:flex}
 
 .view-container{display:none;max-width:1600px;margin:0 auto;padding:20px}
 .view-container.active{display:block}
+#homeView{max-width:none;padding:0;margin:-60px 0 -60px 0;height:100vh;overflow:hidden}
 
 .masonry{columns:4;column-gap:12px}
 .photo-card{break-inside:avoid;margin-bottom:12px;background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:all 0.2s}
@@ -139,10 +142,10 @@ body.dev-mode .story-editor.visible{display:block}
 .form-actions{display:flex;gap:6px;margin-top:12px}
 
 /* About */
-.about-hero{position:relative;min-height:calc(100vh - 80px);display:flex;align-items:center;overflow:hidden}
-.about-bg{position:absolute;top:0;right:0;width:60%;height:100%;background-size:cover;background-position:center left;opacity:0.7}
+.about-hero{position:relative;height:100%;display:flex;align-items:center;overflow:hidden}
+.about-bg{position:absolute;top:0;right:0;width:45%;height:100%;background-size:cover;background-position:center;opacity:0.7}
 .about-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,var(--bg) 0%,transparent 50%)}
-.about-content{position:relative;z-index:1;max-width:500px;padding:40px}
+.about-content{position:relative;z-index:1;max-width:500px;padding:80px 40px 60px}
 .about-name{font-family:'Playfair Display',serif;font-size:42px;margin-bottom:12px;line-height:1.1}
 .about-tagline{font-size:14px;color:var(--pink);text-transform:uppercase;letter-spacing:3px;margin-bottom:24px}
 .about-text{color:var(--text2);line-height:1.8;font-size:14px;margin-bottom:20px}
@@ -166,7 +169,8 @@ body.dev-mode .story-editor.visible{display:block}
 .cmd-copy.copied{color:var(--green)}
 .cmd-copy svg{width:11px;height:11px}
 
-footer{text-align:center;padding:20px;color:var(--text3);font-size:10px;border-top:1px solid var(--border)}
+footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:20px;color:var(--text3);font-size:10px;background:rgba(10,10,10,0.85);backdrop-filter:blur(10px);z-index:100}
+footer::before{content:'';position:absolute;top:-20px;left:0;right:0;height:20px;background:linear-gradient(to top,rgba(10,10,10,0.85),transparent);pointer-events:none}
 
 @media(max-width:1200px){.masonry{columns:3}}
 @media(max-width:900px){.masonry{columns:2}.about-bg{width:50%;opacity:0.5}}
@@ -174,7 +178,7 @@ footer{text-align:center;padding:20px;color:var(--text3);font-size:10px;border-t
 .masonry{columns:1}.header-content{gap:8px}.logo{font-size:16px}.header-search{max-width:140px}.search-input{padding:7px 10px 7px 28px;font-size:11px}
 .top-nav{display:none;position:absolute;top:60px;left:0;right:0;background:var(--card);border-bottom:1px solid var(--border);flex-direction:column;padding:8px}
 .top-nav.open{display:flex}.nav-link{width:100%;text-align:center;padding:10px}.menu-toggle{display:flex;align-items:center;justify-content:center}.dev-indicator{display:none!important}
-.about-bg{width:100%;opacity:0.3}.about-content{padding:20px}.about-name{font-size:32px}.about-stats{flex-direction:column;gap:15px}
+.about-hero{align-items:flex-start}.about-bg{width:100%;opacity:0.5;background-position:center bottom}.about-bg::after{background:linear-gradient(180deg,rgba(10,10,10,0.95) 0%,rgba(10,10,10,0.5) 40%,transparent 100%)}.about-content{padding:80px 20px 60px;max-width:100%}.about-name{font-size:32px}.about-stats{flex-direction:column;gap:15px}
 .acc-items-grid{grid-template-columns:repeat(2,1fr)}.stories-grid{grid-template-columns:1fr}
 .edit-acc-item{width:40px;height:40px}
 }
@@ -182,22 +186,22 @@ footer{text-align:center;padding:20px;color:var(--text3);font-size:10px;border-t
 </head>
 <body>
 <header class="top-header"><div class="header-content">
-<a href="#" class="logo" onclick="switchView('photos');return false;">Nethuli Sewwandi</a>
-<div class="header-search"><span class="search-icon">⌕</span><input type="text" class="search-input" id="searchInput" placeholder="Search..." oninput="handleSearch(this.value)" onfocus="showSearchDropdown()" onblur="hideSearchDropdown()"><div class="search-dropdown" id="searchDropdown"></div></div>
+<a href="#" class="logo" onclick="switchView('home');return false;">Nethuli Sewwandi</a>
+<div class="header-search" style="display:none"><span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span><input type="text" class="search-input" id="searchInput" placeholder="Search..." oninput="handleSearch(this.value)" onfocus="showSearchDropdown()" onblur="hideSearchDropdown()"><div class="search-dropdown" id="searchDropdown"></div></div>
 <nav class="top-nav" id="topNav">
-<button class="nav-link active" data-view="photos" onclick="switchView('photos')">Photos</button>
+<button class="nav-link active" data-view="home" onclick="switchView('home')">Home</button>
+<button class="nav-link" data-view="photos" onclick="switchView('photos')">Photos</button>
 <button class="nav-link" data-view="accessories" onclick="switchView('accessories')">Accessories</button>
 <button class="nav-link" data-view="stories" onclick="switchView('stories')">Stories</button>
-<button class="nav-link" data-view="about" onclick="switchView('about')">About</button>
 </nav>
 <div class="dev-indicator"><span class="status-dot" id="statusDot"></span><span class="version-info" id="versionInfo">v1</span><button class="btn btn-warning" id="downloadBtn" onclick="downloadPatch()" style="display:none">Export Patch</button></div>
-<button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+<button class="menu-toggle" onclick="toggleMobileMenu()"><i class="fa-solid fa-bars"></i></button>
 </div></header>
 
 <main class="main-content">
-<div class="filter-bar" id="filterBar"><div class="filter-bar-content"><span class="filter-label">Themes</span><div class="filter-pills" id="themePills"></div><div class="selected-filters" id="selectedFilters"></div></div></div>
+<div class="filter-bar" id="filterBar" style="display:none"><div class="filter-bar-content"><span class="filter-label">Themes</span><div class="filter-pills" id="themePills"></div><div class="selected-filters" id="selectedFilters"></div></div></div>
 
-<div class="view-container active" id="photosView"><div class="masonry" id="gallery"><div class="empty"><h2>Loading...</h2></div></div></div>
+<div class="view-container" id="photosView"><div class="masonry" id="gallery"><div class="empty"><h2>Loading...</h2></div></div></div>
 
 <div class="view-container" id="accessoriesView"><div id="accessoriesContent"></div></div>
 
@@ -207,20 +211,19 @@ footer{text-align:center;padding:20px;color:var(--text3);font-size:10px;border-t
 <div class="stories-grid" id="storiesList"></div>
 </div>
 
-<div class="view-container" id="aboutView"><div class="about-hero"><div class="about-bg" id="aboutBg"></div><div class="about-content">
-<h1 class="about-name">Nethuli Sewwandi</h1>
-<p class="about-tagline">Fashion • Style • Expression</p>
+<div class="view-container active" id="homeView"><div class="about-hero"><div class="about-bg" id="aboutBg"></div><div class="about-content">
+<p class="about-tagline">Fashion / Style / Expression</p>
 <p class="about-text">Welcome to my portfolio. I'm passionate about fashion photography and creative expression. This space showcases my journey through various styles, themes, and artistic explorations.</p>
-<p class="about-text">I love experimenting with different aesthetics — from casual everyday looks to elaborate themed photoshoots. Every photo tells a story.</p>
+<p class="about-text">I love experimenting with different aesthetics - from casual everyday looks to elaborate themed photoshoots. Every photo tells a story.</p>
 <div class="about-stats"><div><div class="about-stat-number" id="statPhotos">0</div><div class="about-stat-label">Photos</div></div><div><div class="about-stat-number" id="statThemes">0</div><div class="about-stat-label">Themes</div></div><div><div class="about-stat-number" id="statAccessories">0</div><div class="about-stat-label">Accessories</div></div></div>
 </div></div></div>
-<footer id="footer">© 2026 Nethuli Sewwandi</footer>
+<footer id="footer">&copy; 2026 Nethuli Sewwandi</footer>
 </main>
 
-<div class="modal" id="modal" onclick="closeModal()"><button class="modal-close" onclick="closeModal()">×</button><img id="modalImg" src=""></div>
+<div class="modal" id="modal" onclick="closeModal()"><button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button><img id="modalImg" src=""></div>
 
 <script>
-const BAKED_DATA = {"categories": {"version": 4, "items": ["school-girl", "office-girl", "sports-girl", "casual", "japanese-girl", "feet", "legs", "full-body", "pose", "outdoor", "indoor"]}, "accessories": {"version": 4, "items": ["anklets", "steel-cuffs", "toe-rings", "ankle-chains", "bracelets", "choker", "heels", "stockings", "none"]}, "photos": {"version": 4, "items": [{"filename": "20260104_131057.jpg", "tags": ["sports-girl"], "accessories": ["none"], "description": "", "added": "2026-01-26T00:54:53.913144", "updated": "2026-01-28T14:20:46.578325"}, {"filename": "20260103_200325.jpg", "tags": ["school-girl"], "accessories": ["anklets"], "description": "", "added": "2026-01-26T00:54:53.912623", "updated": "2026-01-28T14:20:46.578331"}]}, "stories": {"version": 1, "items": [{"id": "story-1", "title": "The Art of Foot Modeling: A Journey into Elegance", "category": "Behind the Scenes", "featuredPhoto": "", "excerpt": "Discover the artistry and dedication that goes into professional foot modeling. From selecting the perfect accessories to capturing the ideal angle, every detail matters in creating stunning visuals.", "content": "Full article content goes here...", "tags": ["modeling", "tips", "accessories"], "published": "2026-01-15T10:00:00Z", "featured": true}, {"id": "story-2", "title": "Accessory Trends: What's Hot This Season", "category": "Fashion", "featuredPhoto": "", "excerpt": "Anklets, toe rings, and chain accessories are making a bold comeback. Learn how to style these pieces for maximum impact in your next photoshoot.", "content": "Full article content goes here...", "tags": ["fashion", "trends", "accessories"], "published": "2026-01-10T10:00:00Z", "featured": false}]}, "accessoryItems": {"version": 2, "items": [{"filename": "anklets/51+TOSbNI5L._AC_SY695_.jpg", "type": "anklets", "name": "51+TOSbNI5L._AC_SY695_", "added": "2026-01-28T14:05:21.192701"}, {"filename": "anklets/51M3Zk+m31L._AC_SY695_.jpg", "type": "anklets", "name": "51M3Zk+m31L._AC_SY695_", "added": "2026-01-28T14:05:21.192725"}, {"filename": "anklets/61wgl2kliWL._AC_SY695_.jpg", "type": "anklets", "name": "61wgl2kliWL._AC_SY695_", "added": "2026-01-28T14:05:21.192732"}, {"filename": "anklets/71V9Rt-nMyL._AC_SY695_.jpg", "type": "anklets", "name": "71V9Rt-nMyL._AC_SY695_", "added": "2026-01-28T14:05:21.192737"}, {"filename": "anklets/71bzzCGKriL._AC_SY695_.jpg", "type": "anklets", "name": "71bzzCGKriL._AC_SY695_", "added": "2026-01-28T14:05:21.192742"}]}};
+const BAKED_DATA = {"categories": {"version": 1, "items": ["school-girl", "office-girl", "sports-girl", "casual", "japanese-girl", "feet", "legs", "full-body", "pose", "outdoor", "indoor"]}, "accessories": {"version": 1, "items": ["anklets", "steel-cuffs", "toe-rings", "ankle-chains", "bracelets", "choker", "heels", "stockings", "none"]}, "photos": {"version": 2, "items": [{"filename": "20260104_131057.jpg", "tags": [], "accessories": [], "description": "", "added": "2026-03-28T17:07:14.155721"}, {"filename": "20260103_200325.jpg", "tags": [], "accessories": [], "description": "", "added": "2026-03-28T17:07:14.155508"}]}, "stories": {"version": 1, "items": [{"id": "story-1", "title": "The Art of Foot Modeling: A Journey into Elegance", "category": "Behind the Scenes", "featuredPhoto": "", "excerpt": "Discover the artistry and dedication that goes into professional foot modeling. From selecting the perfect accessories to capturing the ideal angle, every detail matters in creating stunning visuals.", "content": "Full article content goes here...", "tags": ["modeling", "tips", "accessories"], "published": "2026-01-15T10:00:00Z", "featured": true}, {"id": "story-2", "title": "Accessory Trends: What's Hot This Season", "category": "Fashion", "featuredPhoto": "", "excerpt": "Anklets, toe rings, and chain accessories are making a bold comeback. Learn how to style these pieces for maximum impact in your next photoshoot.", "content": "Full article content goes here...", "tags": ["fashion", "trends", "accessories"], "published": "2026-01-10T10:00:00Z", "featured": false}]}, "accessoryItems": {"version": 2, "items": [{"filename": "anklets/51+TOSbNI5L._AC_SY695_.jpg", "type": "anklets", "name": "51+TOSbNI5L._AC_SY695_", "added": "2026-03-28T17:07:14.157324"}, {"filename": "anklets/51M3Zk+m31L._AC_SY695_.jpg", "type": "anklets", "name": "51M3Zk+m31L._AC_SY695_", "added": "2026-03-28T17:07:14.157377"}, {"filename": "anklets/61wgl2kliWL._AC_SY695_.jpg", "type": "anklets", "name": "61wgl2kliWL._AC_SY695_", "added": "2026-03-28T17:07:14.157386"}, {"filename": "anklets/71V9Rt-nMyL._AC_SY695_.jpg", "type": "anklets", "name": "71V9Rt-nMyL._AC_SY695_", "added": "2026-03-28T17:07:14.157393"}, {"filename": "anklets/71bzzCGKriL._AC_SY695_.jpg", "type": "anklets", "name": "71bzzCGKriL._AC_SY695_", "added": "2026-03-28T17:07:14.157399"}]}};
 </script>
 
 <script>
@@ -228,11 +231,11 @@ const STORAGE_KEY='portfolio_local',STORIES_KEY='portfolio_stories';
 const IS_LOCALHOST=location.hostname==='localhost'||location.hostname==='127.0.0.1';
 const STATIC_MODE=typeof BAKED_DATA!=='undefined';
 const DEV_MODE=IS_LOCALHOST&&!STATIC_MODE;
-const PHOTOS_PATH=STATIC_MODE?'photos/':'../photos/processed/';
-const ACC_PATH=STATIC_MODE?'accessories/':'../photos/accessories/';
-const DATA_PATH='../data/';
+const PHOTOS_PATH=STATIC_MODE?'photos/':'input/photos/';
+const ACC_PATH=STATIC_MODE?'accessories/':'input/accessories/';
+const DATA_PATH='data/';
 
-let currentView='photos',mobileMenuOpen=false,selectedThemes=new Set(),selectedAccessoryItems=new Set();
+let currentView='home',mobileMenuOpen=false,selectedThemes=new Set(),selectedAccessoryItems=new Set();
 let publishedThemes,publishedAccessories,publishedPhotos,workingThemes,workingAccessories,workingPhotos,workingStories;
 let accessoryItems={version:1,items:[]};
 
@@ -257,17 +260,17 @@ if(STATIC_MODE){
         if(!c.ok||!a.ok||!p.ok)throw 0;
         publishedThemes=await c.json();publishedAccessories=await a.json();publishedPhotos=await p.json();
         try{const ai=await fetch(DATA_PATH+'accessory-items.json?t='+t);if(ai.ok)accessoryItems=await ai.json();}catch{}
-    }catch{document.getElementById('gallery').innerHTML='<div class="empty"><h2>Could not load data</h2>'+cmdHtml('python3 src/build.py init')+'</div>';return;}
+    }catch{document.getElementById('gallery').innerHTML='<div class="empty"><h2>Could not load data</h2>'+cmdHtml('python3 build.py init')+'</div>';return;}
     const stored=localStorage.getItem(STORAGE_KEY);
     if(stored){try{const d=JSON.parse(stored);if(d.version>=getVer()){workingThemes=d.categories||publishedThemes;workingAccessories=d.accessories||publishedAccessories;workingPhotos=d.photos||publishedPhotos;}else reset();}catch{reset();}}else reset();
     workingStories=JSON.parse(localStorage.getItem(STORIES_KEY)||'null')||DEFAULT_STORIES;
 }
-renderPills();renderAll();if(DEV_MODE)updateStatus();
+renderPills();renderAll();if(DEV_MODE)updateStatus();document.body.style.overflow='hidden';
 }
 function reset(){localStorage.removeItem(STORAGE_KEY);workingThemes=JSON.parse(JSON.stringify(publishedThemes));workingAccessories=JSON.parse(JSON.stringify(publishedAccessories));workingPhotos=JSON.parse(JSON.stringify(publishedPhotos));}
 function getVer(){return Math.max(publishedThemes?.version||0,publishedAccessories?.version||0,publishedPhotos?.version||0);}
 
-function switchView(v){currentView=v;document.querySelectorAll('.nav-link').forEach(l=>l.classList.toggle('active',l.dataset.view===v));document.querySelectorAll('.view-container').forEach(c=>c.classList.remove('active'));document.getElementById(v+'View').classList.add('active');document.getElementById('filterBar').style.display=v==='photos'?'block':'none';closeMobileMenu();renderAll();}
+function switchView(v){currentView=v;document.querySelectorAll('.nav-link').forEach(l=>l.classList.toggle('active',l.dataset.view===v));document.querySelectorAll('.view-container').forEach(c=>c.classList.remove('active'));document.getElementById(v+'View').classList.add('active');document.getElementById('filterBar').style.display=v==='photos'?'block':'none';document.querySelector('.header-search').style.display=v==='home'?'none':'';document.body.style.overflow=v==='home'?'hidden':'';closeMobileMenu();renderAll();}
 function toggleMobileMenu(){mobileMenuOpen=!mobileMenuOpen;document.getElementById('topNav').classList.toggle('open',mobileMenuOpen);}
 function closeMobileMenu(){mobileMenuOpen=false;document.getElementById('topNav').classList.remove('open');}
 
@@ -277,10 +280,10 @@ function toggleAccItem(id){selectedAccessoryItems.has(id)?selectedAccessoryItems
 function clearFilters(){selectedThemes.clear();selectedAccessoryItems.clear();renderPills();renderAll();}
 function renderSelected(){
     let h='';
-    selectedThemes.forEach(t=>{h+='<span class="selected-filter">'+t.replace(/-/g,' ')+'<button class="remove" onclick="toggleTheme(\''+t+'\')">×</button></span>';});
+    selectedThemes.forEach(t=>{h+='<span class="selected-filter">'+t.replace(/-/g,' ')+'<button class="remove" onclick="toggleTheme(\''+t+'\')"><i class="fa-solid fa-xmark"></i></button></span>';});
     selectedAccessoryItems.forEach(id=>{
         const item=accessoryItems.items.find(i=>i.filename===id);
-        if(item){h+='<span class="selected-filter acc">'+item.name+'<button class="remove" onclick="toggleAccItem(\''+id+'\')">×</button></span>';}
+        if(item){h+='<span class="selected-filter acc">'+item.name+'<button class="remove" onclick="toggleAccItem(\''+id+'\')"><i class="fa-solid fa-xmark"></i></button></span>';}
     });
     if(h)h+='<button class="clear-all-btn" onclick="clearFilters()">Clear</button>';
     document.getElementById('selectedFilters').innerHTML=h;
@@ -292,10 +295,9 @@ function hideSearchDropdown(){setTimeout(()=>document.getElementById('searchDrop
 function addThemeFilter(t){selectedThemes.add(t);document.getElementById('searchInput').value='';document.getElementById('searchDropdown').classList.remove('open');renderPills();renderAll();}
 function addAccItemFilter(id){selectedAccessoryItems.add(id);document.getElementById('searchInput').value='';document.getElementById('searchDropdown').classList.remove('open');renderPills();renderAll();}
 
-function renderAll(){renderPhotos();renderAccessories();renderStories();renderStats();renderAbout();}
-function renderStats(){document.getElementById('statPhotos').textContent=workingPhotos?.items?.length||0;document.getElementById('statThemes').textContent=workingThemes?.items?.length||0;document.getElementById('statAccessories').textContent=accessoryItems?.items?.length||0;document.getElementById('footer').textContent='© 2026 Nethuli Sewwandi • '+(workingPhotos?.items?.length||0)+' photos';document.getElementById('versionInfo').textContent='v'+getVer();}
-function renderAbout(){const photos=workingPhotos?.items||[];if(photos.length>0){document.getElementById('aboutBg').style.backgroundImage='url('+PHOTOS_PATH+photos[0].filename+')';}}
-
+function renderAll(){renderPhotos();renderAccessories();renderStories();renderStats();renderHome();}
+function renderStats(){document.getElementById('statPhotos').textContent=workingPhotos?.items?.length||0;document.getElementById('statThemes').textContent=workingThemes?.items?.length||0;document.getElementById('statAccessories').textContent=accessoryItems?.items?.length||0;document.getElementById('footer').textContent='&copy; 2026 Nethuli Sewwandi | '+(workingPhotos?.items?.length||0)+' photos';document.getElementById('versionInfo').textContent='v'+getVer();}
+function renderHome(){const photos=workingPhotos?.items||[];if(photos.length>0){document.getElementById('aboutBg').style.backgroundImage='url('+PHOTOS_PATH+photos[0].filename+')';}}
 function renderPhotos(){
 const g=document.getElementById('gallery');let photos=workingPhotos.items;
 // Filter by themes
@@ -303,7 +305,7 @@ if(selectedThemes.size){photos=photos.filter(p=>p.tags?.some(t=>selectedThemes.h
 // Filter by specific accessory items
 if(selectedAccessoryItems.size){photos=photos.filter(p=>p.accessoryItems?.some(id=>selectedAccessoryItems.has(id)));}
 
-if(!photos.length){g.innerHTML='<div class="empty"><h2>'+(workingPhotos.items.length?'No matches':'No photos yet')+'</h2>'+(!workingPhotos.items.length&&!STATIC_MODE?cmdHtml('python3 src/build.py scan'):'')+'</div>';return;}
+if(!photos.length){g.innerHTML='<div class="empty"><h2>'+(workingPhotos.items.length?'No matches':'No photos yet')+'</h2>'+(!workingPhotos.items.length&&!STATIC_MODE?cmdHtml('python3 build.py build'):'')+'</div>';return;}
 g.innerHTML=photos.map(p=>{
 const tags=p.tags||[],accItems=p.accessoryItems||[],tagged=tags.length>0||accItems.length>0;
 let edit='';
@@ -373,7 +375,7 @@ const container=document.getElementById('accessoriesContent');
 const items=accessoryItems?.items||[];
 
 if(!items.length){
-    container.innerHTML='<div class="acc-empty"><h2>No accessories yet</h2><p>'+(!STATIC_MODE?'Add photos to photos/accessories/[type]/ folders<br>Then run: '+cmdHtml('python3 src/build.py scan-accessories'):'')+'</p></div>';
+    container.innerHTML='<div class="acc-empty"><h2>No accessories yet</h2><p>'+(!STATIC_MODE?'Add photos to input/accessories/[type]/ folders<br>Then run: '+cmdHtml('python3 build.py build'):'')+'</p></div>';
     return;
 }
 
@@ -392,7 +394,7 @@ Object.keys(grouped).sort().forEach(type=>{
     const typeItems=grouped[type];
     const totalUsage=typeItems.reduce((sum,item)=>sum+(usageCounts[item.filename]||0),0);
     html+='<div class="acc-type-section">';
-    html+='<div class="acc-type-header"><span class="acc-type-title">'+type.replace(/-/g,' ')+'</span><span class="acc-type-count">'+typeItems.length+' items • used in '+totalUsage+' photos</span></div>';
+    html+='<div class="acc-type-header"><span class="acc-type-title">'+type.replace(/-/g,' ')+'</span><span class="acc-type-count">'+typeItems.length+' items | used in '+totalUsage+' photos</span></div>';
     html+='<div class="acc-items-grid">';
     typeItems.forEach(item=>{
         const isSelected=selectedAccessoryItems.has(item.filename);
@@ -415,7 +417,7 @@ function selectAccItem(id){
     switchView('photos');
 }
 
-function renderStories(){const s=document.getElementById('storyPhotoSelect');if(s)s.innerHTML='<option value="">None</option>'+workingPhotos.items.map(p=>'<option value="'+p.filename+'">'+p.filename+'</option>').join('');const l=document.getElementById('storiesList');if(!workingStories?.items?.length){l.innerHTML='<div class="empty"><h2>No stories yet</h2></div>';return;}l.innerHTML=workingStories.items.map(s=>'<article class="story-card"><div class="story-image" '+(s.featuredPhoto?'style="background-image:url('+PHOTOS_PATH+s.featuredPhoto+');background-size:cover"':'')+'></div><div class="story-content"><div class="story-meta"><span class="story-category">'+s.category+'</span> • '+new Date(s.published).toLocaleDateString()+'</div><h3 class="story-title">'+s.title+'</h3><p class="story-excerpt">'+s.excerpt+'</p></div></article>').join('');}
+function renderStories(){const s=document.getElementById('storyPhotoSelect');if(s)s.innerHTML='<option value="">None</option>'+workingPhotos.items.map(p=>'<option value="'+p.filename+'">'+p.filename+'</option>').join('');const l=document.getElementById('storiesList');if(!workingStories?.items?.length){l.innerHTML='<div class="empty"><h2>No stories yet</h2></div>';return;}l.innerHTML=workingStories.items.map(s=>'<article class="story-card"><div class="story-image" '+(s.featuredPhoto?'style="background-image:url('+PHOTOS_PATH+s.featuredPhoto+');background-size:cover"':'')+'></div><div class="story-content"><div class="story-meta"><span class="story-category">'+s.category+'</span> | '+new Date(s.published).toLocaleDateString()+'</div><h3 class="story-title">'+s.title+'</h3><p class="story-excerpt">'+s.excerpt+'</p></div></article>').join('');}
 function showStoryEditor(){document.getElementById('storyEditor').classList.add('visible');}
 function hideStoryEditor(){document.getElementById('storyEditor').classList.remove('visible');['storyTitleInput','storyCategoryInput','storyPhotoSelect','storyContentInput'].forEach(id=>document.getElementById(id).value='');}
 function saveStory(){const t=document.getElementById('storyTitleInput').value.trim();if(!t)return alert('Enter title');workingStories.items.unshift({id:'story-'+Date.now(),title:t,category:document.getElementById('storyCategoryInput').value.trim()||'General',featuredPhoto:document.getElementById('storyPhotoSelect').value,excerpt:document.getElementById('storyContentInput').value.slice(0,200),content:document.getElementById('storyContentInput').value,tags:[],published:new Date().toISOString()});localStorage.setItem(STORIES_KEY,JSON.stringify(workingStories));hideStoryEditor();renderAll();}
