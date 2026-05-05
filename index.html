@@ -3,8 +3,16 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Nethuli Sewwandi</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Nethuli">
+<meta name="mobile-web-app-capable" content="yes">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 <style>
@@ -70,17 +78,17 @@ body.dev-mode .dev-indicator{display:flex}
 .view-container.active{display:block}
 #homeView{max-width:none;padding:0;margin:-60px 0 -60px 0;height:100vh;overflow:hidden}
 
-.masonry{columns:4;column-gap:12px}
-.photo-card{break-inside:avoid;margin-bottom:12px;background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:all 0.2s}
-.photo-card:hover{border-color:var(--border2)}
-.photo-card.editing{border-color:var(--cyan)}
-.photo-card.untagged{border-color:var(--yellow)}
-.photo-img{width:100%;display:block;cursor:pointer}
+.masonry{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:1px;grid-auto-flow:dense;gap:0}
+.photo-card{position:relative;background:var(--card);overflow:hidden}
+.photo-card.editing{outline:2px solid var(--cyan);outline-offset:-2px;z-index:2}
+body.dev-mode .photo-card.untagged{outline:2px solid var(--yellow);outline-offset:-2px}
+.photo-card.landscape{grid-column:span 2}
+.photo-img-wrap{position:relative;line-height:0;width:100%}
+.photo-img{width:100%;height:auto;display:block;cursor:pointer}
 .photo-img:hover{opacity:0.95}
-.photo-overlay{padding:8px 10px;display:flex;flex-wrap:wrap;gap:3px;min-height:30px}
-.tag{padding:2px 6px;font-size:8px;text-transform:uppercase;border-radius:3px;background:rgba(255,51,102,0.15);border:1px solid var(--pink);color:var(--pink)}
-.tag.acc{background:rgba(0,212,255,0.15);border-color:var(--cyan);color:var(--cyan)}
-.tag.untagged{background:rgba(234,179,8,0.15);border-color:var(--yellow);color:var(--yellow)}
+.photo-overlay{position:absolute;left:0;right:0;bottom:0;padding:24px 8px 8px;display:flex;flex-wrap:wrap;gap:4px;background:linear-gradient(to top,rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.35) 50%,rgba(0,0,0,0) 100%);pointer-events:none}
+body.dev-mode .photo-overlay{pointer-events:auto}
+.tag{padding:3px 9px;font-size:9px;text-transform:uppercase;border-radius:999px;background:rgba(255,255,255,0.14);backdrop-filter:blur(10px) saturate(1.4);-webkit-backdrop-filter:blur(10px) saturate(1.4);border:1px solid rgba(255,255,255,0.22);color:#fff;letter-spacing:0.6px;font-weight:500;line-height:1.2}
 
 .edit-panel{display:none;padding:10px;border-top:1px solid var(--border);background:var(--bg)}
 .photo-card.editing .edit-panel{display:block}
@@ -169,6 +177,27 @@ body.dev-mode .dev-indicator{display:flex}
 
 .story-editor{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px;display:none}
 body.dev-mode .story-editor.visible{display:block}
+
+.scan-panel{display:none;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:14px}
+body.dev-mode .scan-panel{display:block}
+.scan-panel-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:10px}
+.scan-panel-title{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:1px}
+.scan-panel-actions{display:flex;gap:6px;flex-wrap:wrap}
+.scan-loc-list{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+.scan-loc-row{display:flex;align-items:center;gap:10px;font-size:11px;padding:6px 10px;background:var(--bg);border:1px solid var(--border);border-radius:4px}
+.scan-loc-path{flex:1;font-family:monospace;color:var(--cyan);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.scan-loc-label{color:var(--text2);font-size:10px}
+.scan-loc-remove{background:none;border:none;color:var(--text3);cursor:pointer;padding:2px 6px;font-size:14px;line-height:1}
+.scan-loc-remove:hover{color:var(--pink)}
+.scan-empty{color:var(--text3);font-size:11px;padding:4px 0}
+.scan-summary{font-size:10px;color:var(--text3);margin-top:6px}
+.scan-summary.error{color:var(--pink)}
+
+.photo-status-badge{position:absolute;top:6px;right:6px;padding:3px 7px;border-radius:3px;font-size:8px;text-transform:uppercase;letter-spacing:0.5px;cursor:pointer;z-index:5;font-weight:600;border:none;font-family:inherit}
+.photo-status-badge.new{background:var(--green);color:#000}
+.photo-status-badge.deleted{background:var(--pink);color:#fff}
+.photo-status-badge:hover{filter:brightness(1.15)}
+.photo-card.status-deleted .photo-img{opacity:0.45}
 .form-row{margin-bottom:10px}
 .form-label{font-size:9px;text-transform:uppercase;color:var(--text2);margin-bottom:4px;display:block}
 .form-input{width:100%;padding:8px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:inherit;font-size:12px;border-radius:5px}
@@ -183,10 +212,17 @@ body.dev-mode .story-editor.visible{display:block}
 .about-content{position:relative;z-index:1;max-width:500px;padding:80px 40px 60px}
 .about-name{font-family:'Playfair Display',serif;font-size:42px;margin-bottom:12px;line-height:1.1}
 .about-tagline{font-size:14px;color:var(--pink);text-transform:uppercase;letter-spacing:3px;margin-bottom:24px}
-.about-text{color:var(--text2);line-height:1.8;font-size:14px;margin-bottom:20px}
+.about-text{color:var(--text2);line-height:1.8;font-size:17px;margin-bottom:20px}
 .about-stats{display:flex;gap:30px;margin-top:30px}
 .about-stat-number{font-family:'Playfair Display',serif;font-size:32px;color:var(--pink)}
 .about-stat-label{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:1px}
+
+.about-support{margin-top:32px;padding-top:24px;border-top:1px solid var(--border);max-width:420px}
+.about-support-text{color:var(--text2);font-size:13px;line-height:1.6;margin-bottom:14px}
+.donate-btn{display:inline-flex;align-items:center;gap:9px;padding:11px 22px;background:var(--pink);color:#000;text-decoration:none;font-weight:600;font-size:13px;letter-spacing:0.3px;border-radius:6px;font-family:inherit;transition:all 0.2s}
+.donate-btn:hover{background:#fff;transform:translateY(-1px);box-shadow:0 6px 16px rgba(255,51,102,0.35)}
+.donate-btn i{font-size:14px}
+.donate-note{display:block;margin-top:10px;font-size:10px;color:var(--text3);letter-spacing:0.5px}
 
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:200;justify-content:center;align-items:center}
 .modal.open{display:flex}
@@ -207,10 +243,10 @@ body.dev-mode .story-editor.visible{display:block}
 footer{position:fixed;bottom:0;left:0;right:0;text-align:center;padding:20px;color:var(--text3);font-size:10px;background:rgba(10,10,10,0.85);backdrop-filter:blur(10px);z-index:100}
 footer::before{content:'';position:absolute;top:-20px;left:0;right:0;height:20px;background:linear-gradient(to top,rgba(10,10,10,0.85),transparent);pointer-events:none}
 
-@media(max-width:1200px){.masonry{columns:3}}
-@media(max-width:900px){.masonry{columns:2}.about-bg{width:50%;opacity:0.5}}
+@media(max-width:1200px){.masonry{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:900px){.masonry{grid-template-columns:repeat(2,1fr)}.about-bg{width:50%;opacity:0.5}}
 @media(max-width:600px){
-.masonry{columns:1}.header-content{gap:8px}.logo{font-size:16px}.header-search{max-width:140px}.search-input{padding:7px 10px 7px 28px;font-size:11px}
+.masonry{grid-template-columns:1fr}.photo-card.landscape{grid-column:span 1}.header-content{gap:8px}.logo{font-size:16px}.header-search{max-width:140px}.search-input{padding:7px 10px 7px 28px;font-size:11px}
 .top-nav{display:none;position:absolute;top:60px;left:0;right:0;background:var(--card);border-bottom:1px solid var(--border);flex-direction:column;padding:8px}
 .top-nav.open{display:flex}.nav-link{width:100%;text-align:center;padding:10px}.menu-toggle{display:flex;align-items:center;justify-content:center}.dev-indicator{display:none!important}
 .about-hero{align-items:flex-start}.about-bg{width:100%;opacity:0.5;background-position:center bottom}.about-bg::after{background:linear-gradient(180deg,rgba(10,10,10,0.95) 0%,rgba(10,10,10,0.5) 40%,transparent 100%)}.about-content{padding:80px 20px 60px;max-width:100%}.about-name{font-size:32px}.about-stats{flex-direction:column;gap:15px}
@@ -223,21 +259,27 @@ footer::before{content:'';position:absolute;top:-20px;left:0;right:0;height:20px
 <header class="top-header"><div class="header-content">
 <a href="#" class="logo" onclick="switchView('home');return false;">Nethuli Sewwandi</a>
 <nav class="top-nav" id="topNav">
-<button class="nav-link active" data-view="home" onclick="switchView('home')">Home</button>
 <button class="nav-link" data-view="photos" onclick="switchView('photos')">Portraits</button>
 <button class="nav-link" data-view="accessories" onclick="switchView('accessories')">Accessories</button>
 <button class="nav-link" data-view="outfits" onclick="switchView('outfits')">Outfits</button>
 <button class="nav-link" data-view="stories" onclick="switchView('stories')">Stories</button>
 </nav>
 <div class="header-search" style="display:none"><span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span><input type="text" class="search-input" id="searchInput" placeholder="Search..." oninput="handleSearch(this.value)" onfocus="showSearchDropdown()" onblur="hideSearchDropdown()"><div class="search-dropdown" id="searchDropdown"></div></div>
-<div class="dev-indicator"><span class="status-dot" id="statusDot"></span><span class="version-info" id="versionInfo">v1</span><button class="btn btn-warning" id="downloadBtn" onclick="downloadPatch()" style="display:none">Export Patch</button></div>
+<div class="dev-indicator"><span class="status-dot" id="statusDot"></span><span class="version-info" id="versionInfo">v1</span></div>
 <button class="menu-toggle" onclick="toggleMobileMenu()"><i class="fa-solid fa-bars"></i></button>
 </div></header>
 
 <main class="main-content">
 <div class="filter-bar" id="filterBar" style="display:none"><div class="filter-bar-content"><span class="filter-label">Themes</span><div class="filter-pills" id="themePills"></div><div class="selected-filters" id="selectedFilters"></div></div></div>
 
-<div class="view-container" id="photosView"><div class="masonry" id="gallery"><div class="empty"><h2>Loading...</h2></div></div></div>
+<div class="view-container" id="photosView">
+<div class="scan-panel" id="scanPanel">
+<div class="scan-panel-header"><span class="scan-panel-title">Scan Locations</span><div class="scan-panel-actions"><button class="btn" onclick="addScanLocation()">+ Add Location</button><button class="btn btn-primary" onclick="runScan()" id="scanBtn">Scan All</button></div></div>
+<div class="scan-loc-list" id="scanLocList"></div>
+<div class="scan-summary" id="scanSummary"></div>
+</div>
+<div class="masonry" id="gallery"><div class="empty"><h2>Loading...</h2></div></div>
+</div>
 
 <div class="view-container" id="accessoriesView"><div id="accessoriesContent"></div></div>
 
@@ -272,9 +314,16 @@ footer::before{content:'';position:absolute;top:-20px;left:0;right:0;height:20px
 
 <div class="view-container active" id="homeView"><div class="about-hero"><div class="about-bg" id="aboutBg"></div><div class="about-content">
 <p class="about-tagline">Fashion / Style / Expression</p>
-<p class="about-text">Welcome to my portfolio. I'm passionate about fashion photography and creative expression. This space showcases my journey through various styles, themes, and artistic explorations.</p>
-<p class="about-text">I love experimenting with different aesthetics - from casual everyday looks to elaborate themed photoshoots. Every photo tells a story.</p>
-<div class="about-stats"><div><div class="about-stat-number" id="statPhotos">0</div><div class="about-stat-label">Portraits</div></div><div><div class="about-stat-number" id="statThemes">0</div><div class="about-stat-label">Themes</div></div><div><div class="about-stat-number" id="statAccessories">0</div><div class="about-stat-label">Accessories</div></div><div><div class="about-stat-number" id="statStories">0</div><div class="about-stat-label">Stories</div></div><div><div class="about-stat-number" id="statOutfits">0</div><div class="about-stat-label">Outfits</div></div></div>
+<p class="about-text">A faceless muse with a loud wardrobe. Fashion as quiet courage — bold looks, brave choices, identity hidden by design.</p>
+<p class="about-text">Every outfit is a small experiment in style and self-expression. Brand collabs one day; ambitious in disguise until then.</p>
+<div class="about-support">
+<p class="about-support-text">Love a look? A small tip helps fund the next outfit, accessory, or bold experiment — and quietly cheers on a creator taking the leap.</p>
+<!-- TODO: replace href with https://ko-fi.com/YOUR_USERNAME once Stripe is connected -->
+<a href="#" class="donate-btn" target="_blank" rel="noopener" aria-label="Support the next look">
+<i class="fa-solid fa-mug-hot"></i> Buy me a thread
+</a>
+<span class="donate-note">Anonymous &middot; Secure via Ko-fi</span>
+</div>
 </div></div></div>
 <footer id="footer">&copy; 2026 Nethuli Sewwandi</footer>
 </main>
@@ -282,11 +331,10 @@ footer::before{content:'';position:absolute;top:-20px;left:0;right:0;height:20px
 <div class="modal" id="modal" onclick="closeModal()"><button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button><img id="modalImg" src=""></div>
 
 <script>
-const BAKED_DATA = {"categories": {"version": 1, "items": ["school-girl", "office-girl", "sports-girl", "casual", "japanese-girl", "feet", "legs", "full-body", "pose", "outdoor", "indoor"]}, "accessories": {"version": 3, "items": ["anklets", "shoes"]}, "photos": {"version": 3, "items": [{"filename": "20260325_165958.jpg", "tags": [], "accessories": [], "description": "", "added": "2026-03-28T19:35:02.177644"}, {"filename": "20260325_141444.jpg", "tags": [], "accessories": [], "description": "", "added": "2026-03-28T19:35:02.177630"}, {"filename": "20260104_131057.jpg", "tags": [], "accessories": [], "description": "", "added": "2026-03-28T17:07:14.155721"}, {"filename": "20260103_200325.jpg", "tags": [], "accessories": [], "description": "", "added": "2026-03-28T17:07:14.155508"}]}, "stories": {"version": 1, "items": [{"id": "story-1", "title": "The Art of Foot Modeling: A Journey into Elegance", "category": "Behind the Scenes", "featuredPhoto": "", "excerpt": "Discover the artistry and dedication that goes into professional foot modeling. From selecting the perfect accessories to capturing the ideal angle, every detail matters in creating stunning visuals.", "content": "Full article content goes here...", "tags": ["modeling", "tips", "accessories"], "published": "2026-01-15T10:00:00Z", "featured": true}, {"id": "story-2", "title": "Accessory Trends: What's Hot This Season", "category": "Fashion", "featuredPhoto": "", "excerpt": "Anklets, toe rings, and chain accessories are making a bold comeback. Learn how to style these pieces for maximum impact in your next photoshoot.", "content": "Full article content goes here...", "tags": ["fashion", "trends", "accessories"], "published": "2026-01-10T10:00:00Z", "featured": false}]}, "accessoryItems": {"version": 3, "items": [{"filename": "anklets/51+TOSbNI5L._AC_SY695_.jpg", "type": "anklets", "name": "51+TOSbNI5L._AC_SY695_", "added": "2026-03-28T17:07:14.157324"}, {"filename": "anklets/51M3Zk+m31L._AC_SY695_.jpg", "type": "anklets", "name": "51M3Zk+m31L._AC_SY695_", "added": "2026-03-28T17:07:14.157377"}, {"filename": "anklets/61wgl2kliWL._AC_SY695_.jpg", "type": "anklets", "name": "61wgl2kliWL._AC_SY695_", "added": "2026-03-28T17:07:14.157386"}, {"filename": "anklets/71V9Rt-nMyL._AC_SY695_.jpg", "type": "anklets", "name": "71V9Rt-nMyL._AC_SY695_", "added": "2026-03-28T17:07:14.157393"}, {"filename": "anklets/71bzzCGKriL._AC_SY695_.jpg", "type": "anklets", "name": "71bzzCGKriL._AC_SY695_", "added": "2026-03-28T17:07:14.157399"}, {"filename": "shoes/Haf4cef401bde4210aabef3caff15ef60i.jpg_960x960q75.jpg_.avif", "type": "shoes", "name": "Haf4cef401bde4210aabef3caff15ef60i.jpg_960x960q75.jpg_", "added": "2026-03-28T19:52:26.601630"}]}, "outfits": {"version": 2, "categories": ["bottoms", "dresses", "tops"], "items": [{"filename": "bottoms/goods_08_487837_3x4.png", "category": "bottoms", "name": "goods_08_487837_3x4", "added": "2026-03-28T22:11:07.916149"}, {"filename": "tops/goods_475651_sub14_3x4.png", "category": "tops", "name": "goods_475651_sub14_3x4", "added": "2026-03-28T22:11:07.916165"}, {"filename": "tops/goods_61_464944_3x4.png", "category": "tops", "name": "goods_61_464944_3x4", "added": "2026-03-28T22:11:07.916170"}]}};
+const BAKED_DATA = {"categories": {"version": 1, "items": ["school-girl", "office-girl", "sports-girl", "casual", "japanese-girl", "feet", "legs", "full-body", "pose", "outdoor", "indoor"]}, "accessories": {"version": 3, "items": ["anklets", "shoes"]}, "photos": {"version": 8, "items": [{"filename": "20260325_165958.jpg", "tags": [], "accessories": [], "description": "", "added": "2026-03-28T19:35:02.177644"}, {"filename": "20260325_141444.jpg", "tags": ["school-girl", "office-girl"], "accessories": ["shoes/Haf4cef401bde4210aabef3caff15ef60i.jpg_960x960q75.jpg_.avif"], "description": "", "added": "2026-03-28T19:35:02.177630", "updated": "2026-05-01T09:09:23.999Z"}, {"filename": "20260104_131057.jpg", "tags": ["sports-girl"], "accessories": [], "description": "", "added": "2026-03-28T17:07:14.155721", "updated": "2026-05-01T09:09:53.494Z"}, {"filename": "20260103_200325.jpg", "tags": [], "accessories": [], "description": "", "added": "2026-03-28T17:07:14.155508"}]}, "stories": {"version": 1, "items": [{"id": "story-1", "title": "The Art of Foot Modeling: A Journey into Elegance", "category": "Behind the Scenes", "featuredPhoto": "", "excerpt": "Discover the artistry and dedication that goes into professional foot modeling. From selecting the perfect accessories to capturing the ideal angle, every detail matters in creating stunning visuals.", "content": "Full article content goes here...", "tags": ["modeling", "tips", "accessories"], "published": "2026-01-15T10:00:00Z", "featured": true}, {"id": "story-2", "title": "Accessory Trends: What's Hot This Season", "category": "Fashion", "featuredPhoto": "", "excerpt": "Anklets, toe rings, and chain accessories are making a bold comeback. Learn how to style these pieces for maximum impact in your next photoshoot.", "content": "Full article content goes here...", "tags": ["fashion", "trends", "accessories"], "published": "2026-01-10T10:00:00Z", "featured": false}]}, "accessoryItems": {"version": 3, "items": [{"filename": "anklets/51+TOSbNI5L._AC_SY695_.jpg", "type": "anklets", "name": "51+TOSbNI5L._AC_SY695_", "added": "2026-03-28T17:07:14.157324"}, {"filename": "anklets/51M3Zk+m31L._AC_SY695_.jpg", "type": "anklets", "name": "51M3Zk+m31L._AC_SY695_", "added": "2026-03-28T17:07:14.157377"}, {"filename": "anklets/61wgl2kliWL._AC_SY695_.jpg", "type": "anklets", "name": "61wgl2kliWL._AC_SY695_", "added": "2026-03-28T17:07:14.157386"}, {"filename": "anklets/71V9Rt-nMyL._AC_SY695_.jpg", "type": "anklets", "name": "71V9Rt-nMyL._AC_SY695_", "added": "2026-03-28T17:07:14.157393"}, {"filename": "anklets/71bzzCGKriL._AC_SY695_.jpg", "type": "anklets", "name": "71bzzCGKriL._AC_SY695_", "added": "2026-03-28T17:07:14.157399"}, {"filename": "shoes/Haf4cef401bde4210aabef3caff15ef60i.jpg_960x960q75.jpg_.avif", "type": "shoes", "name": "Haf4cef401bde4210aabef3caff15ef60i.jpg_960x960q75.jpg_", "added": "2026-03-28T19:52:26.601630"}]}, "outfits": {"version": 2, "categories": ["bottoms", "dresses", "tops"], "items": [{"filename": "bottoms/goods_08_487837_3x4.png", "category": "bottoms", "name": "goods_08_487837_3x4", "added": "2026-03-28T22:11:07.916149"}, {"filename": "tops/goods_475651_sub14_3x4.png", "category": "tops", "name": "goods_475651_sub14_3x4", "added": "2026-03-28T22:11:07.916165"}, {"filename": "tops/goods_61_464944_3x4.png", "category": "tops", "name": "goods_61_464944_3x4", "added": "2026-03-28T22:11:07.916170"}]}};
 </script>
 
 <script>
-const STORAGE_KEY='portfolio_local',STORIES_KEY='portfolio_stories';
 const IS_LOCALHOST=location.hostname==='localhost'||location.hostname==='127.0.0.1';
 const STATIC_MODE=typeof BAKED_DATA!=='undefined';
 const DEV_MODE=IS_LOCALHOST&&!STATIC_MODE;
@@ -299,6 +347,7 @@ let currentView='home',mobileMenuOpen=false,selectedThemes=new Set(),selectedAcc
 let publishedThemes,publishedAccessories,publishedPhotos,workingThemes,workingAccessories,workingPhotos,workingStories;
 let accessoryItems={version:1,items:[]};
 let outfitsData={version:1,categories:[],items:[]};
+let settings={version:1,scanLocations:[]};
 let currentOutfitCat='tops',selectedOutfitTop=null,selectedOutfitBottom=null,selectedOutfitDress=null;
 
 const DEFAULT_STORIES={version:1,items:[]};
@@ -324,17 +373,107 @@ if(STATIC_MODE){
         publishedThemes=await c.json();publishedAccessories=await a.json();publishedPhotos=await p.json();
         try{const ai=await fetch(DATA_PATH+'accessory-items.json?t='+t);if(ai.ok)accessoryItems=await ai.json();}catch{}
         try{const of=await fetch(DATA_PATH+'outfits.json?t='+t);if(of.ok)outfitsData=await of.json();}catch{}
+        try{const st=await fetch(DATA_PATH+'stories.json?t='+t);if(st.ok)workingStories=await st.json();}catch{}
+        try{const sg=await fetch(DATA_PATH+'settings.json?t='+t);if(sg.ok)settings=await sg.json();}catch{}
     }catch{document.getElementById('gallery').innerHTML='<div class="empty"><h2>Could not load data</h2>'+cmdHtml('python3 build.py init')+'</div>';return;}
-    const stored=localStorage.getItem(STORAGE_KEY);
-    if(stored){try{const d=JSON.parse(stored);if(d.version>=getVer()){workingThemes=d.categories||publishedThemes;workingAccessories=d.accessories||publishedAccessories;workingPhotos=d.photos||publishedPhotos;}else reset();}catch{reset();}}else reset();
-    workingStories=JSON.parse(localStorage.getItem(STORIES_KEY)||'null')||DEFAULT_STORIES;
+    if(!workingStories)workingStories=DEFAULT_STORIES;
+    reset();
 }
-renderPills();renderAll();if(DEV_MODE)updateStatus();
+renderPills();renderAll();
 const initHash=location.hash.replace('#','').toLowerCase();
 const initView=HASH_TO_VIEW[initHash]||'home';
 switchView(initView,true);
 }
-function reset(){localStorage.removeItem(STORAGE_KEY);workingThemes=JSON.parse(JSON.stringify(publishedThemes));workingAccessories=JSON.parse(JSON.stringify(publishedAccessories));workingPhotos=JSON.parse(JSON.stringify(publishedPhotos));}
+function reset(){workingThemes=JSON.parse(JSON.stringify(publishedThemes));workingAccessories=JSON.parse(JSON.stringify(publishedAccessories));workingPhotos=JSON.parse(JSON.stringify(publishedPhotos));}
+async function pushDoc(name,doc){
+    if(!DEV_MODE)return;
+    const r=await fetch(DATA_PATH+name,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(doc)});
+    if(!r.ok){const err=await r.text().catch(()=>'');throw new Error('PUT '+name+' '+r.status+' '+err);}
+}
+
+function renderScanLocations(){
+    if(!DEV_MODE)return;
+    const list=document.getElementById('scanLocList');
+    if(!list)return;
+    const locs=settings?.scanLocations||[];
+    if(!locs.length){
+        list.innerHTML='<div class="scan-empty">No scan locations yet. Add one to auto-import photos from a folder on disk.</div>';
+        return;
+    }
+    list.innerHTML=locs.map(l=>'<div class="scan-loc-row"><span class="scan-loc-path" title="'+l.path+'">'+l.path+'</span>'+(l.label?'<span class="scan-loc-label">'+l.label+'</span>':'')+'<button class="scan-loc-remove" onclick="removeScanLocation(\''+l.id+'\')" title="Remove">×</button></div>').join('');
+}
+
+async function addScanLocation(){
+    const path=prompt('Absolute path to photo folder:');
+    if(!path||!path.trim())return;
+    const label=prompt('Optional label (press OK to skip):','')||'';
+    const id='loc-'+Date.now()+'-'+Math.random().toString(36).slice(2,7);
+    settings.scanLocations=settings.scanLocations||[];
+    settings.scanLocations.push({id,path:path.trim(),label:label.trim(),added:new Date().toISOString()});
+    settings.version=(settings.version||0)+1;
+    try{await pushDoc('settings.json',settings);}
+    catch(e){alert('Save failed: '+e.message);return;}
+    renderScanLocations();
+}
+
+async function removeScanLocation(id){
+    if(!confirm('Remove this scan location? (Photos already imported will keep their files.)'))return;
+    settings.scanLocations=(settings.scanLocations||[]).filter(l=>l.id!==id);
+    settings.version=(settings.version||0)+1;
+    try{await pushDoc('settings.json',settings);}
+    catch(e){alert('Save failed: '+e.message);return;}
+    renderScanLocations();
+}
+
+async function runScan(){
+    if(!DEV_MODE)return;
+    const btn=document.getElementById('scanBtn');
+    const summary=document.getElementById('scanSummary');
+    btn.disabled=true;btn.textContent='Scanning...';
+    summary.classList.remove('error');summary.textContent='';
+    try{
+        const r=await fetch('/api/scan',{method:'POST'});
+        if(!r.ok){const err=await r.text().catch(()=>'');throw new Error(r.status+' '+err);}
+        const result=await r.json();
+        const ph=await fetch(DATA_PATH+'photos.json?t='+Date.now());
+        if(ph.ok){publishedPhotos=await ph.json();reset();}
+        const parts=[];
+        if(result.added.length)parts.push(result.added.length+' added');
+        if(result.deleted.length)parts.push(result.deleted.length+' marked deleted');
+        if(result.restored.length)parts.push(result.restored.length+' restored');
+        if(!parts.length)parts.push('no changes');
+        summary.textContent='Scan: '+parts.join(', ')+'.';
+        if(result.warnings.length){summary.textContent+=' '+result.warnings.join('; ');summary.classList.add('error');}
+        renderAll();
+    }catch(e){
+        summary.textContent='Scan failed: '+e.message;summary.classList.add('error');
+    }finally{
+        btn.disabled=false;btn.textContent='Scan All';
+    }
+}
+
+async function dismissNew(filename){
+    const p=workingPhotos.items.find(x=>x.filename===filename);
+    if(!p||p.status!=='new')return;
+    delete p.status;
+    workingPhotos.version=(workingPhotos.version||0)+1;
+    try{await pushDoc('photos.json',workingPhotos);publishedPhotos=JSON.parse(JSON.stringify(workingPhotos));}
+    catch(e){alert('Save failed: '+e.message);return;}
+    renderAll();
+}
+
+async function confirmDelete(filename){
+    if(!confirm('Permanently remove "'+filename+'" from the database and input/photos/?'))return;
+    try{
+        const r=await fetch('/input/photos/'+encodeURIComponent(filename),{method:'DELETE'});
+        if(!r.ok&&r.status!==404){const err=await r.text().catch(()=>'');throw new Error('DELETE '+r.status+' '+err);}
+    }catch(e){alert('File removal failed: '+e.message);return;}
+    workingPhotos.items=workingPhotos.items.filter(x=>x.filename!==filename);
+    workingPhotos.version=(workingPhotos.version||0)+1;
+    try{await pushDoc('photos.json',workingPhotos);publishedPhotos=JSON.parse(JSON.stringify(workingPhotos));}
+    catch(e){alert('DB update failed: '+e.message);return;}
+    renderAll();
+}
 function getVer(){return Math.max(publishedThemes?.version||0,publishedAccessories?.version||0,publishedPhotos?.version||0);}
 
 const HASH_TO_VIEW={'':'home','home':'home','portraits':'photos','accessories':'accessories','outfits':'outfits','stories':'stories'};
@@ -366,19 +505,19 @@ function hideSearchDropdown(){setTimeout(()=>document.getElementById('searchDrop
 function addThemeFilter(t){selectedThemes.add(t);document.getElementById('searchInput').value='';document.getElementById('searchDropdown').classList.remove('open');renderPills();renderAll();}
 function addAccItemFilter(id){selectedAccessoryItems.add(id);document.getElementById('searchInput').value='';document.getElementById('searchDropdown').classList.remove('open');renderPills();renderAll();}
 
-function renderAll(){renderPhotos();renderAccessories();renderOutfits();renderStories();renderStats();renderHome();}
-function renderStats(){document.getElementById('statPhotos').textContent=workingPhotos?.items?.length||0;document.getElementById('statThemes').textContent=workingThemes?.items?.length||0;document.getElementById('statAccessories').textContent=accessoryItems?.items?.length||0;document.getElementById('statStories').textContent=workingStories?.items?.length||0;document.getElementById('statOutfits').textContent=outfitsData?.items?.length||0;document.getElementById('footer').textContent='&copy; 2026 Nethuli Sewwandi | '+(workingPhotos?.items?.length||0)+' portraits';document.getElementById('versionInfo').textContent='v'+getVer();}
+function renderAll(){renderPhotos();renderAccessories();renderOutfits();renderStories();renderStats();renderHome();renderScanLocations();}
+function renderStats(){document.getElementById('footer').textContent='© 2026 Nethuli Sewwandi | '+(workingPhotos?.items?.length||0)+' portraits';document.getElementById('versionInfo').textContent='v'+getVer();}
 function renderHome(){const photos=workingPhotos?.items||[];if(photos.length>0){document.getElementById('aboutBg').style.backgroundImage='url('+PHOTOS_PATH+photos[0].filename+')';}}
 function renderPhotos(){
 const g=document.getElementById('gallery');let photos=workingPhotos.items;
 // Filter by themes
 if(selectedThemes.size){photos=photos.filter(p=>p.tags?.some(t=>selectedThemes.has(t)));}
 // Filter by specific accessory items
-if(selectedAccessoryItems.size){photos=photos.filter(p=>p.accessoryItems?.some(id=>selectedAccessoryItems.has(id)));}
+if(selectedAccessoryItems.size){photos=photos.filter(p=>p.accessories?.some(id=>selectedAccessoryItems.has(id)));}
 
 if(!photos.length){g.innerHTML='<div class="empty"><h2>'+(workingPhotos.items.length?'No matches':'No portraits yet')+'</h2>'+(!workingPhotos.items.length&&!STATIC_MODE?cmdHtml('python3 build.py build'):'')+'</div>';return;}
 g.innerHTML=photos.map(p=>{
-const tags=p.tags||[],accItems=p.accessoryItems||[],tagged=tags.length>0||accItems.length>0;
+const tags=p.tags||[],accItems=p.accessories||[],tagged=tags.length>0||accItems.length>0;
 let edit='';
 if(DEV_MODE){
     // Build accessory picker with images grouped by type
@@ -400,21 +539,57 @@ if(DEV_MODE){
 let tagsHtml=tags.map(t=>'<span class="tag">'+t+'</span>').join('');
 accItems.forEach(accId=>{
     const item=accessoryItems.items.find(i=>i.filename===accId);
-    if(item)tagsHtml+='<span class="tag acc" title="'+item.name+'">'+item.type+'</span>';
+    if(item)tagsHtml+='<span class="tag" title="'+item.name+'">'+item.type+'</span>';
 });
-if(!tagged)tagsHtml='<span class="tag untagged">untagged</span>';
+if(!tagged&&DEV_MODE)tagsHtml='<span class="tag">untagged</span>';
+const overlayHtml=tagsHtml?'<div class="photo-overlay">'+tagsHtml+'</div>':'';
 
-return '<div class="photo-card '+(tagged?'':'untagged')+'" data-filename="'+p.filename+'"><img class="photo-img" src="'+PHOTOS_PATH+p.filename+'" onclick="openModal(\''+PHOTOS_PATH+p.filename+'\')" onerror="this.style.background=\'#222\'"><div class="photo-overlay">'+tagsHtml+'</div>'+edit+'</div>';
+const status=p.status||'';
+const statusClass=status?' status-'+status:'';
+const statusBadge=DEV_MODE&&status?'<button class="photo-status-badge '+status+'" onclick="event.stopPropagation();'+(status==='new'?'dismissNew':'confirmDelete')+'(\''+p.filename+'\')" title="'+(status==='new'?'Click to acknowledge':'Click to remove permanently')+'">'+(status==='new'?'New':'Deleted')+'</button>':'';
+return '<div class="photo-card '+(tagged?'':'untagged')+statusClass+'" data-filename="'+p.filename+'" style="grid-row-end:span 300"><div class="photo-img-wrap">'+statusBadge+'<img class="photo-img" loading="lazy" src="'+PHOTOS_PATH+p.filename+'" onload="updatePhotoSpan(this)" onclick="openModal(\''+PHOTOS_PATH+p.filename+'\')" onerror="this.style.background=\'#222\'">'+overlayHtml+'</div>'+edit+'</div>';
 }).join('');
 if(DEV_MODE)attachEdit();
 }
+
+function updatePhotoSpan(img){
+    const card=img.closest('.photo-card');
+    if(!card||!img.naturalWidth)return;
+    const isLandscape=img.naturalWidth>img.naturalHeight*1.15;
+    card.classList.toggle('landscape',isLandscape);
+    requestAnimationFrame(()=>{
+        const wrap=card.querySelector('.photo-img-wrap');
+        const cardWidth=(wrap||card).offsetWidth;
+        if(!cardWidth)return;
+        const ratio=img.naturalHeight/img.naturalWidth;
+        let h=cardWidth*ratio;
+        if(card.classList.contains('editing')){
+            const ep=card.querySelector('.edit-panel');
+            if(ep)h+=ep.offsetHeight;
+        }
+        card.style.gridRowEnd='span '+Math.ceil(h);
+    });
+}
+
+function recomputeAllSpans(){
+    document.querySelectorAll('.photo-card .photo-img').forEach(img=>{
+        if(img.complete&&img.naturalWidth)updatePhotoSpan(img);
+    });
+}
+
+let _resizeTimer;
+window.addEventListener('resize',()=>{clearTimeout(_resizeTimer);_resizeTimer=setTimeout(recomputeAllSpans,150);});
 
 function attachEdit(){
     document.querySelectorAll('.photo-card').forEach(c=>{
         c.onclick=e=>{
             if(e.target.closest('.edit-panel')||e.target.closest('.photo-img'))return;
-            document.querySelectorAll('.photo-card.editing').forEach(x=>x.classList.remove('editing'));
+            document.querySelectorAll('.photo-card.editing').forEach(x=>{
+                x.classList.remove('editing');
+                const xi=x.querySelector('.photo-img');if(xi)updatePhotoSpan(xi);
+            });
             c.classList.add('editing');
+            const ci=c.querySelector('.photo-img');if(ci)updatePhotoSpan(ci);
         };
     });
     document.querySelectorAll('.edit-tag').forEach(t=>{
@@ -425,21 +600,24 @@ function attachEdit(){
     });
 }
 
-function saveCard(f){
+async function saveCard(f){
     const c=document.querySelector('.photo-card[data-filename="'+f+'"]');
     if(!c)return;
     const tags=[...c.querySelectorAll('.themes .edit-tag.selected')].map(t=>t.dataset.value);
     const accItems=[...c.querySelectorAll('.edit-acc-item.selected')].map(t=>t.dataset.accId);
     const p=workingPhotos.items.find(x=>x.filename===f);
-    if(p){
-        p.tags=tags;
-        p.accessoryItems=accItems;
-        p.updated=new Date().toISOString();
-    }
-    saveStorage();
+    if(!p)return;
+    p.tags=tags;
+    p.accessories=accItems;
+    p.updated=new Date().toISOString();
+    workingPhotos.version=(workingPhotos.version||0)+1;
+    try{
+        await pushDoc('photos.json',workingPhotos);
+        publishedPhotos=JSON.parse(JSON.stringify(workingPhotos));
+    }catch(e){alert('Save failed: '+e.message);return;}
     renderAll();
 }
-function closeCard(f){const c=document.querySelector('.photo-card[data-filename="'+f+'"]');if(c)c.classList.remove('editing');}
+function closeCard(f){const c=document.querySelector('.photo-card[data-filename="'+f+'"]');if(c){c.classList.remove('editing');const i=c.querySelector('.photo-img');if(i)updatePhotoSpan(i);}}
 
 function renderAccessories(){
 const container=document.getElementById('accessoriesContent');
@@ -457,7 +635,7 @@ items.forEach(item=>{if(!grouped[item.type])grouped[item.type]=[];grouped[item.t
 // Count photos using each accessory item
 const usageCounts={};
 workingPhotos.items.forEach(p=>{
-    (p.accessoryItems||[]).forEach(id=>{usageCounts[id]=(usageCounts[id]||0)+1;});
+    (p.accessories||[]).forEach(id=>{usageCounts[id]=(usageCounts[id]||0)+1;});
 });
 
 let html='';
@@ -490,11 +668,22 @@ function selectAccItem(id){
 function renderStories(){const s=document.getElementById('storyPhotoSelect');if(s)s.innerHTML='<option value="">None</option>'+workingPhotos.items.map(p=>'<option value="'+p.filename+'">'+p.filename+'</option>').join('');const l=document.getElementById('storiesList');if(!workingStories?.items?.length){l.innerHTML='<div class="empty"><h2>No stories yet</h2></div>';return;}l.innerHTML=workingStories.items.map(s=>'<article class="story-card"><div class="story-image" '+(s.featuredPhoto?'style="background-image:url('+PHOTOS_PATH+s.featuredPhoto+');background-size:cover"':'')+'></div><div class="story-content"><div class="story-meta"><span class="story-category">'+s.category+'</span> | '+new Date(s.published).toLocaleDateString()+'</div><h3 class="story-title">'+s.title+'</h3><p class="story-excerpt">'+s.excerpt+'</p></div></article>').join('');}
 function showStoryEditor(){document.getElementById('storyEditor').classList.add('visible');}
 function hideStoryEditor(){document.getElementById('storyEditor').classList.remove('visible');['storyTitleInput','storyCategoryInput','storyPhotoSelect','storyContentInput'].forEach(id=>document.getElementById(id).value='');}
-function saveStory(){const t=document.getElementById('storyTitleInput').value.trim();if(!t)return alert('Enter title');workingStories.items.unshift({id:'story-'+Date.now(),title:t,category:document.getElementById('storyCategoryInput').value.trim()||'General',featuredPhoto:document.getElementById('storyPhotoSelect').value,excerpt:document.getElementById('storyContentInput').value.slice(0,200),content:document.getElementById('storyContentInput').value,tags:[],published:new Date().toISOString()});localStorage.setItem(STORIES_KEY,JSON.stringify(workingStories));hideStoryEditor();renderAll();}
-
-function saveStorage(){if(!DEV_MODE)return;localStorage.setItem(STORAGE_KEY,JSON.stringify({version:getVer(),categories:workingThemes,accessories:workingAccessories,photos:workingPhotos}));updateStatus();}
-function updateStatus(){if(!DEV_MODE)return;const changed=JSON.stringify(workingPhotos.items)!==JSON.stringify(publishedPhotos.items)||JSON.stringify(workingThemes.items)!==JSON.stringify(publishedThemes.items)||JSON.stringify(workingAccessories.items)!==JSON.stringify(publishedAccessories.items);document.getElementById('statusDot').classList.toggle('changed',changed);document.getElementById('downloadBtn').style.display=changed?'flex':'none';document.getElementById('versionInfo').textContent='v'+getVer()+(changed?'*':'');}
-function downloadPatch(){if(!DEV_MODE)return;const v=getVer()+1;const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({baseVersion:getVer(),newVersion:v,timestamp:new Date().toISOString(),categories:workingThemes.items,accessories:workingAccessories.items,photos:workingPhotos.items},null,2)],{type:'application/json'}));a.download='patch-v'+v+'.json';a.click();}
+async function saveStory(){
+    const t=document.getElementById('storyTitleInput').value.trim();
+    if(!t)return alert('Enter title');
+    workingStories.items.unshift({
+        id:'story-'+Date.now(),title:t,
+        category:document.getElementById('storyCategoryInput').value.trim()||'General',
+        featuredPhoto:document.getElementById('storyPhotoSelect').value,
+        excerpt:document.getElementById('storyContentInput').value.slice(0,200),
+        content:document.getElementById('storyContentInput').value,
+        tags:[],published:new Date().toISOString()
+    });
+    workingStories.version=(workingStories.version||0)+1;
+    try{await pushDoc('stories.json',workingStories);}
+    catch(e){alert('Save failed: '+e.message);return;}
+    hideStoryEditor();renderAll();
+}
 
 function renderOutfits(){
 const grid=document.getElementById('outfitsGrid');
@@ -569,7 +758,17 @@ function closeModal(){document.getElementById('modal').classList.remove('open');
 function cmdHtml(cmd){const id='cmd-'+Math.random().toString(36).substr(2,9);return '<div class="cmd"><code id="'+id+'">'+cmd+'</code><button class="cmd-copy" onclick="copyCmd(\''+id+'\',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div>';}
 function copyCmd(id,btn){navigator.clipboard.writeText(document.getElementById(id).textContent).then(()=>{btn.classList.add('copied');btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';},2000);});}
 
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeMobileMenu();document.querySelectorAll('.photo-card.editing').forEach(c=>c.classList.remove('editing'));}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeMobileMenu();document.querySelectorAll('.photo-card.editing').forEach(c=>{c.classList.remove('editing');const i=c.querySelector('.photo-img');if(i)updatePhotoSpan(i);});}});
+
+// Register service worker for PWA -- only in static (deployed) mode so the dev
+// server isn't served from a stale cache.
+if(STATIC_MODE&&'serviceWorker' in navigator){
+    window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});
+}else if(!STATIC_MODE&&'serviceWorker' in navigator){
+    // Dev mode: clear any SW left over from a previous static visit on the same host.
+    navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister())).catch(()=>{});
+}
+
 init();
 </script>
 </body>
