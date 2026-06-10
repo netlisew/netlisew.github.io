@@ -162,11 +162,29 @@ body.dev-mode .photo-overlay{pointer-events:auto}
 .outfits-grid{grid-template-columns:repeat(auto-fill,minmax(90px,1fr))}
 }
 
+/* Wardrobe */
+.wardrobe-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px}
+.wardrobe-title{font-family:'Playfair Display',serif;font-size:22px}
+.wardrobe-count{font-size:11px;color:var(--text3);letter-spacing:1px;text-transform:uppercase}
+.wardrobe-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+.w-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;position:relative;transition:border-color 0.2s}
+.w-card:hover{border-color:var(--purple)}
+.w-media{aspect-ratio:4/5;background:linear-gradient(135deg,rgba(168,85,247,0.16),rgba(255,51,102,0.08));background-size:cover;background-position:center;position:relative}
+.w-fav{position:absolute;top:10px;right:10px;color:var(--pink);font-size:11px;background:rgba(0,0,0,0.55);width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.w-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.w-type{font-size:9px;text-transform:uppercase;letter-spacing:1.6px;color:var(--purple)}
+.w-name{font-family:'Playfair Display',serif;font-size:16px;line-height:1.3;color:var(--text);margin:0}
+.w-brand{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1.2px}
+.w-colors{display:flex;flex-wrap:wrap;gap:5px}
+.w-color{font-size:10px;padding:3px 9px;border:1px solid var(--border2);border-radius:11px;color:var(--text2);letter-spacing:0.4px}
+.w-size{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;color:var(--text);background:var(--card2);padding:7px 10px;border-radius:5px;letter-spacing:0.5px;border:1px solid var(--border)}
+.w-notes{font-size:11px;color:var(--text3);line-height:1.5;font-style:italic;padding-top:6px;border-top:1px solid var(--border);margin-top:2px}
+
 /* Stories */
 .stories-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
 .stories-title{font-family:'Playfair Display',serif;font-size:22px}
 .stories-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
-.story-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:all 0.2s}
+.story-card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:all 0.2s;cursor:pointer}
 .story-card:hover{border-color:var(--purple)}
 .story-image{width:100%;aspect-ratio:16/9;object-fit:cover;background:linear-gradient(135deg,var(--purple),var(--pink))}
 .story-content{padding:14px}
@@ -230,8 +248,119 @@ body.dev-mode .scan-panel{display:block}
 .modal-close{position:absolute;top:12px;right:12px;width:40px;height:40px;background:rgba(255,255,255,0.1);border:none;color:#fff;font-size:20px;cursor:pointer;border-radius:50%}
 .modal-close:hover{background:rgba(255,255,255,0.2)}
 
+.story-detail{display:none;max-width:1100px;margin:0 auto}
+.story-detail.open{display:block}
+.story-back{display:inline-flex;align-items:center;gap:8px;background:none;border:none;color:var(--text2);cursor:pointer;font-family:inherit;font-size:11px;padding:6px 0;margin-bottom:22px;letter-spacing:1px;text-transform:uppercase}
+.story-back:hover{color:var(--pink)}
+.story-detail-cat{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--purple);margin-bottom:10px}
+.story-detail-title{font-family:'Playfair Display',serif;font-size:38px;line-height:1.18;margin-bottom:10px}
+.story-detail-date{font-size:11px;color:var(--text3);margin-bottom:30px;text-transform:uppercase;letter-spacing:1px}
+.story-detail-hero{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;margin-bottom:34px;background:linear-gradient(135deg,var(--purple),var(--pink));max-height:520px}
+.story-detail-body{color:var(--text2);line-height:1.8;font-size:15px}
+.story-detail-body h2{font-family:'Playfair Display',serif;font-size:22px;margin:34px 0 14px;color:var(--text)}
+.story-detail-body p{margin-bottom:16px}
+.story-detail-body hr{border:none;border-top:1px solid var(--border);margin:30px 0}
+.story-detail-body strong{color:var(--text);font-weight:600}
+.story-detail-share{display:inline-flex;align-items:center;gap:8px;margin-top:44px;padding:9px 16px;background:var(--card);border:1px solid var(--border);color:var(--text2);border-radius:6px;cursor:pointer;font-family:inherit;font-size:12px;transition:all 0.2s}
+.story-detail-share:hover{border-color:var(--pink);color:var(--text)}
+.story-detail-share.copied{border-color:var(--purple);color:var(--purple)}
+@media(max-width:640px){.story-detail-title{font-size:26px}.story-detail-body{font-size:14px;line-height:1.75}}
+
+.tl-wrap{position:relative;max-width:980px;margin:36px auto 24px;padding:8px 0}
+.tl-wrap::before{content:'';position:absolute;top:0;bottom:0;left:50%;width:2px;background:var(--border);transform:translateX(-50%)}
+.tl-item{position:relative;display:grid;grid-template-columns:1fr 1fr;column-gap:56px;margin-bottom:40px;align-items:center}
+.tl-item::after{content:'';position:absolute;left:50%;top:24px;width:14px;height:14px;border-radius:50%;background:var(--card);border:2px solid var(--text3);transform:translate(-50%,0);z-index:2}
+.tl-item.done::after{background:var(--purple);border-color:var(--bg);box-shadow:0 0 0 3px var(--bg)}
+.tl-item.current::after{background:var(--pink);border-color:var(--bg);box-shadow:0 0 0 3px var(--bg),0 0 0 7px rgba(255,51,102,0.22)}
+.tl-item.goal::after{background:var(--bg);border:2px solid var(--pink)}
+.tl-item:nth-child(even) .tl-media{order:2}
+.tl-item:nth-child(even) .tl-content{order:1;text-align:right}
+.tl-media{aspect-ratio:4/3;border-radius:8px;background:linear-gradient(135deg,rgba(160,140,200,0.14),rgba(255,255,255,0.04));background-size:cover;background-position:center;border:1px solid var(--border)}
+.tl-item.done .tl-media:not(.has-photo){background:linear-gradient(135deg,rgba(160,140,200,0.22),rgba(255,51,102,0.10))}
+.tl-item.current .tl-media:not(.has-photo){background:linear-gradient(135deg,rgba(255,51,102,0.28),rgba(160,140,200,0.18))}
+.tl-item.goal .tl-media:not(.has-photo){background:linear-gradient(135deg,rgba(255,51,102,0.20),rgba(160,140,200,0.08));border-color:rgba(255,51,102,0.35)}
+.tl-content h3{font-family:'Playfair Display',serif;font-size:18px;margin:0 0 6px;color:var(--text);line-height:1.3}
+.tl-meta{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);margin-bottom:8px}
+.tl-meta .tl-status{color:var(--text2)}
+.tl-item.done .tl-status{color:var(--purple)}
+.tl-item.current .tl-status{color:var(--pink);font-weight:600}
+.tl-item.goal .tl-status{color:var(--pink)}
+.tl-content p{font-size:13px;line-height:1.65;color:var(--text2);margin:0}
+@media(max-width:768px){
+  .tl-wrap{margin-top:24px}
+  .tl-wrap::before{left:20px}
+  .tl-item{grid-template-columns:1fr;gap:12px;padding-left:52px;margin-bottom:28px}
+  .tl-item::after{left:20px;top:18px}
+  .tl-item:nth-child(even) .tl-media{order:initial}
+  .tl-item:nth-child(even) .tl-content{order:initial;text-align:left}
+  .tl-media{max-width:280px}
+}
+
 .empty{text-align:center;padding:50px 20px;color:var(--text2)}
 .empty h2{color:var(--text);margin-bottom:6px;font-size:16px}
+
+/* Calendar */
+.cal-wrap{max-width:1100px;margin:0 auto}
+.cal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:12px;flex-wrap:wrap}
+.cal-title{font-family:'Playfair Display',serif;font-size:22px;letter-spacing:0.5px}
+.cal-nav{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.cal-btn{padding:7px 12px;background:var(--card);border:1px solid var(--border);color:var(--text2);border-radius:6px;cursor:pointer;font-family:inherit;font-size:12px;display:inline-flex;align-items:center;gap:6px;transition:all 0.2s}
+.cal-btn:hover{border-color:var(--pink);color:var(--text)}
+.cal-btn.primary{background:var(--pink);border-color:var(--pink);color:#000;font-weight:500}
+.cal-legend{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:14px;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px;font-size:11px;color:var(--text2)}
+.cal-legend-item{display:flex;align-items:center;gap:6px}
+.cal-legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.cal-legend-anchor{margin-left:auto;color:var(--text3);font-family:monospace;font-size:10px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.cal-dow{padding:8px 6px;background:var(--card2);text-align:center;font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--text3);font-weight:500}
+.cal-day{position:relative;padding:8px;background:var(--card);min-height:96px;display:flex;flex-direction:column;cursor:default;transition:background 0.15s;overflow:hidden}
+.cal-day.muted .cal-day-num{color:var(--text3)}
+.cal-day.muted{opacity:0.55}
+.cal-day-num{font-size:13px;color:var(--text);font-weight:500;line-height:1}
+.cal-day-mo{font-size:8px;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;margin-left:4px;font-weight:400}
+.cal-day.today .cal-day-num{color:var(--pink);font-weight:700}
+.cal-day.today{box-shadow:inset 0 0 0 2px var(--pink)}
+.cal-day-phase{font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:0.4px;margin-top:auto;line-height:1.35;font-weight:500}
+.cal-day-phase .acc{display:block;color:var(--text3);text-transform:none;letter-spacing:0;font-size:9px;margin-top:2px;font-style:italic}
+.cal-wax{position:absolute;top:6px;right:6px;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#000;box-shadow:0 1px 4px rgba(0,0,0,0.4);font-family:'Playfair Display',serif}
+.cal-wax.lower{background:var(--pink)}
+.cal-wax.upper{background:var(--cyan)}
+
+/* Phase tints */
+.cal-day.p0{background:linear-gradient(160deg,rgba(255,51,102,0.16),rgba(255,51,102,0.04) 70%,var(--card))}
+.cal-day.p1{background:linear-gradient(160deg,rgba(255,51,102,0.10),var(--card) 70%)}
+.cal-day.p2{background:linear-gradient(160deg,rgba(255,51,102,0.08),var(--card) 70%)}
+.cal-day.p3{background:linear-gradient(160deg,rgba(255,51,102,0.06),var(--card) 70%)}
+.cal-day.p4{background:linear-gradient(160deg,rgba(0,212,255,0.16),rgba(0,212,255,0.04) 70%,var(--card))}
+.cal-day.p5{background:linear-gradient(160deg,rgba(168,85,247,0.14),rgba(168,85,247,0.04) 70%,var(--card))}
+
+.cal-anchor-prompt{padding:24px 20px;text-align:center;color:var(--text2);background:var(--card);border:1px dashed var(--border2);border-radius:8px;margin-bottom:14px}
+.cal-anchor-prompt h3{color:var(--text);font-family:'Playfair Display',serif;margin-bottom:10px;font-size:18px}
+.cal-anchor-prompt p{font-size:12px;line-height:1.7;margin-bottom:8px;max-width:560px;margin-left:auto;margin-right:auto}
+.cal-anchor-prompt .cal-btn{margin-top:10px}
+
+.cal-day-actions{display:none;position:absolute;inset:0;background:rgba(10,10,10,0.92);backdrop-filter:blur(2px);z-index:5;flex-direction:column;justify-content:center;align-items:stretch;gap:4px;padding:6px}
+body.dev-mode .cal-day:hover .cal-day-actions{display:flex}
+.cal-day-action{font-size:9px;padding:5px 6px;background:var(--card);border:1px solid var(--border);color:var(--text2);cursor:pointer;font-family:inherit;text-align:center;border-radius:3px;text-transform:uppercase;letter-spacing:0.5px}
+.cal-day-action:hover{color:var(--text);border-color:var(--text2)}
+.cal-day-action.lower:hover{background:var(--pink);color:#000;border-color:var(--pink)}
+.cal-day-action.upper:hover{background:var(--cyan);color:#000;border-color:var(--cyan)}
+.cal-day-action.clear:hover{background:var(--card2)}
+
+.calendar-link{display:none}
+body.dev-mode .calendar-link{display:inline-block}
+
+@media(max-width:600px){
+.cal-day{min-height:64px;padding:5px 4px}
+.cal-day-num{font-size:11px}
+.cal-day-mo{font-size:7px}
+.cal-day-phase{font-size:8px;letter-spacing:0.2px}
+.cal-day-phase .acc{font-size:8px}
+.cal-dow{font-size:8px;padding:6px 2px;letter-spacing:0.5px}
+.cal-wax{width:14px;height:14px;font-size:7px;top:3px;right:3px}
+.cal-legend{font-size:10px;gap:8px;padding:8px 10px}
+.cal-legend-anchor{margin-left:0;width:100%;text-align:right}
+}
 
 .cmd{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border);border-radius:4px;padding:6px 10px;margin:6px 0;font-family:monospace;font-size:10px;color:var(--cyan)}
 .cmd code{user-select:all}
@@ -261,8 +390,10 @@ footer::before{content:'';position:absolute;top:-20px;left:0;right:0;height:20px
 <nav class="top-nav" id="topNav">
 <button class="nav-link" data-view="photos" onclick="switchView('photos')">Portraits</button>
 <button class="nav-link" data-view="accessories" onclick="switchView('accessories')">Accessories</button>
+<button class="nav-link" data-view="wardrobe" onclick="switchView('wardrobe')">Wardrobe</button>
 <button class="nav-link" data-view="outfits" onclick="switchView('outfits')">Outfits</button>
 <button class="nav-link" data-view="stories" onclick="switchView('stories')">Stories</button>
+<button class="nav-link calendar-link" data-view="calendar" onclick="switchView('calendar')">Calendar</button>
 </nav>
 <div class="header-search" style="display:none"><span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span><input type="text" class="search-input" id="searchInput" placeholder="Search..." oninput="handleSearch(this.value)" onfocus="showSearchDropdown()" onblur="hideSearchDropdown()"><div class="search-dropdown" id="searchDropdown"></div></div>
 <div class="dev-indicator"><span class="status-dot" id="statusDot"></span><span class="version-info" id="versionInfo">v1</span></div>
@@ -306,11 +437,19 @@ footer::before{content:'';position:absolute;top:-20px;left:0;right:0;height:20px
 </div>
 </div>
 
+<div class="view-container" id="wardrobeView">
+<div class="wardrobe-header"><h2 class="wardrobe-title">Wardrobe</h2><div class="wardrobe-count" id="wardrobeCount"></div></div>
+<div class="wardrobe-grid" id="wardrobeList"></div>
+</div>
+
 <div class="view-container" id="storiesView">
 <div class="story-editor" id="storyEditor"><div class="form-row"><label class="form-label">Title</label><input type="text" class="form-input" id="storyTitleInput"></div><div class="form-row"><label class="form-label">Category</label><input type="text" class="form-input" id="storyCategoryInput"></div><div class="form-row"><label class="form-label">Featured Photo</label><select class="form-input" id="storyPhotoSelect"></select></div><div class="form-row"><label class="form-label">Content</label><textarea class="form-input form-textarea" id="storyContentInput"></textarea></div><div class="form-actions"><button class="btn btn-primary" onclick="saveStory()">Save</button><button class="btn" onclick="hideStoryEditor()">Cancel</button></div></div>
-<div class="stories-header"><h2 class="stories-title">Stories</h2><button class="btn" onclick="showStoryEditor()" style="display:none" id="newStoryBtn">New Story</button></div>
+<div class="stories-header" id="storiesHeader"><h2 class="stories-title">Stories</h2><button class="btn" onclick="showStoryEditor()" style="display:none" id="newStoryBtn">New Story</button></div>
 <div class="stories-grid" id="storiesList"></div>
+<div class="story-detail" id="storyDetail"></div>
 </div>
+
+<div class="view-container" id="calendarView"></div>
 
 <div class="view-container active" id="homeView"><div class="about-hero"><div class="about-bg" id="aboutBg"></div><div class="about-content">
 <p class="about-tagline">Fashion / Style / Expression</p>
@@ -318,8 +457,7 @@ footer::before{content:'';position:absolute;top:-20px;left:0;right:0;height:20px
 <p class="about-text">Every outfit is a small experiment in style and self-expression. Brand collabs one day; ambitious in disguise until then.</p>
 <div class="about-support">
 <p class="about-support-text">Love a look? A small tip helps fund the next outfit, accessory, or bold experiment — and quietly cheers on a creator taking the leap.</p>
-<!-- TODO: replace href with https://ko-fi.com/YOUR_USERNAME once Stripe is connected -->
-<a href="#" class="donate-btn" target="_blank" rel="noopener" aria-label="Support the next look">
+<a href="https://ko-fi.com/netlisew" class="donate-btn" target="_blank" rel="noopener" aria-label="Support the next look">
 <i class="fa-solid fa-mug-hot"></i> Buy me a thread
 </a>
 <span class="donate-note">Anonymous &middot; Secure via Ko-fi</span>
@@ -331,7 +469,7 @@ footer::before{content:'';position:absolute;top:-20px;left:0;right:0;height:20px
 <div class="modal" id="modal" onclick="closeModal()"><button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button><img id="modalImg" src=""></div>
 
 <script>
-const BAKED_DATA = {"categories": {"version": 1, "items": ["school-girl", "office-girl", "sports-girl", "casual", "japanese-girl", "feet", "legs", "full-body", "pose", "outdoor", "indoor"]}, "accessories": {"version": 3, "items": ["anklets", "shoes"]}, "photos": {"version": 8, "items": [{"filename": "20260325_165958.jpg", "tags": [], "accessories": [], "description": "", "added": "2026-03-28T19:35:02.177644"}, {"filename": "20260325_141444.jpg", "tags": ["school-girl", "office-girl"], "accessories": ["shoes/Haf4cef401bde4210aabef3caff15ef60i.jpg_960x960q75.jpg_.avif"], "description": "", "added": "2026-03-28T19:35:02.177630", "updated": "2026-05-01T09:09:23.999Z"}, {"filename": "20260104_131057.jpg", "tags": ["sports-girl"], "accessories": [], "description": "", "added": "2026-03-28T17:07:14.155721", "updated": "2026-05-01T09:09:53.494Z"}, {"filename": "20260103_200325.jpg", "tags": [], "accessories": [], "description": "", "added": "2026-03-28T17:07:14.155508"}]}, "stories": {"version": 1, "items": [{"id": "story-1", "title": "The Art of Foot Modeling: A Journey into Elegance", "category": "Behind the Scenes", "featuredPhoto": "", "excerpt": "Discover the artistry and dedication that goes into professional foot modeling. From selecting the perfect accessories to capturing the ideal angle, every detail matters in creating stunning visuals.", "content": "Full article content goes here...", "tags": ["modeling", "tips", "accessories"], "published": "2026-01-15T10:00:00Z", "featured": true}, {"id": "story-2", "title": "Accessory Trends: What's Hot This Season", "category": "Fashion", "featuredPhoto": "", "excerpt": "Anklets, toe rings, and chain accessories are making a bold comeback. Learn how to style these pieces for maximum impact in your next photoshoot.", "content": "Full article content goes here...", "tags": ["fashion", "trends", "accessories"], "published": "2026-01-10T10:00:00Z", "featured": false}]}, "accessoryItems": {"version": 3, "items": [{"filename": "anklets/51+TOSbNI5L._AC_SY695_.jpg", "type": "anklets", "name": "51+TOSbNI5L._AC_SY695_", "added": "2026-03-28T17:07:14.157324"}, {"filename": "anklets/51M3Zk+m31L._AC_SY695_.jpg", "type": "anklets", "name": "51M3Zk+m31L._AC_SY695_", "added": "2026-03-28T17:07:14.157377"}, {"filename": "anklets/61wgl2kliWL._AC_SY695_.jpg", "type": "anklets", "name": "61wgl2kliWL._AC_SY695_", "added": "2026-03-28T17:07:14.157386"}, {"filename": "anklets/71V9Rt-nMyL._AC_SY695_.jpg", "type": "anklets", "name": "71V9Rt-nMyL._AC_SY695_", "added": "2026-03-28T17:07:14.157393"}, {"filename": "anklets/71bzzCGKriL._AC_SY695_.jpg", "type": "anklets", "name": "71bzzCGKriL._AC_SY695_", "added": "2026-03-28T17:07:14.157399"}, {"filename": "shoes/Haf4cef401bde4210aabef3caff15ef60i.jpg_960x960q75.jpg_.avif", "type": "shoes", "name": "Haf4cef401bde4210aabef3caff15ef60i.jpg_960x960q75.jpg_", "added": "2026-03-28T19:52:26.601630"}]}, "outfits": {"version": 2, "categories": ["bottoms", "dresses", "tops"], "items": [{"filename": "bottoms/goods_08_487837_3x4.png", "category": "bottoms", "name": "goods_08_487837_3x4", "added": "2026-03-28T22:11:07.916149"}, {"filename": "tops/goods_475651_sub14_3x4.png", "category": "tops", "name": "goods_475651_sub14_3x4", "added": "2026-03-28T22:11:07.916165"}, {"filename": "tops/goods_61_464944_3x4.png", "category": "tops", "name": "goods_61_464944_3x4", "added": "2026-03-28T22:11:07.916170"}]}};
+const BAKED_DATA = {"categories": {"version": 1, "items": ["school-girl", "office-girl", "sports-girl", "casual", "japanese-girl", "feet", "legs", "full-body", "pose", "outdoor", "indoor"]}, "accessories": {"version": 3, "items": ["anklets", "shoes"]}, "photos": {"version": 8, "items": [{"filename": "20260325_165958.jpg", "tags": [], "accessories": [], "description": "", "added": "2026-03-28T19:35:02.177644"}, {"filename": "20260325_141444.jpg", "tags": ["school-girl", "office-girl"], "accessories": ["shoes/Haf4cef401bde4210aabef3caff15ef60i.jpg_960x960q75.jpg_.avif"], "description": "", "added": "2026-03-28T19:35:02.177630", "updated": "2026-05-01T09:09:23.999Z"}, {"filename": "20260104_131057.jpg", "tags": ["sports-girl"], "accessories": [], "description": "", "added": "2026-03-28T17:07:14.155721", "updated": "2026-05-01T09:09:53.494Z"}, {"filename": "20260103_200325.jpg", "tags": [], "accessories": [], "description": "", "added": "2026-03-28T17:07:14.155508"}]}, "stories": {"version": 4, "items": [{"id": "story-confidence-timeline", "title": "Inch by Inch: A Confidence Timeline", "category": "Personal Journey", "featuredPhoto": "", "excerpt": "Since 2023 I've been mapping my own progress — not just through clothing, but through every small act that compounds into confidence. This is what's already done, and what's still ahead.", "content": "Since 2023, I've been quietly mapping my own progress. Not just through clothing — through every small act that compounds into confidence. A hem you let down, an inch of hair you trim, a texture of skin you let show. Each one is a tiny experiment whose result makes the next experiment a little easier.\n\nThis is the timeline of those experiments: what's already in public, and what's still waiting for me to grow into. Confidence isn't a switch you flip — it's a hem you let down, one inch and one quiet decision at a time.", "timeline": [{"title": "Men's-cut short shorts, women's fit", "body": "Visually indistinguishable to the public eye. The safest possible first move out the door.", "photo": "", "done": true, "date": "2023"}, {"title": "Slightly longer ladies denim shorts", "body": "Around 1.5 ft (~18 in) long. Cut and fit unmistakably feminine, but length kept it modest.", "photo": "", "done": true}, {"title": "First leg trim", "body": "Started trimming the hair on my legs. Nothing visible to anyone else — just less weight, less coarseness. The first quiet act on the body itself.", "photo": "", "done": true}, {"title": "Shorter trim setting", "body": "Moved the trimmer down a notch. Skin started to show through. Still no one could tell from a glance.", "photo": "", "done": true}, {"title": "First full shave", "body": "Took the trimmer to zero. Bare legs for the first time. A real shift in how I felt in my own clothes — even before any new clothes appeared.", "photo": "", "done": true}, {"title": "Mildly feminine unisex tops", "body": "Cuts and colours leaning feminine while still reading as unisex in public.", "photo": "", "done": true}, {"title": "Ladies denim shorts ~1 ft", "body": "And other clearly women's shorts across styles. The first time the public read me unambiguously in women's shorts.", "photo": "", "done": true}, {"title": "More overtly feminine tops", "body": "Shape and styling clearly women's; long sleeves so arms stayed fully covered.", "photo": "", "done": true}, {"title": "Long denim skirts (~1.5 ft)", "body": "First time in a skirt publicly. Length kept it safe.", "photo": "", "done": true}, {"title": "Other long skirts", "body": "Variety beyond denim — cotton, pleated, A-line — all kept at or above 18 in.", "photo": "", "done": true}, {"title": "First full leg wax", "body": "Hair had grown back coarse. The first wax was sharply painful — but it was the first time my legs looked the way I'd been picturing them.", "photo": "", "done": true}, {"title": "Bras under tops", "body": "A quiet but significant interior change. Outwardly the same outfits, inwardly a different person.", "photo": "", "done": true}, {"title": "Sleeveless tops", "body": "Bared arms in public for the first time. A real exposure milestone.", "photo": "", "done": true}, {"title": "Full dresses to the knee", "body": "Whole-outfit feminine silhouette. No more shirt-plus-bottom hedge.", "photo": "", "done": true}, {"title": "Leg waxing as a routine", "body": "Every seven weeks, more or less painlessly now. The maintenance side of body work became unremarkable — and that's the milestone.", "photo": "", "done": true}, {"title": "Mini / micro skirts (≤ 1 ft)", "body": "A big leap shorter. Confidence to be visibly leg-out.", "photo": "", "done": true}, {"title": "Very short denim shorts (~8 in)", "body": "Pushed the shorts category down toward its own minimum.", "photo": "", "done": true}, {"title": "Sleeveless dresses, short", "body": "Combined two earlier wins: short hem + bare arms in a single dress.", "photo": "", "done": true}, {"title": "First stomach wax", "body": "Cleared the midriff. The point wasn't the look on its own — it was that bra-tops would now sit on skin I'd chosen to expose, instead of skin that betrayed the choice.", "photo": "", "done": true}, {"title": "Sports bra + long loose pants", "body": "First time the top half was effectively just a bra. Coverage above normal, balanced by full-length bottoms.", "photo": "", "done": true}, {"title": "Sports bra + loose micro skirt", "body": "The full combination: bare midriff and short hem together. Now confidently worn in public.", "photo": "", "done": true, "current": true}, {"title": "Septum piercing", "body": "Unisex on paper — but with the right jewellery it reads unmistakably feminine. About 70% of public time I'm masked, but it's visible the other 30%: cafes, certain comfortable work locations, anywhere food makes the mask come off.", "photo": "", "done": false}, {"title": "Belly piercing", "body": "The midriff is already bare in my current comfort zone — this turns bare into decorated. Belly piercings are an almost exclusively feminine signal, which makes wearing one the most overt step so far.", "photo": "", "done": false}, {"title": "Crop tops with skirt or shorts", "body": "Similar coverage to a sports bra in some cuts, but reads as everyday fashion rather than gym-wear.", "photo": "", "done": false}, {"title": "Fitted feminine tops, no shirt over them", "body": "Drop the loose-layer comfort blanket. Just the top, just the shape.", "photo": "", "done": false}, {"title": "Spaghetti-strap tops & tank dresses", "body": "Shoulders almost bare. A small but visible step beyond sleeveless.", "photo": "", "done": false}, {"title": "Off-shoulder (one shoulder bare)", "body": "Halfway to strapless. A controlled exposure of the collarbone area.", "photo": "", "done": false}, {"title": "Halter neck tops & dresses", "body": "Back and shoulders exposed, neck covered — a different exposure profile to play with.", "photo": "", "done": false}, {"title": "Backless (modest cut)", "body": "First time the back is the bare panel rather than the arms or legs.", "photo": "", "done": false}, {"title": "Knee-length bodycon dress", "body": "Not about more skin — about more silhouette. A confidence test of a different kind.", "photo": "", "done": false}, {"title": "Strapless / tube top with shorts or skirt", "body": "A stepping stone to the full tube dress: same neckline, with a familiar bottom-half.", "photo": "", "done": false}, {"title": "Tube dress — shoulders and arms fully bare", "body": "The first time a single garment leaves both shoulders and arms entirely uncovered.", "photo": "", "done": false, "goal": true}, {"title": "Bikini top + sarong at the pool", "body": "Bridge between sports-bra-and-skirt and a true two-piece. Pool context, not beach.", "photo": "", "done": false}, {"title": "Monokini at a pool", "body": "One-piece swim, full pool setting. The water-context version of the tube-dress milestone.", "photo": "", "done": false, "goal": true}, {"title": "Bikini at a beach", "body": "The final entry on the current list: two-piece swim, beach context, full sun and public.", "photo": "", "done": false, "goal": true}], "outro": "## Why keep this list\n\nLooking back at 2023-me, the gap between \"men's-cut shorts in public\" and \"sports bra and micro skirt\" looked impossibly far. It wasn't a leap; it was a couple of dozen small ones — not all of them visible from the outside. The first trim of leg hair. The first wax that hurt and the next one that didn't. The first bra under a top that no one else noticed.\n\nNone of those are clothes, but every one of them moved the line forward.\n\nWriting it down is how I prove that to myself. Each future milestone becomes the next only-barely-beyond instead of an impossibly far-away thing.\n\nI'll come back and tick these off as they happen.", "tags": ["confidence", "journey", "wardrobe", "grooming", "piercing", "timeline", "personal"], "published": "2026-05-19T10:00:00Z", "featured": false}, {"id": "story-1", "title": "The Art of Foot Modeling: A Journey into Elegance", "category": "Behind the Scenes", "featuredPhoto": "", "excerpt": "Discover the artistry and dedication that goes into professional foot modeling. From selecting the perfect accessories to capturing the ideal angle, every detail matters in creating stunning visuals.", "content": "Full article content goes here...", "tags": ["modeling", "tips", "accessories"], "published": "2026-01-15T10:00:00Z", "featured": true}, {"id": "story-2", "title": "Accessory Trends: What's Hot This Season", "category": "Fashion", "featuredPhoto": "", "excerpt": "Anklets, toe rings, and chain accessories are making a bold comeback. Learn how to style these pieces for maximum impact in your next photoshoot.", "content": "Full article content goes here...", "tags": ["fashion", "trends", "accessories"], "published": "2026-01-10T10:00:00Z", "featured": false}]}, "accessoryItems": {"version": 3, "items": [{"filename": "anklets/51+TOSbNI5L._AC_SY695_.jpg", "type": "anklets", "name": "51+TOSbNI5L._AC_SY695_", "added": "2026-03-28T17:07:14.157324"}, {"filename": "anklets/51M3Zk+m31L._AC_SY695_.jpg", "type": "anklets", "name": "51M3Zk+m31L._AC_SY695_", "added": "2026-03-28T17:07:14.157377"}, {"filename": "anklets/61wgl2kliWL._AC_SY695_.jpg", "type": "anklets", "name": "61wgl2kliWL._AC_SY695_", "added": "2026-03-28T17:07:14.157386"}, {"filename": "anklets/71V9Rt-nMyL._AC_SY695_.jpg", "type": "anklets", "name": "71V9Rt-nMyL._AC_SY695_", "added": "2026-03-28T17:07:14.157393"}, {"filename": "anklets/71bzzCGKriL._AC_SY695_.jpg", "type": "anklets", "name": "71bzzCGKriL._AC_SY695_", "added": "2026-03-28T17:07:14.157399"}, {"filename": "shoes/Haf4cef401bde4210aabef3caff15ef60i.jpg_960x960q75.jpg_.avif", "type": "shoes", "name": "Haf4cef401bde4210aabef3caff15ef60i.jpg_960x960q75.jpg_", "added": "2026-03-28T19:52:26.601630"}]}, "outfits": {"version": 2, "categories": ["bottoms", "dresses", "tops"], "items": [{"filename": "bottoms/goods_08_487837_3x4.png", "category": "bottoms", "name": "goods_08_487837_3x4", "added": "2026-03-28T22:11:07.916149"}, {"filename": "tops/goods_475651_sub14_3x4.png", "category": "tops", "name": "goods_475651_sub14_3x4", "added": "2026-03-28T22:11:07.916165"}, {"filename": "tops/goods_61_464944_3x4.png", "category": "tops", "name": "goods_61_464944_3x4", "added": "2026-03-28T22:11:07.916170"}]}, "wardrobe": {"version": 3, "items": [{"id": "w-hallie-drop-hem-mini-dress", "name": "Hallie Drop Hem Mini Dress", "type": "Mini Dress", "brand": "Cotton On", "colors": ["Black"], "size": "AU 8 · US 4 · EU 36 · BR 38", "notes": "", "photo": "", "favorite": true, "added": "2026-05-21T10:00:00Z"}, {"id": "w-sandy-hanky-hem-mini-skirt", "name": "Sandy Hanky Hem Mini Skirt", "type": "Mini Skirt", "brand": "Cotton On", "colors": ["Black", "Cream"], "size": "XS", "notes": "", "photo": "", "favorite": true, "added": "2026-05-21T10:00:00Z"}, {"id": "w-haven-mini-skirt", "name": "Haven Mini Skirt", "type": "Mini Skirt", "brand": "Cotton On", "colors": ["White", "Brown", "Blue"], "size": "AU 6", "notes": "", "photo": "", "favorite": true, "added": "2026-05-21T10:00:00Z"}, {"id": "w-mae-pleated-mini-skirt", "name": "MAE Pleated Mini Skirt", "type": "Mini Skirt", "brand": "Cotton On", "colors": ["Blue Check"], "size": "AU 6", "notes": "", "photo": "", "favorite": true, "added": "2026-05-21T10:00:00Z"}, {"id": "w-micro-low-denim-short", "name": "Micro Low Denim Short", "type": "Denim Shorts", "brand": "Cotton On", "colors": [], "size": "W24 · AU 6 · US 2 · EU 34 · BR 36", "notes": "Fitted waist, low rise, micro length.", "photo": "", "favorite": true, "added": "2026-05-21T10:00:00Z"}, {"id": "w-shirred-tube-mini-dress", "name": "Shirred Tube Mini Dress", "type": "Tube Dress", "brand": "Cotton On", "colors": ["Burgundy Pink Check"], "size": "AU 10 · US 6 · EU 38 · BR 40", "notes": "", "photo": "", "favorite": true, "added": "2026-05-21T10:00:00Z"}, {"id": "w-melissa-m-lover-heel", "name": "M Lover Heel", "type": "Heels", "brand": "Melissa", "colors": ["Beige"], "size": "Size 10", "notes": "", "photo": "", "favorite": true, "added": "2026-05-21T10:00:00Z"}]}};
 </script>
 
 <script>
@@ -341,16 +479,28 @@ const DEV_MODE=IS_LOCALHOST&&!STATIC_MODE;
 const PHOTOS_PATH=STATIC_MODE?'photos/':'input/photos/';
 const ACC_PATH=STATIC_MODE?'accessories/':'input/accessories/';
 const OUTFITS_PATH=STATIC_MODE?'outfits/':'input/outfits/';
+const WARDROBE_PATH=STATIC_MODE?'wardrobe/':'input/wardrobe/';
 const DATA_PATH='data/';
 
 let currentView='home',mobileMenuOpen=false,selectedThemes=new Set(),selectedAccessoryItems=new Set();
 let publishedThemes,publishedAccessories,publishedPhotos,workingThemes,workingAccessories,workingPhotos,workingStories;
 let accessoryItems={version:1,items:[]};
 let outfitsData={version:1,categories:[],items:[]};
+let wardrobeData={version:1,items:[]};
 let settings={version:1,scanLocations:[]};
 let currentOutfitCat='tops',selectedOutfitTop=null,selectedOutfitBottom=null,selectedOutfitDress=null;
+let calendarData={version:1,anchor:null,upperOffsetDays:28,cycleDays:42,notes:{}};
+let calendarOffsetWeeks=0;
 
 const DEFAULT_STORIES={version:1,items:[]};
+const PHASES=[
+    {label:'Lower wax day',           tag:'p0', acc:'Legs free · short skirts'},
+    {label:'Legs exposing',           tag:'p1', acc:'Skirts · shorts · open shoes'},
+    {label:'Legs exposing',           tag:'p2', acc:'Skirts · shorts · sandals'},
+    {label:'Legs exposing',           tag:'p3', acc:'Skirts · shorts'},
+    {label:'Pantyhose week',          tag:'p4', acc:'Legs covered sheer · upper wax'},
+    {label:'Belly week',              tag:'p5', acc:'Crop · bra tops · long bottoms'},
+];
 
 async function init(){
 if(STATIC_MODE){
@@ -364,6 +514,8 @@ if(STATIC_MODE){
     workingStories=BAKED_DATA.stories||DEFAULT_STORIES;
     accessoryItems=BAKED_DATA.accessoryItems||{version:1,items:[]};
     outfitsData=BAKED_DATA.outfits||{version:1,categories:[],items:[]};
+    wardrobeData=BAKED_DATA.wardrobe||{version:1,items:[]};
+    if(BAKED_DATA.calendar)calendarData=BAKED_DATA.calendar;
 }else{
     if(DEV_MODE){document.body.classList.add('dev-mode');document.getElementById('newStoryBtn').style.display='block';}
     try{
@@ -373,16 +525,19 @@ if(STATIC_MODE){
         publishedThemes=await c.json();publishedAccessories=await a.json();publishedPhotos=await p.json();
         try{const ai=await fetch(DATA_PATH+'accessory-items.json?t='+t);if(ai.ok)accessoryItems=await ai.json();}catch{}
         try{const of=await fetch(DATA_PATH+'outfits.json?t='+t);if(of.ok)outfitsData=await of.json();}catch{}
+        try{const wd=await fetch(DATA_PATH+'wardrobe.json?t='+t);if(wd.ok)wardrobeData=await wd.json();}catch{}
         try{const st=await fetch(DATA_PATH+'stories.json?t='+t);if(st.ok)workingStories=await st.json();}catch{}
         try{const sg=await fetch(DATA_PATH+'settings.json?t='+t);if(sg.ok)settings=await sg.json();}catch{}
+        try{const cl=await fetch(DATA_PATH+'calendar.json?t='+t);if(cl.ok)calendarData=await cl.json();}catch{}
     }catch{document.getElementById('gallery').innerHTML='<div class="empty"><h2>Could not load data</h2>'+cmdHtml('python3 build.py init')+'</div>';return;}
     if(!workingStories)workingStories=DEFAULT_STORIES;
     reset();
 }
 renderPills();renderAll();
-const initHash=location.hash.replace('#','').toLowerCase();
-const initView=HASH_TO_VIEW[initHash]||'home';
+const initParts=location.hash.replace(/^#/,'').toLowerCase().split('/');
+const initView=HASH_TO_VIEW[initParts[0]]||'home';
 switchView(initView,true);
+if(initView==='stories'&&initParts[1])openStory(initParts[1],true);
 }
 function reset(){workingThemes=JSON.parse(JSON.stringify(publishedThemes));workingAccessories=JSON.parse(JSON.stringify(publishedAccessories));workingPhotos=JSON.parse(JSON.stringify(publishedPhotos));}
 async function pushDoc(name,doc){
@@ -476,11 +631,12 @@ async function confirmDelete(filename){
 }
 function getVer(){return Math.max(publishedThemes?.version||0,publishedAccessories?.version||0,publishedPhotos?.version||0);}
 
-const HASH_TO_VIEW={'':'home','home':'home','portraits':'photos','accessories':'accessories','outfits':'outfits','stories':'stories'};
-const VIEW_TO_HASH={'home':'','photos':'portraits','accessories':'accessories','outfits':'outfits','stories':'stories'};
+const HASH_TO_VIEW={'':'home','home':'home','portraits':'photos','accessories':'accessories','wardrobe':'wardrobe','outfits':'outfits','stories':'stories','calendar':'calendar'};
+const VIEW_TO_HASH={'home':'','photos':'portraits','accessories':'accessories','wardrobe':'wardrobe','outfits':'outfits','stories':'stories','calendar':'calendar'};
 
-function switchView(v,skipHash){currentView=v;document.querySelectorAll('.nav-link').forEach(l=>l.classList.toggle('active',l.dataset.view===v));document.querySelectorAll('.view-container').forEach(c=>c.classList.remove('active'));document.getElementById(v+'View').classList.add('active');document.getElementById('filterBar').style.display=v==='photos'?'block':'none';document.querySelector('.header-search').style.display=v==='home'?'none':'';document.body.style.overflow=v==='home'?'hidden':'';if(!skipHash){const h=VIEW_TO_HASH[v]||'';history.pushState(null,null,h?'#'+h:'#');}closeMobileMenu();renderAll();}
-window.addEventListener('hashchange',()=>{const h=location.hash.replace('#','').toLowerCase();const v=HASH_TO_VIEW[h];if(v&&v!==currentView)switchView(v,true);});
+function switchView(v,skipHash){currentView=v;if(v!=='stories')closeStory(true);document.querySelectorAll('.nav-link').forEach(l=>l.classList.toggle('active',l.dataset.view===v));document.querySelectorAll('.view-container').forEach(c=>c.classList.remove('active'));document.getElementById(v+'View').classList.add('active');document.getElementById('filterBar').style.display=v==='photos'?'block':'none';document.querySelector('.header-search').style.display=v==='home'?'none':'';document.body.style.overflow=v==='home'?'hidden':'';if(!skipHash){const h=VIEW_TO_HASH[v]||'';history.pushState(null,null,h?'#'+h:'#');}closeMobileMenu();renderAll();}
+function applyHash(h){const parts=h.replace(/^#/,'').toLowerCase().split('/');const v=HASH_TO_VIEW[parts[0]];if(!v)return;if(v!==currentView)switchView(v,true);if(v==='stories'){const id=parts[1];if(id){if(id!==currentStoryId)openStory(id,true);}else if(currentStoryId){closeStory(true);}}}
+window.addEventListener('hashchange',()=>applyHash(location.hash));
 function toggleMobileMenu(){mobileMenuOpen=!mobileMenuOpen;document.getElementById('topNav').classList.toggle('open',mobileMenuOpen);}
 function closeMobileMenu(){mobileMenuOpen=false;document.getElementById('topNav').classList.remove('open');}
 
@@ -505,7 +661,7 @@ function hideSearchDropdown(){setTimeout(()=>document.getElementById('searchDrop
 function addThemeFilter(t){selectedThemes.add(t);document.getElementById('searchInput').value='';document.getElementById('searchDropdown').classList.remove('open');renderPills();renderAll();}
 function addAccItemFilter(id){selectedAccessoryItems.add(id);document.getElementById('searchInput').value='';document.getElementById('searchDropdown').classList.remove('open');renderPills();renderAll();}
 
-function renderAll(){renderPhotos();renderAccessories();renderOutfits();renderStories();renderStats();renderHome();renderScanLocations();}
+function renderAll(){renderPhotos();renderAccessories();renderOutfits();renderWardrobe();renderStories();renderStats();renderHome();renderScanLocations();renderCalendar();}
 function renderStats(){document.getElementById('footer').textContent='© 2026 Nethuli Sewwandi | '+(workingPhotos?.items?.length||0)+' portraits';document.getElementById('versionInfo').textContent='v'+getVer();}
 function renderHome(){const photos=workingPhotos?.items||[];if(photos.length>0){document.getElementById('aboutBg').style.backgroundImage='url('+PHOTOS_PATH+photos[0].filename+')';}}
 function renderPhotos(){
@@ -665,7 +821,15 @@ function selectAccItem(id){
     switchView('photos');
 }
 
-function renderStories(){const s=document.getElementById('storyPhotoSelect');if(s)s.innerHTML='<option value="">None</option>'+workingPhotos.items.map(p=>'<option value="'+p.filename+'">'+p.filename+'</option>').join('');const l=document.getElementById('storiesList');if(!workingStories?.items?.length){l.innerHTML='<div class="empty"><h2>No stories yet</h2></div>';return;}l.innerHTML=workingStories.items.map(s=>'<article class="story-card"><div class="story-image" '+(s.featuredPhoto?'style="background-image:url('+PHOTOS_PATH+s.featuredPhoto+');background-size:cover"':'')+'></div><div class="story-content"><div class="story-meta"><span class="story-category">'+s.category+'</span> | '+new Date(s.published).toLocaleDateString()+'</div><h3 class="story-title">'+s.title+'</h3><p class="story-excerpt">'+s.excerpt+'</p></div></article>').join('');}
+function escHtml(t){return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function renderWardrobe(){const l=document.getElementById('wardrobeList');if(!l)return;const cnt=document.getElementById('wardrobeCount');const items=wardrobeData?.items||[];if(cnt)cnt.textContent=items.length?items.length+' '+(items.length===1?'piece':'pieces'):'';if(!items.length){l.innerHTML='<div class="empty"><h2>No pieces yet</h2></div>';return;}l.innerHTML=items.map(it=>{const media=it.photo?'<div class="w-media" style="background-image:url('+WARDROBE_PATH+escHtml(it.photo)+')"></div>':'<div class="w-media"></div>';const fav=it.favorite?'<span class="w-fav" title="Favorite"><i class="fa-solid fa-heart"></i></span>':'';const colors=(it.colors||[]).length?'<div class="w-colors">'+it.colors.map(c=>'<span class="w-color">'+escHtml(c)+'</span>').join('')+'</div>':'';const brand=it.brand?'<div class="w-brand">'+escHtml(it.brand)+'</div>':'';const size=it.size?'<div class="w-size">'+escHtml(it.size)+'</div>':'';const notes=it.notes?'<div class="w-notes">'+escHtml(it.notes)+'</div>':'';return '<article class="w-card">'+media+fav+'<div class="w-body">'+(it.type?'<div class="w-type">'+escHtml(it.type)+'</div>':'')+'<h3 class="w-name">'+escHtml(it.name)+'</h3>'+brand+colors+size+notes+'</div></article>';}).join('');}
+function renderStoryMarkdown(s){if(!s)return '';return escHtml(s).split(/\n\n+/).map(p=>{p=p.trim();if(!p)return '';if(p==='---')return '<hr>';if(p.startsWith('## '))return '<h2>'+p.slice(3)+'</h2>';p=p.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');return '<p>'+p.replace(/\n/g,'<br>')+'</p>';}).join('');}
+function renderStories(){const s=document.getElementById('storyPhotoSelect');if(s)s.innerHTML='<option value="">None</option>'+workingPhotos.items.map(p=>'<option value="'+p.filename+'">'+p.filename+'</option>').join('');const l=document.getElementById('storiesList');if(!workingStories?.items?.length){l.innerHTML='<div class="empty"><h2>No stories yet</h2></div>';return;}l.innerHTML=workingStories.items.map(s=>'<article class="story-card" onclick="openStory(\''+s.id+'\')"><div class="story-image" '+(s.featuredPhoto?'style="background-image:url('+PHOTOS_PATH+s.featuredPhoto+');background-size:cover"':'')+'></div><div class="story-content"><div class="story-meta"><span class="story-category">'+escHtml(s.category)+'</span> | '+new Date(s.published).toLocaleDateString()+'</div><h3 class="story-title">'+escHtml(s.title)+'</h3><p class="story-excerpt">'+escHtml(s.excerpt)+'</p></div></article>').join('');}
+let currentStoryId=null;
+function renderTimeline(items){if(!items?.length)return '';return '<div class="tl-wrap">'+items.map(it=>{const cls=['tl-item'];if(it.done)cls.push('done');if(it.current)cls.push('current');if(it.goal)cls.push('goal');const media=it.photo?'<div class="tl-media has-photo" style="background-image:url('+PHOTOS_PATH+escHtml(it.photo)+')"></div>':'<div class="tl-media"></div>';const status=it.current?'Current':it.goal?'Goal':it.done?'Accomplished':'Upcoming';const meta=(it.date?escHtml(it.date)+' · ':'')+'<span class="tl-status">'+status+'</span>';return '<div class="'+cls.join(' ')+'">'+media+'<div class="tl-content"><div class="tl-meta">'+meta+'</div><h3>'+escHtml(it.title)+'</h3><p>'+escHtml(it.body)+'</p></div></div>';}).join('')+'</div>';}
+function openStory(id,skipHash){const s=workingStories?.items?.find(x=>x.id===id);if(!s){closeStory(skipHash);return;}currentStoryId=id;const hero=s.featuredPhoto?'<img class="story-detail-hero" src="'+PHOTOS_PATH+s.featuredPhoto+'">':'<div class="story-detail-hero"></div>';const body=renderStoryMarkdown(s.content)+renderTimeline(s.timeline)+(s.outro?renderStoryMarkdown(s.outro):'');document.getElementById('storyDetail').innerHTML='<button class="story-back" onclick="closeStory()"><i class="fa-solid fa-arrow-left"></i> All stories</button>'+hero+'<div class="story-detail-cat">'+escHtml(s.category)+'</div><h1 class="story-detail-title">'+escHtml(s.title)+'</h1><div class="story-detail-date">'+new Date(s.published).toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'})+'</div><div class="story-detail-body">'+body+'</div><button class="story-detail-share" onclick="shareStory(this)"><i class="fa-solid fa-link"></i> Copy link</button>';document.getElementById('storyDetail').classList.add('open');document.getElementById('storiesHeader').style.display='none';document.getElementById('storiesList').style.display='none';window.scrollTo(0,0);if(!skipHash){history.pushState(null,null,'#stories/'+id);}}
+function closeStory(skipHash){currentStoryId=null;document.getElementById('storyDetail').classList.remove('open');document.getElementById('storyDetail').innerHTML='';document.getElementById('storiesHeader').style.display='';document.getElementById('storiesList').style.display='';if(!skipHash&&location.hash.startsWith('#stories/')){history.pushState(null,null,'#stories');}}
+function shareStory(btn){const url=location.href;if(navigator.clipboard){navigator.clipboard.writeText(url).then(()=>{const o=btn.innerHTML;btn.classList.add('copied');btn.innerHTML='<i class="fa-solid fa-check"></i> Copied';setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML=o;},1800);});}else{prompt('Copy link:',url);}}
 function showStoryEditor(){document.getElementById('storyEditor').classList.add('visible');}
 function hideStoryEditor(){document.getElementById('storyEditor').classList.remove('visible');['storyTitleInput','storyCategoryInput','storyPhotoSelect','storyContentInput'].forEach(id=>document.getElementById(id).value='');}
 async function saveStory(){
@@ -752,13 +916,154 @@ document.getElementById('outfitDress').classList.remove('active');
 renderOutfits();
 }
 
+// --- Calendar ---
+function calIsoDate(d){const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),dd=String(d.getDate()).padStart(2,'0');return y+'-'+m+'-'+dd;}
+function calParseISO(s){const[y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d);}
+function calStartOfWeek(d){const out=new Date(d.getFullYear(),d.getMonth(),d.getDate());out.setDate(out.getDate()-out.getDay());return out;}
+function calAddDays(d,n){return new Date(d.getFullYear(),d.getMonth(),d.getDate()+n);}
+function calDayDiff(a,b){return Math.round((calAddDays(a,0)-calAddDays(b,0))/86400000);}
+
+function calPhaseFor(date){
+    if(!calendarData.anchor)return null;
+    const anchor=calParseISO(calendarData.anchor);
+    const days=calDayDiff(date,anchor);
+    const cycleLen=calendarData.cycleDays||42;
+    const dayInCycle=((days%cycleLen)+cycleLen)%cycleLen;
+    const weekInCycle=Math.floor(dayInCycle/7);
+    const upperOffset=calendarData.upperOffsetDays??28;
+    return {
+        weekInCycle,
+        dayInCycle,
+        isLowerWax:dayInCycle===0,
+        isUpperWax:dayInCycle===upperOffset,
+    };
+}
+
+function renderCalendar(){
+    const view=document.getElementById('calendarView');
+    if(!view)return;
+    const today=new Date();today.setHours(0,0,0,0);
+    const weekStart=calAddDays(calStartOfWeek(today),calendarOffsetWeeks*7);
+    const weekEnd=calAddDays(weekStart,41);
+    const sameMonth=weekStart.getMonth()===weekEnd.getMonth()&&weekStart.getFullYear()===weekEnd.getFullYear();
+    const heading=sameMonth
+        ?weekStart.toLocaleString('default',{month:'long',year:'numeric'})
+        :weekStart.toLocaleString('default',{month:'short'})+' – '+weekEnd.toLocaleString('default',{month:'short',year:'numeric'});
+
+    let html='<div class="cal-wrap">';
+    html+='<div class="cal-header"><h2 class="cal-title">'+heading+'</h2><div class="cal-nav">';
+    html+='<button class="cal-btn" onclick="calendarPage(-6)" title="Previous 6 weeks"><i class="fa-solid fa-chevron-left"></i></button>';
+    html+='<button class="cal-btn" onclick="calendarPage(-1)" title="Previous week">‹ wk</button>';
+    html+='<button class="cal-btn primary" onclick="calendarToday()">Today</button>';
+    html+='<button class="cal-btn" onclick="calendarPage(1)" title="Next week">wk ›</button>';
+    html+='<button class="cal-btn" onclick="calendarPage(6)" title="Next 6 weeks"><i class="fa-solid fa-chevron-right"></i></button>';
+    html+='</div></div>';
+
+    if(!calendarData.anchor){
+        html+='<div class="cal-anchor-prompt"><h3>Set your wax cycle</h3>';
+        if(DEV_MODE){
+            html+='<p>Pick a recent or upcoming <strong style="color:var(--pink)">Lower Body Wax</strong> day below to anchor the 6-week cycle. Upper body wax falls 4 weeks (28 days) later by default and you can move it.</p>';
+            html+='<p style="color:var(--text3)">Hover any day → "Set lower wax".</p>';
+        }else{
+            html+='<p>No cycle anchor set. Open this view in dev mode (localhost) to configure.</p>';
+        }
+        html+='</div>';
+    }else{
+        html+='<div class="cal-legend">';
+        html+='<div class="cal-legend-item"><span class="cal-legend-dot" style="background:var(--pink)"></span>Lower body wax · legs free</div>';
+        html+='<div class="cal-legend-item"><span class="cal-legend-dot" style="background:var(--cyan)"></span>Upper body wax · pantyhose</div>';
+        html+='<div class="cal-legend-item"><span class="cal-legend-dot" style="background:var(--purple)"></span>Belly week · legs covered</div>';
+        html+='<span class="cal-legend-anchor">Anchor: '+calendarData.anchor+'</span>';
+        html+='</div>';
+    }
+
+    html+='<div class="cal-grid">';
+    ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d=>{html+='<div class="cal-dow">'+d+'</div>';});
+
+    const focalMonth=calAddDays(weekStart,21).getMonth();
+    for(let w=0;w<6;w++){
+        for(let day=0;day<7;day++){
+            const d=calAddDays(weekStart,w*7+day);
+            const iso=calIsoDate(d);
+            const isToday=calIsoDate(today)===iso;
+            const phase=calPhaseFor(d);
+            const isMuted=d.getMonth()!==focalMonth;
+            const phaseClass=phase?' '+PHASES[phase.weekInCycle].tag:'';
+            const todayClass=isToday?' today':'';
+            const mutedClass=isMuted?' muted':'';
+            const phaseInfo=phase?PHASES[phase.weekInCycle]:null;
+            const showMonth=d.getDate()===1;
+            const monthLbl=showMonth?'<span class="cal-day-mo">'+d.toLocaleString('default',{month:'short'})+'</span>':'';
+
+            let waxBadge='';
+            if(phase&&phase.isLowerWax)waxBadge='<div class="cal-wax lower" title="Lower body wax">L</div>';
+            else if(phase&&phase.isUpperWax)waxBadge='<div class="cal-wax upper" title="Upper body wax">U</div>';
+
+            let actions='';
+            if(DEV_MODE){
+                actions='<div class="cal-day-actions">'+
+                    '<button class="cal-day-action lower" onclick="event.stopPropagation();setLowerWax(\''+iso+'\')">Lower wax</button>'+
+                    '<button class="cal-day-action upper" onclick="event.stopPropagation();setUpperWax(\''+iso+'\')">Upper wax</button>'+
+                    (calendarData.anchor?'<button class="cal-day-action clear" onclick="event.stopPropagation();clearCalendar()">Reset cycle</button>':'')+
+                    '</div>';
+            }
+
+            const tooltip=phaseInfo?phaseInfo.label+' — '+phaseInfo.acc:'';
+            html+='<div class="cal-day'+phaseClass+todayClass+mutedClass+'" title="'+tooltip+'">';
+            html+='<div class="cal-day-num">'+d.getDate()+monthLbl+'</div>';
+            html+=phaseInfo?'<div class="cal-day-phase">'+phaseInfo.label+'<span class="acc">'+phaseInfo.acc+'</span></div>':'<div class="cal-day-phase">—</div>';
+            html+=waxBadge+actions;
+            html+='</div>';
+        }
+    }
+    html+='</div></div>';
+    view.innerHTML=html;
+}
+
+function calendarPage(weeks){calendarOffsetWeeks+=weeks;renderCalendar();}
+function calendarToday(){calendarOffsetWeeks=0;renderCalendar();}
+
+async function setLowerWax(iso){
+    calendarData.anchor=iso;
+    if(calendarData.upperOffsetDays==null)calendarData.upperOffsetDays=28;
+    if(calendarData.cycleDays==null)calendarData.cycleDays=42;
+    calendarData.version=(calendarData.version||0)+1;
+    try{await pushDoc('calendar.json',calendarData);}
+    catch(e){alert('Save failed: '+e.message);return;}
+    renderCalendar();
+}
+
+async function setUpperWax(iso){
+    if(!calendarData.anchor){alert('Set a Lower Body Wax day first to anchor the cycle.');return;}
+    const anchor=calParseISO(calendarData.anchor);
+    const target=calParseISO(iso);
+    const cycleLen=calendarData.cycleDays||42;
+    const diff=calDayDiff(target,anchor);
+    const offset=((diff%cycleLen)+cycleLen)%cycleLen;
+    if(offset===0){alert('That day is already a Lower Body Wax day in the cycle.');return;}
+    calendarData.upperOffsetDays=offset;
+    calendarData.version=(calendarData.version||0)+1;
+    try{await pushDoc('calendar.json',calendarData);}
+    catch(e){alert('Save failed: '+e.message);return;}
+    renderCalendar();
+}
+
+async function clearCalendar(){
+    if(!confirm('Reset the wax cycle? You will need to pick a new Lower Body Wax day.'))return;
+    calendarData.anchor=null;
+    calendarData.version=(calendarData.version||0)+1;
+    try{await pushDoc('calendar.json',calendarData);}
+    catch(e){alert('Save failed: '+e.message);return;}
+    renderCalendar();
+}
+
 function openModal(s){document.getElementById('modalImg').src=s;document.getElementById('modal').classList.add('open');}
 function closeModal(){document.getElementById('modal').classList.remove('open');}
 
 function cmdHtml(cmd){const id='cmd-'+Math.random().toString(36).substr(2,9);return '<div class="cmd"><code id="'+id+'">'+cmd+'</code><button class="cmd-copy" onclick="copyCmd(\''+id+'\',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div>';}
 function copyCmd(id,btn){navigator.clipboard.writeText(document.getElementById(id).textContent).then(()=>{btn.classList.add('copied');btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';},2000);});}
 
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeMobileMenu();document.querySelectorAll('.photo-card.editing').forEach(c=>{c.classList.remove('editing');const i=c.querySelector('.photo-img');if(i)updatePhotoSpan(i);});}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeStory();closeMobileMenu();document.querySelectorAll('.photo-card.editing').forEach(c=>{c.classList.remove('editing');const i=c.querySelector('.photo-img');if(i)updatePhotoSpan(i);});}});
 
 // Register service worker for PWA -- only in static (deployed) mode so the dev
 // server isn't served from a stale cache.
