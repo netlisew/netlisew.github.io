@@ -8,6 +8,23 @@
 <meta name="description" content="The fashion portfolio of Nethuli Sewwandi — a personal style journey in outfits, accessories, and bold experiments. Browse the looks, wardrobe, and style notes.">
 <link rel="canonical" href="https://nethulisewwandi.com/">
 
+<!-- Google Analytics (GA4). Loaded only off-localhost so local editing/preview
+     never pollutes the property. Measurement ID is the site's web data stream. -->
+<script>
+(function () {
+  var h = location.hostname;
+  if (h === 'localhost' || h === '127.0.0.1' || h === '') return;   // skip dev
+  var ID = 'G-L6JDZH9FVL';                                          // fashion Measurement ID
+  var s = document.createElement('script');
+  s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ID;
+  document.head.appendChild(s);
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function () { dataLayer.push(arguments); };
+  gtag('js', new Date());
+  gtag('config', ID);
+})();
+</script>
+
 <!-- Open Graph (WhatsApp, Facebook, LinkedIn, Slack, Discord, iMessage) -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Nethuli Sewwandi">
@@ -404,6 +421,45 @@ footer::before{content:'';position:absolute;top:-20px;left:0;right:0;height:20px
 .acc-items-grid{grid-template-columns:repeat(2,1fr)}.stories-grid{grid-template-columns:1fr}
 .edit-acc-item{width:40px;height:40px}
 }
+/* ===== Live-visitors widget (ported from ahl-analytics-appscript; class
+   names keep the ahl-stats- prefix from the source so the JS is unchanged) ===== */
+.ahl-stats-section{margin-top:28px;padding-top:22px;border-top:1px solid var(--border);text-align:center}
+.ahl-stats-widget{font-family:'Inter',sans-serif;font-size:13px;line-height:1.45;color:var(--text2)}
+.ahl-stats-widget[data-state="loading"]{opacity:.5}
+.ahl-stats-row{display:inline-flex;align-items:center;flex-wrap:wrap;justify-content:center;gap:10px;letter-spacing:.005em}
+.ahl-stats-row strong{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums}
+.ahl-stats-dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;flex-shrink:0;animation:ahl-stats-pulse 2s ease-in-out infinite}
+.ahl-stats-text{transition:opacity 220ms ease}
+.ahl-stats-pips{display:inline-flex;align-items:center;gap:6px;flex-shrink:0}
+.ahl-stats-pip{width:7px;height:7px;padding:0;border-radius:50%;background:transparent;border:1px solid var(--text3);cursor:pointer;transition:background 160ms ease,border-color 160ms ease}
+.ahl-stats-pip:hover{border-color:var(--text2)}
+.ahl-stats-pip:focus-visible{outline:2px solid var(--pink);outline-offset:2px}
+.ahl-stats-pip.is-active{background:var(--text2);border-color:var(--text2)}
+.ahl-stats-toggle{display:inline-flex;align-items:center;gap:8px;padding:4px 8px;background:transparent;border:0;border-radius:6px;color:inherit;font:inherit;line-height:inherit;cursor:pointer;transition:background 160ms ease}
+.ahl-stats-toggle:hover{background:rgba(255,255,255,.06)}
+.ahl-stats-toggle:focus-visible{outline:2px solid var(--pink);outline-offset:2px}
+.ahl-stats-chevron{width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid var(--text2);transition:transform 220ms ease;flex-shrink:0}
+.ahl-stats-widget.is-expanded .ahl-stats-chevron{transform:rotate(180deg)}
+.ahl-stats-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows 320ms ease,margin-top 320ms ease;margin-top:0}
+.ahl-stats-widget.is-expanded .ahl-stats-panel{grid-template-rows:1fr;margin-top:16px}
+.ahl-stats-panel-inner{min-height:0;overflow:hidden}
+.ahl-stats-mapwrap{position:relative;max-width:880px;margin:0 auto;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:12px}
+.ahl-stats-map{display:block;width:100%;height:auto}
+.ahl-stats-map path{transition:fill 160ms ease}
+.ahl-stats-map path[data-users]:hover{fill:#cc2952 !important;cursor:default}
+.ahl-stats-map-loading{text-align:center;color:var(--text2);font-size:13px;padding:40px 0}
+.ahl-stats-tip{position:absolute;pointer-events:none;background:#1c1c1c;color:#fff;border:1px solid var(--border2);font-size:12px;padding:4px 8px;border-radius:4px;white-space:nowrap;opacity:0;transition:opacity 120ms ease;z-index:2;font-variant-numeric:tabular-nums}
+.ahl-stats-countries{list-style:none;margin:16px auto 0;padding:0;max-width:880px;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;text-align:left}
+.ahl-stats-country{display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--card2);border-radius:6px;font-size:13px}
+.ahl-stats-flag{font-size:16px;line-height:1}
+.ahl-stats-cname{flex:1;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ahl-stats-cnum{color:var(--text2);font-variant-numeric:tabular-nums;font-weight:600}
+.ahl-stats-foot{margin:12px auto 0;max-width:880px;color:var(--text2);font-size:12px;text-align:center}
+.ahl-stats-attrib{margin:8px auto 0;max-width:880px;color:var(--text3);font-size:11px;text-align:center}
+.ahl-stats-attrib a{color:inherit;text-decoration:underline;text-decoration-color:rgba(255,255,255,.2)}
+@keyframes ahl-stats-pulse{0%,100%{opacity:1}50%{opacity:.35}}
+@media (prefers-reduced-motion:reduce){.ahl-stats-dot{animation:none}.ahl-stats-text{transition:none}.ahl-stats-panel{transition:none}.ahl-stats-chevron{transition:none}.ahl-stats-map path{transition:none}}
+@media (max-width:640px){.ahl-stats-widget{font-size:12px}.ahl-stats-mapwrap{padding:8px}.ahl-stats-countries{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}}
 </style>
 </head>
 <body>
@@ -484,6 +540,9 @@ footer::before{content:'';position:absolute;top:-20px;left:0;right:0;height:20px
 </a>
 <span class="donate-note">Anonymous &middot; Secure via Ko-fi</span>
 </div>
+<section class="ahl-stats-section" aria-label="Live visitors" style="display:none">
+<div id="ahl-stats-widget" class="ahl-stats-widget" data-state="loading">Loading…</div>
+</section>
 </div></div></div>
 <footer id="footer">&copy; 2026 Nethuli Sewwandi</footer>
 </main>
@@ -1097,6 +1156,269 @@ if(STATIC_MODE&&'serviceWorker' in navigator){
 }
 
 init();
+</script>
+<!-- ===== Live-visitors widget — fetches aggregated stats from the
+     analytics-appscript proxy (?site=fashion) and renders into
+     #ahl-stats-widget. Ported from ahl-analytics-appscript; fail-soft
+     (hides itself if PROXY_URL is unset or the fetch fails). ===== -->
+<script>
+(function () {
+  // Apps Script /exec URL of the analytics proxy. Empty = widget stays hidden.
+  var PROXY_URL = 'https://script.google.com/macros/s/AKfycbyLQ2wFfazG6UAX792opWSBLc5QipHl-vjbUQBs4jFypOP-y-PgeWP7DUwyW30Hd7JQ6A/exec';
+  var SITE      = 'fashion';
+  var MAP_URL   = 'world.svg';        // copied into dist/ by build.py
+
+  var COUNTRY_TO_ISO = {
+    'Afghanistan':'af','Albania':'al','Algeria':'dz','Angola':'ao','Argentina':'ar','Armenia':'am',
+    'Australia':'au','Austria':'at','Azerbaijan':'az','Bahrain':'bh','Bangladesh':'bd','Belarus':'by',
+    'Belgium':'be','Bolivia':'bo','Bosnia & Herzegovina':'ba','Brazil':'br','Bulgaria':'bg','Cambodia':'kh',
+    'Cameroon':'cm','Canada':'ca','Chile':'cl','China':'cn','Colombia':'co','Costa Rica':'cr',
+    'Croatia':'hr','Cuba':'cu','Cyprus':'cy','Czechia':'cz','Czech Republic':'cz','Denmark':'dk',
+    'Dominican Republic':'do','Ecuador':'ec','Egypt':'eg','El Salvador':'sv','Estonia':'ee','Ethiopia':'et',
+    'Finland':'fi','France':'fr','Georgia':'ge','Germany':'de','Ghana':'gh','Greece':'gr',
+    'Guatemala':'gt','Honduras':'hn','Hong Kong':'hk','Hungary':'hu','Iceland':'is','India':'in',
+    'Indonesia':'id','Iran':'ir','Iraq':'iq','Ireland':'ie','Israel':'il','Italy':'it',
+    'Ivory Coast':'ci',"Côte d'Ivoire":'ci','Jamaica':'jm','Japan':'jp','Jordan':'jo','Kazakhstan':'kz',
+    'Kenya':'ke','Kuwait':'kw','Kyrgyzstan':'kg','Laos':'la','Latvia':'lv','Lebanon':'lb',
+    'Libya':'ly','Lithuania':'lt','Luxembourg':'lu','Macao':'mo','Macau':'mo','Malaysia':'my',
+    'Maldives':'mv','Malta':'mt','Mauritius':'mu','Mexico':'mx','Moldova':'md','Mongolia':'mn',
+    'Montenegro':'me','Morocco':'ma','Mozambique':'mz','Myanmar (Burma)':'mm','Myanmar':'mm','Namibia':'na',
+    'Nepal':'np','Netherlands':'nl','New Zealand':'nz','Nicaragua':'ni','Nigeria':'ng','North Korea':'kp',
+    'North Macedonia':'mk','Norway':'no','Oman':'om','Pakistan':'pk','Panama':'pa','Paraguay':'py',
+    'Peru':'pe','Philippines':'ph','Poland':'pl','Portugal':'pt','Puerto Rico':'pr','Qatar':'qa',
+    'Romania':'ro','Russia':'ru','Saudi Arabia':'sa','Senegal':'sn','Serbia':'rs','Singapore':'sg',
+    'Slovakia':'sk','Slovenia':'si','Somalia':'so','South Africa':'za','South Korea':'kr','Spain':'es',
+    'Sri Lanka':'lk','Sudan':'sd','Sweden':'se','Switzerland':'ch','Syria':'sy','Taiwan':'tw',
+    'Tajikistan':'tj','Tanzania':'tz','Thailand':'th','Trinidad & Tobago':'tt','Tunisia':'tn','Turkey':'tr',
+    'Türkiye':'tr','Turkmenistan':'tm','Uganda':'ug','Ukraine':'ua','United Arab Emirates':'ae',
+    'United Kingdom':'gb','United States':'us','USA':'us','Uruguay':'uy','Uzbekistan':'uz','Venezuela':'ve',
+    'Vietnam':'vn','Yemen':'ye','Zambia':'zm','Zimbabwe':'zw'
+  };
+  function isoForCountry(name) { return COUNTRY_TO_ISO[name] || null; }
+  function flagEmoji(iso2) {
+    if (!iso2 || iso2.length !== 2) return '';
+    var s = iso2.toUpperCase(), A = 0x1F1E6;
+    return String.fromCodePoint(A + s.charCodeAt(0) - 65, A + s.charCodeAt(1) - 65);
+  }
+
+  var mount = document.getElementById('ahl-stats-widget');
+  if (!mount) return;
+  function hideSection() {
+    var sec = mount.closest('section');
+    (sec || mount).style.display = 'none';
+  }
+  function showSection() {
+    var sec = mount.closest('section');
+    if (sec) sec.style.display = '';
+    mount.style.display = '';
+  }
+
+  if (!PROXY_URL) { hideSection(); return; }
+
+  fetch(PROXY_URL + '?site=' + encodeURIComponent(SITE), { method: 'GET', cache: 'no-store' })
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+    .then(function (payload) {
+      if (payload && payload.error) return Promise.reject(payload.error);
+      render(payload);
+    })
+    .catch(function () { hideSection(); });
+
+  function render(payload) {
+    var rt  = (payload && payload.realtime) || {};
+    var w7  = (payload && payload.last7d)   || {};
+    var m30 = (payload && payload.last30d)  || {};
+
+    function num(n) { if (n == null) return 0; n = Number(n); return isFinite(n) ? n : 0; }
+    function fmt(n) { return Number(n).toLocaleString('en-US'); }
+    function countryCount(list) {
+      return Array.isArray(list) ? list.filter(function (c) { return c && c.country; }).length : 0;
+    }
+    function topCountries(list, limit) {
+      if (!Array.isArray(list) || !list.length) return '';
+      return list.slice(0, limit || 3).map(function (c) { return c.country; }).filter(Boolean).join(', ');
+    }
+
+    var rtUsers      = num(rt.activeUsers);
+    var w7Users      = num(w7.users);
+    var m30Users     = num(m30.users);
+    var m30Countries = countryCount(m30.byCountry);
+    var rtList       = topCountries(rt.byCountry, 3);
+    var m30List      = topCountries(m30.byCountry, 4);
+    var w7List       = topCountries(w7.byCountry, 4);
+
+    var slides = [];
+    if (rtUsers >= 1) {
+      var rtNoun = rtUsers === 1 ? 'admirer' : 'admirers';
+      slides.push('<strong>' + fmt(rtUsers) + '</strong> ' + rtNoun
+        + (rtList ? ' from ' + escapeHtml(rtList) : '')
+        + ' browsing the looks right now');
+    }
+    if (m30Users >= 200 && m30Countries >= 3) {
+      slides.push('Seen by <strong>' + fmt(m30Users) + '</strong> people across '
+        + '<strong>' + m30Countries + '</strong> countries this month');
+    } else if (m30Users >= 50) {
+      slides.push('<strong>' + fmt(m30Users) + '</strong> visitors this month'
+        + (m30List ? ' from ' + escapeHtml(m30List) : ''));
+    } else if (w7Users >= 30) {
+      slides.push('<strong>' + fmt(w7Users) + '</strong> visitors this past week'
+        + (w7List ? ' from ' + escapeHtml(w7List) : ''));
+    }
+
+    if (!slides.length) { hideSection(); return; }
+    showSection();
+    mount.setAttribute('data-state', 'ready');
+
+    var multi = slides.length > 1;
+    var leading = multi
+      ? ('<span class="ahl-stats-pips" role="tablist" aria-label="Rotating stats">'
+         + slides.map(function (_, i) {
+             return '<button type="button" class="ahl-stats-pip' + (i === 0 ? ' is-active' : '')
+               + '" data-i="' + i + '" aria-label="Show stat ' + (i + 1) + ' of ' + slides.length + '"></button>';
+           }).join('') + '</span>')
+      : '<span class="ahl-stats-dot" aria-hidden="true"></span>';
+
+    mount.innerHTML = ''
+      + '<div class="ahl-stats-row">' + leading
+      +   '<button type="button" class="ahl-stats-toggle" aria-expanded="false" aria-controls="ahl-stats-panel">'
+      +     '<span class="ahl-stats-text"' + (multi ? ' data-rotator' : '') + '>' + slides[0] + '</span>'
+      +     '<span class="ahl-stats-chevron" aria-hidden="true"></span>'
+      +   '</button>'
+      + '</div>'
+      + '<div id="ahl-stats-panel" class="ahl-stats-panel" aria-hidden="true">'
+      +   '<div class="ahl-stats-panel-inner" data-panel-content></div>'
+      + '</div>';
+
+    var row = mount.querySelector('.ahl-stats-row');
+    var toggle = mount.querySelector('.ahl-stats-toggle');
+    var panel = mount.querySelector('.ahl-stats-panel');
+    var panelInner = mount.querySelector('[data-panel-content]');
+    var panelLoaded = false;
+
+    toggle.addEventListener('click', function () {
+      var next = toggle.getAttribute('aria-expanded') !== 'true';
+      toggle.setAttribute('aria-expanded', next ? 'true' : 'false');
+      panel.setAttribute('aria-hidden', next ? 'false' : 'true');
+      mount.classList.toggle('is-expanded', next);
+      if (next && !panelLoaded) { panelLoaded = true; renderPanel(panelInner, m30.byCountry || []); }
+    });
+
+    if (!multi) return;
+
+    var ROTATE_MS = 5000, FADE_MS = 220;
+    var textEl = mount.querySelector('[data-rotator]');
+    var pips = mount.querySelectorAll('.ahl-stats-pip');
+    var reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    var idx = 0, timer = null, paused = false;
+
+    function showSlide(i) {
+      idx = (i + slides.length) % slides.length;
+      for (var k = 0; k < pips.length; k++) pips[k].classList.toggle('is-active', k === idx);
+      if (reduced) { textEl.innerHTML = slides[idx]; return; }
+      textEl.style.opacity = '0';
+      setTimeout(function () { textEl.innerHTML = slides[idx]; textEl.style.opacity = '1'; }, FADE_MS);
+    }
+    function tick()  { if (!paused) showSlide(idx + 1); }
+    function start() { stop(); timer = setInterval(tick, ROTATE_MS); }
+    function stop()  { if (timer) { clearInterval(timer); timer = null; } }
+
+    for (var k = 0; k < pips.length; k++) {
+      (function (btn) {
+        btn.addEventListener('click', function () { showSlide(parseInt(btn.getAttribute('data-i'), 10)); start(); });
+      })(pips[k]);
+    }
+    row.addEventListener('mouseenter', function () { paused = true; });
+    row.addEventListener('mouseleave', function () { paused = false; });
+    row.addEventListener('focusin',    function () { paused = true; });
+    row.addEventListener('focusout',   function () { paused = false; });
+    start();
+  }
+
+  function renderPanel(container, countries) {
+    var listed = countries.filter(function (c) { return c && c.country && c.country !== '(not set)'; });
+    var notSet = countries.find(function (c) { return c && c.country === '(not set)'; });
+
+    container.innerHTML = ''
+      + '<div class="ahl-stats-mapwrap" data-map><div class="ahl-stats-map-loading">Loading map…</div></div>'
+      + '<ul class="ahl-stats-countries">'
+      +   listed.map(function (c) {
+            var iso = isoForCountry(c.country);
+            return '<li class="ahl-stats-country">'
+              + '<span class="ahl-stats-flag" aria-hidden="true">' + (iso ? flagEmoji(iso) : '🏳️') + '</span>'
+              + '<span class="ahl-stats-cname">' + escapeHtml(c.country) + '</span>'
+              + '<span class="ahl-stats-cnum">' + Number(c.users).toLocaleString('en-US') + '</span>'
+              + '</li>';
+          }).join('')
+      + '</ul>'
+      + (notSet ? '<p class="ahl-stats-foot">+ <strong>' + Number(notSet.users).toLocaleString('en-US')
+            + '</strong> from undisclosed locations.</p>' : '')
+      + '<p class="ahl-stats-attrib">Map: <a href="https://github.com/svg-maps/svg-maps" rel="noopener" target="_blank">SVG-Maps</a> · CC BY 4.0</p>';
+
+    var mapWrap = container.querySelector('[data-map]');
+    fetch(MAP_URL, { cache: 'force-cache' })
+      .then(function (r) { return r.ok ? r.text() : Promise.reject(r.status); })
+      .then(function (svgText) {
+        mapWrap.innerHTML = svgText;
+        var svg = mapWrap.querySelector('svg');
+        if (!svg) return;
+        svg.setAttribute('class', 'ahl-stats-map');
+        svg.setAttribute('role', 'img');
+        svg.setAttribute('aria-label', 'World map of visitor countries');
+        tintMap(svg, listed);
+      })
+      .catch(function () { mapWrap.style.display = 'none'; });
+  }
+
+  function tintMap(svg, countries) {
+    var max = 0;
+    for (var i = 0; i < countries.length; i++) if (countries[i].users > max) max = countries[i].users;
+    if (max <= 0) return;
+
+    function intensityFor(users) { var t = Math.sqrt(Math.max(0, users) / max); return 0.18 + 0.77 * t; }
+
+    var allPaths = svg.querySelectorAll('path[id]');
+    for (var p = 0; p < allPaths.length; p++) allPaths[p].setAttribute('fill', '#2a2a2a');
+
+    for (var c = 0; c < countries.length; c++) {
+      var iso = isoForCountry(countries[c].country);
+      if (!iso) continue;
+      var path = svg.querySelector('path#' + iso);
+      if (!path) continue;
+      var iv = intensityFor(countries[c].users);
+      path.setAttribute('fill', 'rgba(255,51,102,' + iv.toFixed(2) + ')');
+      path.setAttribute('data-users', countries[c].users);
+      path.setAttribute('data-country', countries[c].country);
+    }
+
+    // Strip id="us"/"gb"/… after tinting so they don't become global element IDs.
+    for (var p2 = 0; p2 < allPaths.length; p2++) allPaths[p2].removeAttribute('id');
+
+    var wrap = svg.parentNode;
+    if (!wrap) return;
+    wrap.style.position = wrap.style.position || 'relative';
+    var tip = document.createElement('div');
+    tip.className = 'ahl-stats-tip';
+    tip.setAttribute('aria-hidden', 'true');
+    wrap.appendChild(tip);
+
+    svg.addEventListener('mouseover', function (e) {
+      var t = e.target.closest('path[data-users]');
+      if (!t) { tip.style.opacity = '0'; return; }
+      tip.textContent = t.getAttribute('data-country') + ' — ' + Number(t.getAttribute('data-users')).toLocaleString('en-US');
+      tip.style.opacity = '1';
+    });
+    svg.addEventListener('mousemove', function (e) {
+      var rect = wrap.getBoundingClientRect();
+      tip.style.left = (e.clientX - rect.left + 12) + 'px';
+      tip.style.top  = (e.clientY - rect.top  + 12) + 'px';
+    });
+    svg.addEventListener('mouseleave', function () { tip.style.opacity = '0'; });
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+})();
 </script>
 </body>
 </html>
