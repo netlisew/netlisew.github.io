@@ -1,6 +1,6 @@
 // Service worker for Nethuli Sewwandi portfolio
 // VERSION is rewritten by build.py on each build to bust the cache.
-const VERSION = 'v8';
+const VERSION = 'v9';
 const CACHE = 'portfolio-' + VERSION;
 const NAV_TIMEOUT_MS = 3000;
 
