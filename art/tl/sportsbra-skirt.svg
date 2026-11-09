@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+<defs>
+<linearGradient id="g" gradientUnits="userSpaceOnUse" x1="150" y1="80" x2="650" y2="560"><stop offset="0" stop-color="#a855f7"/><stop offset="1" stop-color="#ff3366"/></linearGradient>
+<radialGradient id="bg" cx="50%" cy="40%" r="85%"><stop offset="0" stop-color="#1c1126"/><stop offset="1" stop-color="#0a0a0a"/></radialGradient>
+<radialGradient id="gp"><stop offset="0" stop-color="#a855f7" stop-opacity=".30"/><stop offset="1" stop-color="#a855f7" stop-opacity="0"/></radialGradient>
+<radialGradient id="gk"><stop offset="0" stop-color="#ff3366" stop-opacity=".22"/><stop offset="1" stop-color="#ff3366" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="800" height="600" fill="url(#bg)"/>
+<circle cx="520" cy="220" r="300" fill="url(#gp)"/>
+<circle cx="260" cy="420" r="260" fill="url(#gk)"/>
+<g transform="translate(400 300) scale(1.15) translate(-400 -300)"><g transform="translate(-30,70) scale(0.7)"><path d="M292,150 L344,150 Q400,206 456,150 L508,150 C508,222 518,252 526,278 L520,326 L280,326 L274,278 C282,252 292,222 292,150 Z" fill-opacity=".10" fill="none" stroke="url(#g)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/><path d="M276,296 L524,296" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2.5" stroke-linecap="round"/><path d="M282,312 L518,312" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2.5" stroke-dasharray="2 9" stroke-linecap="round"/></g><g transform="translate(250,10) scale(0.75)"><rect x="300" y="190" width="200" height="24" rx="5" fill-opacity=".10" fill="none" stroke="url(#g)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/><path d="M300,214 L500,214 L600,364 Q633,382 533,364 Q567,358 467,364 Q500,382 400,364 Q433,358 333,364 Q367,382 267,364 Q300,358 200,364 Z" fill-opacity=".10" fill="none" stroke="url(#g)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/></g></g>
+</svg>

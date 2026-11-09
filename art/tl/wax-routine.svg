@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+<defs>
+<linearGradient id="g" gradientUnits="userSpaceOnUse" x1="150" y1="80" x2="650" y2="560"><stop offset="0" stop-color="#a855f7"/><stop offset="1" stop-color="#ff3366"/></linearGradient>
+<radialGradient id="bg" cx="50%" cy="40%" r="85%"><stop offset="0" stop-color="#1c1126"/><stop offset="1" stop-color="#0a0a0a"/></radialGradient>
+<radialGradient id="gp"><stop offset="0" stop-color="#a855f7" stop-opacity=".30"/><stop offset="1" stop-color="#a855f7" stop-opacity="0"/></radialGradient>
+<radialGradient id="gk"><stop offset="0" stop-color="#ff3366" stop-opacity=".22"/><stop offset="1" stop-color="#ff3366" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="800" height="600" fill="url(#bg)"/>
+<circle cx="520" cy="220" r="300" fill="url(#gp)"/>
+<circle cx="260" cy="420" r="260" fill="url(#gk)"/>
+<g transform="translate(400 300) scale(1.15) translate(-400 -300)"><g transform="rotate(-14 400 300)"><path d="M240,240 L520,240 Q560,240 560,280 L560,330 Q560,370 520,370 L240,370 Z" fill-opacity=".10" fill="none" stroke="url(#g)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/><path d="M520,240 C590,210 620,250 600,300 C590,320 570,330 560,330" fill="none" stroke="url(#g)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/><path d="M270,252 L250,358" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2.5" stroke-linecap="round"/><path d="M312,252 L292,358" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2.5" stroke-linecap="round"/><path d="M354,252 L334,358" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2.5" stroke-linecap="round"/><path d="M396,252 L376,358" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2.5" stroke-linecap="round"/><path d="M438,252 L418,358" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2.5" stroke-linecap="round"/><path d="M480,252 L460,358" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2.5" stroke-linecap="round"/></g><path d="M210,170 A70,70 0 1 1 166,104" fill="none" stroke="url(#g)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/><path d="M166,104 l20,-14 l0,26 z" fill="#ff3366"/><text x="160" y="164" font-family="Inter,Arial,sans-serif" font-size="30" font-weight="600" fill="#fff" fill-opacity=".8">7w</text></g>
+</svg>

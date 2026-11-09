@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+<defs>
+<linearGradient id="g" gradientUnits="userSpaceOnUse" x1="150" y1="80" x2="650" y2="560"><stop offset="0" stop-color="#a855f7"/><stop offset="1" stop-color="#ff3366"/></linearGradient>
+<radialGradient id="bg" cx="50%" cy="40%" r="85%"><stop offset="0" stop-color="#1c1126"/><stop offset="1" stop-color="#0a0a0a"/></radialGradient>
+<radialGradient id="gp"><stop offset="0" stop-color="#a855f7" stop-opacity=".30"/><stop offset="1" stop-color="#a855f7" stop-opacity="0"/></radialGradient>
+<radialGradient id="gk"><stop offset="0" stop-color="#ff3366" stop-opacity=".22"/><stop offset="1" stop-color="#ff3366" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="800" height="600" fill="url(#bg)"/>
+<circle cx="520" cy="220" r="300" fill="url(#gp)"/>
+<circle cx="260" cy="420" r="260" fill="url(#gk)"/>
+<g transform="translate(400 300) scale(1.15) translate(-400 -300)"><path d="M312,160 L488,160 C470,250 470,280 496,342 L482,476 Q400,490 318,476 L304,342 C330,280 330,250 312,160 Z" fill-opacity=".10" fill="none" stroke="url(#g)" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/><path d="M316,178 Q358,184 400,178 T484,178" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2.5" stroke-linecap="round"/><path d="M316,200 Q358,206 400,200 T484,200" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2.5" stroke-linecap="round"/><path d="M316,222 Q358,228 400,222 T484,222" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2.5" stroke-linecap="round"/><path d="M316,244 Q358,250 400,244 T484,244" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2.5" stroke-linecap="round"/><path d="M316,266 Q358,272 400,266 T484,266" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2.5" stroke-linecap="round"/><path d="M316,288 Q358,294 400,288 T484,288" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2.5" stroke-linecap="round"/><path d="M316,310 Q358,316 400,310 T484,310" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2.5" stroke-linecap="round"/></g>
+</svg>
